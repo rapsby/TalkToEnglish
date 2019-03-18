@@ -41,8 +41,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-    compile("org.springframework.boot:spring-boot-devtools")
-    //providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    //compile("org.springframework.boot:spring-boot-devtools")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     compile("org.postgresql:postgresql:42.2.5")
 	compile("com.google.actions:actions-on-google:1.0.2") {
         exclude module : 'slf4j-log4j12'
@@ -74,7 +74,7 @@ task('deploy') {
 				put from: "${path}/${filename}", into: './'
 				//execute ("mkdir /opt/tomcat/webapps/chef")
 				execute ("sudo chown tomcat ${filename}")
-				execute ("sudo mv ${filename} /opt/tomcat/webapps/chef.war")
+				execute ("sudo mv ${filename} /opt/tomcat/webapps/skylife.war")
 				//execute ("sudo service tomcat start")
 				//execute ("cd \$HOME; /usr/bin/pkill -f 'java -jar ${filename}'", ignoreError: true)
 				//execute ("cd \$HOME; authbind --deep java -jar ${filename} < /dev/null > log/server_out.log 2> log/server_err.log & ")
