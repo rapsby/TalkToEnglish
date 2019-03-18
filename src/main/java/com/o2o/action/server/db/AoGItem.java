@@ -3,25 +3,24 @@ package com.o2o.action.server.db;
 import javax.persistence.*;
 
 @Entity
-public class ProductInfo {
+public class AoGItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
 
-    @Column(nullable = false)
-    long category;
-    @Column(unique = true, nullable = false)
-    long productId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    Category category;
 
+    @Column(nullable = false)
+    String name;
     String title;
     String subTitle;
     String description;
-    String price;
-
+    String linkURL;
     String imagePath;
     String imageAltText;
 
-    public ProductInfo() {
+    public AoGItem() {
 
     }
 
@@ -33,28 +32,20 @@ public class ProductInfo {
         this.id = id;
     }
 
-    public long getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(long category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
-    public long getProductId() {
-        return productId;
+    public String getName() {
+        return name;
     }
 
-    public void setProductId(long productId) {
-        this.productId = productId;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTitle() {
@@ -81,6 +72,14 @@ public class ProductInfo {
         this.description = description;
     }
 
+    public String getLinkURL() {
+        return linkURL;
+    }
+
+    public void setLinkURL(String linkURL) {
+        this.linkURL = linkURL;
+    }
+
     public String getImagePath() {
         return imagePath;
     }
@@ -95,5 +94,9 @@ public class ProductInfo {
 
     public void setImageAltText(String imageAltText) {
         this.imageAltText = imageAltText;
+    }
+
+    public enum Type {
+        CUSTOMER_SERVICE, PRODUCT
     }
 }

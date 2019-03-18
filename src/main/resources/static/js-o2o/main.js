@@ -5,8 +5,19 @@ $(document).ready(function() {
 	if (!contextRoot)
 		contextRoot = '';
 
-	
+	$('.o2o-nav-link').click(function(e) {
+		e.preventDefault();
+
+		//초기화
+		$('.o2o-nav-link').each(function() {
+			$(this).parent().removeClass('active');
+		});
+
+		$(this).parent().addClass('active');
+	});
 	//reload();
+
+	feather.replace();
 });
 
 function reload() {

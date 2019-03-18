@@ -1,19 +1,23 @@
 package com.o2o.action.server.rest;
 
 import com.o2o.action.server.app.DefaultApp;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.o2o.action.server.db.Category;
+import com.o2o.action.server.repo.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 public class DefaultController {
     private final DefaultApp dchef;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public DefaultController() {
         dchef = new DefaultApp();
@@ -58,5 +62,11 @@ public class DefaultController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping(value = "/api/1.0/category", method = RequestMethod.GET)
+    public @ResponseBody
+    List<Category> getCategory(@RequestParam(value = "parentId", required = false) Long id) {
+        return categoryRepository.findByParent(id);
     }
 }

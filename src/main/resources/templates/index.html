@@ -14,28 +14,79 @@
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/moment-with-locales.min.js}"></script>
     <script th:src="@{/js/flatpickr.js}"></script>
+    <script th:src="@{/js/feather.min.js}"></script>
     <script th:src="@{/js-o2o/main.js}"></script>
     <style>
-body {
-	padding-top: 5rem;
-}
+        body {
+            padding-top: 56px;
+        }
 
-.starter-template {
-	padding: 3rem 1.5rem;
-	text-align: center;
-}
+        .feather {
+            width: 16px;
+            height: 16px;
+            vertical-align: text-bottom;
+        }
 
-.container {
-	width: auto;
-	max-width: 1280px;
-	padding: 0 15px;
-}
+        .sidebar {
+            font-size: .875rem;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100; /* Behind the navbar */
+            padding: 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+        }
 
-.footer {
-	background-color: #f5f5f5;
-	text-align: center;
-}
+        .sidebar-sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 48px; /* Height of navbar */
+            height: calc(100vh - 48px);
+            padding-top: .5rem;
+            overflow-x: hidden;
+            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        }
 
+        .sidebar .nav-link {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .sidebar .nav-link .feather {
+            margin-right: 4px;
+            color: #999;
+        }
+
+        .sidebar .nav-link.active {
+            color: #007bff;
+        }
+
+        .sidebar .nav-link:hover .feather,
+        .sidebar .nav-link.active .feather {
+            color: inherit;
+        }
+
+        .sidebar-heading {
+            font-size: .75rem;
+            text-transform: uppercase;
+        }
+
+        .starter-template {
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+
+        .container {
+            width: auto;
+            max-width: 1280px;
+            padding: 0 15px;
+        }
+
+        .footer {
+            background-color: #f5f5f5;
+            text-align: center;
+        }
 
 
     </style>
@@ -52,8 +103,8 @@ body {
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">C/S 정보</li>
-                <li class="nav-item">상품 정보</li>
+                <li class="nav-item"><a class="nav-link o2o-nav-link" href="#" data-id="1">C/S 정보</a></li>
+                <li class="nav-item"><a class="nav-link o2o-nav-link" href="#" data-id="2">상품 정보</a></li>
                 <!-- <li class="nav-item">
         <a class="nav-link disabled" th:href="@{/}" tabindex="-1" aria-disabled="true">Disabled</a>
       </li>
@@ -70,12 +121,91 @@ body {
             </form>
         </div>
     </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <span data-feather="home"></span>
+                                Dashboard <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file"></span>
+                                Orders
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="shopping-cart"></span>
+                                Products
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="users"></span>
+                                Customers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="bar-chart-2"></span>
+                                Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="layers"></span>
+                                Integrations
+                            </a>
+                        </li>
+                    </ul>
 
-    <main role="main" class="container" style="margin: 0 auto;">
-        <div class="starter-template">
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Saved reports</span>
+                        <a class="d-flex align-items-center text-muted" href="#">
+                            <span data-feather="plus-circle"></span>
+                        </a>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Current month
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Last quarter
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Social engagement
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Year-end sale
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                    aaa
+                </div>
+            </main>
         </div>
-    </main>
-
+    </div>
     <footer class="footer mt-auto py-3">
         <div class="container">
             <span class="text-muted">&copy; O2O Inc. 2019</span>
