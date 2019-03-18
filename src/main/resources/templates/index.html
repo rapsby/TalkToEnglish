@@ -43,7 +43,7 @@ body {
 <body class="w-100 h-100">
 <div class="d-flex w-100 h-100 mx-auto flex-column">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" th:href="@{/}">O2O Chef</a>
+        <a class="navbar-brand" th:href="@{/}">Skylife</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
                 aria-controls="navbarsExampleDefault"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -52,10 +52,8 @@ body {
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active"><a class="nav-link" th:href="@{/}">Home <span
-                        class="sr-only">(current)</span>
-                </a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/manager}">관리</a></li>
+                <li class="nav-item">C/S 정보</li>
+                <li class="nav-item">상품 정보</li>
                 <!-- <li class="nav-item">
         <a class="nav-link disabled" th:href="@{/}" tabindex="-1" aria-disabled="true">Disabled</a>
       </li>
@@ -75,17 +73,6 @@ body {
 
     <main role="main" class="container" style="margin: 0 auto;">
         <div class="starter-template">
-            <h1>O2O 구내 식당 메뉴</h1>
-            <p class="lead"></p>
-            <form>
-                <div style="margin: 0 auto; max-width: 200px;">
-                    <input type="text" class="form-control" id="meal-date" placeholder="Date"
-                           style="text-align: center;">
-                </div>
-            </form>
-            <br>
-            <table id="meal-menu" class="table table-bordered">
-            </table>
         </div>
     </main>
 

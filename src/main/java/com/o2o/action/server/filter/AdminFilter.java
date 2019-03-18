@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = "/manager/*")
+@WebFilter(urlPatterns = "/")
 public class AdminFilter implements Filter {
 
     @Override
@@ -23,18 +23,21 @@ public class AdminFilter implements Filter {
         // }
 
         if (checkAuth) {
-            HttpSession httpSession = req.getSession();
-            if (httpSession == null) {
-                resp.sendRedirect(req.getContextPath() + "/login");
-                return;
-            }
+            if (!req.getServletPath().equalsIgnoreCase("/login")) {
 
-            String userId = (String) httpSession.getAttribute("userId");
-            if (userId == null || userId.length() <= 0) {
-                resp.sendRedirect(req.getContextPath() + "/login");
-                return;
-            }
 
+                HttpSession httpSession = req.getSession();
+                if (httpSession == null) {
+                    resp.sendRedirect(req.getContextPath() + "/login");
+                    return;
+                }
+
+                String userId = (String) httpSession.getAttribute("userId");
+                if (userId == null || userId.length() <= 0) {
+                    resp.sendRedirect(req.getContextPath() + "/login");
+                    return;
+                }
+            }
         }
         chain.doFilter(request, response);
     }

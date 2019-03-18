@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Primary;
 import javax.sql.DataSource;
 
 @Configuration
-public class DBConfigure {
+public class DBConfiguration {
     @Bean
     @Primary
     @ConfigurationProperties("spring.datasource1")
