@@ -44,6 +44,8 @@ dependencies {
     //compile("org.springframework.boot:spring-boot-devtools")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     compile("org.postgresql:postgresql:42.2.5")
+    compile("com.google.zxing:core:3.3.3")
+    compile("com.google.zxing:javase:3.3.3")
 	compile("com.google.actions:actions-on-google:1.0.2") {
         exclude module : 'slf4j-log4j12'
     }
