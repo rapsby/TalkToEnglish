@@ -30,6 +30,64 @@ insert into category (id, title, synonyms, parent_id, cat_type, disp_order, spea
 values (15, '기타', '이외', 1, 'CATEGORY', 0, '다음중 선택 바랍니다.', 'SkyLife-TV 기타 서비스');
 
 
+insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, description, keycode)
+values (100, 'GS 홈쇼핑', '지에스', 2, 'CATEGORY', 0, '다음중 선택 바랍니다.', 'SkyLife-TV gs 홈쇼핑', 'gsshop');
+
+insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, description, keycode)
+values (101, '다이렉트 샵', '다이렉트', 2, 'CATEGORY', 0, '다음중 선택 바랍니다.', 'SkyLife-TV 다이렉트 홈쇼핑','directshop');
+
+insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, description, keycode)
+values (102, 'k 홈쇼핑', '지에스', 2, 'CATEGORY', 0, '다음중 선택 바랍니다.', 'SkyLife-TV k 홈쇼핑','kshop');
+
+insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, description, keycode)
+values (103, '현대 홈쇼핑', '지에스', 2, 'CATEGORY', 0, '다음중 선택 바랍니다.', 'SkyLife-shop 현대 홈쇼핑','hyundaishop');
+
+
+
+
+
+insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, image_path, description)
+values (110,'파리 여행', '파리', 100, 'ITEM', 0, '현재 판매 중인 상품을 보여드릴게요','https://actions.o2o.kr/content/travel1.jpg' ,'현재 판매 중인 상품');
+
+insert into detail(category_id, item_type, linkurl)
+values (110, 'PRODUCT', '제품주소'); 
+
+insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, image_path, description)
+values (111,'gs 홈쇼핑 연결', '유선', 100, 'ITEM', 0, '현재 판매 중인 상품을 보여드릴게요','https://actions.o2o.kr/content/travel1.jpg' ,'현재 판매 중인 상품')
+
+insert into detail(category_id, item_type, linkurl)
+values (111, 'PRODUCT', '제품주소'); 
+
+insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, image_path, description)
+values (112,'gs 홈쇼핑 연결', '유선', 100, 'ITEM', 0, '현재 판매 중인 상품을 보여드릴게요','https://actions.o2o.kr/content/travel1.jpg' ,'현재 판매 중인 상품')
+
+insert into detail(category_id, item_type, linkurl)
+values (112, 'PRODUCT', '제품주소'); 
+
+insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, image_path, description)
+values (113,'gs 홈쇼핑 연결', '유선', 100, 'ITEM', 0, '현재 판매 중인 상품을 보여드릴게요','https://actions.o2o.kr/content/travel1.jpg' ,'현재 판매 중인 상품')
+
+insert into detail(category_id, item_type, linkurl)
+values (113, 'PRODUCT', '제품주소'); 
+
+
+insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, image_path, description)
+values (120,'파리 여행', '파리', 101, 'ITEM', 0, '현재 판매 중인 상품을 보여드릴게요','https://actions.o2o.kr/content/travel1.jpg' ,'현재 판매 중인 상품');
+
+insert into detail(category_id, item_type, linkurl)
+values (120, 'PRODUCT', '제품주소'); 
+
+insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, image_path, description)
+values (121,'파리 여행', '파리', 101, 'ITEM', 0, '현재 판매 중인 상품을 보여드릴게요','https://actions.o2o.kr/content/travel1.jpg' ,'현재 판매 중인 상품');
+
+insert into detail(category_id, item_type, linkurl)
+values (121, 'PRODUCT', '제품주소'); 
+
+
+
+
+
+
 
 insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, image_path, image_alt_text, description)
 values (20,'유선 연결방법', '유선', 10, 'ITEM', 0, '<speak>다음과 같이 시도해 보시기 바랍니다. <audio src="https://actions.o2o.kr/content/lan.mp3"></audio></speak>', 'https://actions.o2o.kr/content/lan.gif', '유션 연결방법 이미지', '설정-> 인터넷-> 유선 인터넷 연결(이더넷)-> 인터넷 케이블 연결');
@@ -80,7 +138,7 @@ insert into category (id, title, synonyms, parent_id, cat_type, disp_order, spea
 values (54,'안드로이드 앱 사용방법', '앱', 13, 'ITEM', 0, '다음과 같이 이용하세요.', '구글 플레이스토어 -> android TV remote control 앱 다운 -> 설정 -> 블루투스 -> 내 모바일 찾기 -> TV화면의 헤어링 클릭 -> 모바일 쌍으로 연결 클릭');
 
 insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, description)
-values (55,'구글캐스팅 사용 방법', '캐스팅', 13, 'ITEM', 0, '다음과 같이 이용하세요.', 'https://youtu.be/8okO6PB305g'); 
+values (55,'구글캐스팅 사용 방법', '캐스팅', 13, 'ITEM', 0, '다음과 같이 이용하세요.', '구글캐스팅 사용 방법입니다.'); 
 
 insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, description)
 values (60,'신호미약', '신호', 14, 'ITEM', 0, '다음과 같이 시도해보세요.', '안테나 선 연결 상태 확인 -> 전원 재연결');
@@ -113,7 +171,7 @@ insert into category (id, title, synonyms, parent_id, cat_type, disp_order, spea
 values (71,'스마트카드 번호 확인 방법', '스마트카드', 15, 'ITEM', 0, '다음과 같이 시도해보세요.', '마이페이지 -> ');
 
 insert into detail(category_id, item_type, linkurl)
-values (4, 'CUSTOMER_INFO', 'https://youtu.be/8okO6PB305g');
+values (55, 'CUSTOMER_INFO', 'https://youtu.be/8okO6PB305g');
 
 select *
 from category;
