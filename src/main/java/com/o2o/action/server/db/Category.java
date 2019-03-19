@@ -16,18 +16,22 @@ public class Category {
     @JoinColumn
     @JsonIgnore
     Category parent;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    Type catType;
     @Column(nullable = true)
     String keycode;
-    Type catType;
-    @OneToOne(mappedBy = "category", cascade = CascadeType.ALL)
-    private Detail detail;
     int dispOrder;
+    String speach;
     @Column(nullable = false)
     String title;
+    @Column(length = 4096)
     String description;
     String synonyms;
     String imagePath;
     String imageAltText;
+    @OneToOne(mappedBy = "category", cascade = CascadeType.ALL)
+    private Detail detail;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
     private List<Category> children;
 
@@ -77,6 +81,22 @@ public class Category {
 
     public void setDispOrder(int dispOrder) {
         this.dispOrder = dispOrder;
+    }
+
+    public Detail getDetail() {
+        return detail;
+    }
+
+    public void setDetail(Detail detail) {
+        this.detail = detail;
+    }
+
+    public String getSpeach() {
+        return speach;
+    }
+
+    public void setSpeach(String speach) {
+        this.speach = speach;
     }
 
     public String getTitle() {

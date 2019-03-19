@@ -20,22 +20,6 @@ public class DBInit {
 
     @PostConstruct
     public void initDB() {
-        List<Category> categories = categoryRepository.findByParentOrderByDispOrderAsc(null);
-        if (categories.size() == 0) {
-            Category category = new Category();
-            category.setKeycode(KEYCODE_CUSTOMER_SERVICE_ROOT);
-            category.setTitle("고객센터");
-            category = categoryRepository.save(category);
 
-            category = new Category();
-            category.setKeycode(KEYCODE_K_SHOPPINT_ROOT);
-            category.setTitle("K 쇼핑");
-            categoryRepository.save(category);
-
-            category = new Category();
-            category.setKeycode(KEYCODE_XIAOMI_SHOP_ROOT);
-            category.setTitle("샤오미 미니샵");
-            categoryRepository.save(category);
-        }
     }
 }
