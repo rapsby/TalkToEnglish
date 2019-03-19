@@ -17,17 +17,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 public class DefaultController {
-    private final DefaultApp dchef;
+    private final DefaultApp defaultApp;
 
     @Autowired
     private CategoryRepository categoryRepository;
 
     public DefaultController() {
-        dchef = new DefaultApp();
+        defaultApp = new DefaultApp();
     }
 
     @RequestMapping(value = "/api/1.0/login", method = RequestMethod.POST)
@@ -74,14 +78,20 @@ public class DefaultController {
     @RequestMapping(value = "/api/1.0/category", method = RequestMethod.GET)
     public @ResponseBody
     List<Category> getCategory(@RequestParam(value = "parentId", required = false) Long id) {
-        return categoryRepository.findByParent(id);
+        if (id == null)
+            return categoryRepository.findByParentOrderByDispOrderAsc(null);
+
+        Category category = categoryRepository.findById(id).get();
+        if (category != null)
+            return category.getChildren();
+        return null;
     }
 
     @RequestMapping(value = "/api/1.0/qrcode", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
     public @ResponseBody
     byte[] generateQRCode(@RequestParam(value = "url", required = true) String url) {
         try {
-            BitMatrix matrix = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, 480, 480);
+            BitMatrix matrix = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, 720, 480);
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             MatrixToImageWriter.writeToStream(matrix, "png", outputStream);
@@ -94,5 +104,36 @@ public class DefaultController {
         }
 
         return null;
+    }
+
+    @RequestMapping(value = "/process", method = RequestMethod.POST)
+    public @ResponseBody
+    String processActions(@RequestBody String body, HttpServletRequest request,
+                          HttpServletResponse response) {
+        defaultApp.setCategoryRepository(categoryRepository);
+        String jsonResponse = null;
+        try {
+            System.out.println("request : " + body + "," + categoryRepository);
+            jsonResponse = defaultApp.handleRequest(body, getHeadersMap(request)).get();
+            System.out.println("response : " + jsonResponse);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return jsonResponse;
+    }
+
+    private Map<String, String> getHeadersMap(HttpServletRequest request) {
+        Map<String, String> map = new HashMap<String, String>();
+
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String key = (String) headerNames.nextElement();
+            String value = request.getHeader(key);
+            map.put(key, value);
+        }
+        return map;
     }
 }
