@@ -169,13 +169,15 @@ public class DefaultApp extends DialogflowApp {
                     builder.add(category.getTitle());
                 else
                     builder.add(category.getSpeach());
-                BasicCard basicCard =new BasicCard()
+                BasicCard basicCard = new BasicCard()
                         .setTitle(category.getTitle())
                         .setFormattedText(category.getDescription());
                 if (category.getImagePath() != null)
-                        basicCard.setImage(new Image().setUrl(category.getImagePath()).setAccessibilityText(category.getImageAltText() == null ? "이미지" : category.getImageAltText()));
+                    basicCard.setImage(new Image().setUrl(category.getImagePath()).setAccessibilityText(category.getImageAltText() == null ? "이미지" : category.getImageAltText()));
                 builder.add(basicCard);
-                suggestions.add("모바일");
+
+                if (category.getDetail() != null && category.getDetail().getLinkURL() != null && category.getDetail().getLinkURL().length() > 0)
+                    suggestions.add("모바일");
                 break;
             default:
                 builder.add(category.getTitle() + "," + category.getDescription());
