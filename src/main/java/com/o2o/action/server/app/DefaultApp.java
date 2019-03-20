@@ -52,8 +52,8 @@ public class DefaultApp extends DialogflowApp {
         return responseBuilder.build();
     }
 
-    @ForIntent("Support - select.option")
-    public ActionResponse processSupportOption(ActionRequest request) throws ExecutionException, InterruptedException {
+    @ForIntent("Category - option")
+    public ActionResponse processCategoryOption(ActionRequest request) throws ExecutionException, InterruptedException {
         ResponseBuilder responseBuilder = getResponseBuilder(request);
         List<String> suggestions = new ArrayList<String>();
         suggestions.add("고객센터로 가기");
@@ -88,8 +88,8 @@ public class DefaultApp extends DialogflowApp {
         return responseBuilder.build();
     }
 
-    @ForIntent("Support - select.connect")
-    public ActionResponse processSupportOptionConnect(ActionRequest request) throws ExecutionException, InterruptedException {
+    @ForIntent("Category - option.connect")
+    public ActionResponse processCategoryOptionConnect(ActionRequest request) throws ExecutionException, InterruptedException {
         ResponseBuilder responseBuilder = getResponseBuilder(request);
         List<String> suggestions = new ArrayList<String>();
         suggestions.add("고객센터로 가기");
@@ -210,5 +210,31 @@ public class DefaultApp extends DialogflowApp {
         } else {
             processError(builder, suggestions, "내부 오류 입니다. 링크 정보가 없는 아이템 입니다.");
         }
+    }
+
+    @ForIntent("Support - Internet")
+    public ActionResponse processSupportInternet(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request,"cs.internet");
+    }
+
+    private ActionResponse processMidCategory(ActionRequest request, String keycord){
+        ResponseBuilder responseBuilder = getResponseBuilder(request);
+        List<String> suggestions = new ArrayList<String>();
+        suggestions.add("고객센터로 가기");
+
+        Category root = null;
+        List<Category> roots = categoryRepository.findByKeycodeOrderByDispOrderAsc(keycord);
+
+        if (roots != null && roots.size() > 0) {
+            root = roots.get(0);
+            System.out.println(root.getId() + "," + root.getKeycode());
+        }
+
+        if (root != null)
+            processCategories(responseBuilder, suggestions, root);
+        else
+            processError(responseBuilder, suggestions, "고객 서비스 정보를 읽어올 수 없습니다.");
+
+        return responseBuilder.build();
     }
 }
