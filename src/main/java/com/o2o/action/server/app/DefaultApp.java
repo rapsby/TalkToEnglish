@@ -37,13 +37,12 @@ public class DefaultApp extends DialogflowApp {
         suggestions.add("쇼핑으로 이동");
 
         Category root = null;
-        List<Category> roots = categoryRepository.findByKeycodeOrderByDispOrderAsc(DBInit.KEYCODE_SHOPPINT_ROOT);
+        List<Category> roots = categoryRepository.findByKeycodeOrderByDispOrderAsc(DBInit.KEYCODE_SHOPPING_ROOT);
 
         if (roots != null && roots.size() > 0) {
             root = roots.get(0);
             System.out.println(root.getId() + "," + root.getKeycode());
         }
-
         if (root != null)
             processRootCategories(responseBuilder, suggestions, root);
         else
@@ -56,7 +55,7 @@ public class DefaultApp extends DialogflowApp {
     public ActionResponse processSupport(ActionRequest request) throws ExecutionException, InterruptedException {
         ResponseBuilder responseBuilder = getResponseBuilder(request);
         List<String> suggestions = new ArrayList<String>();
-        suggestions.add("고객센터로 가기");
+        suggestions.add("홈으로 돌아가기");
 
         Category root = null;
         List<Category> roots = categoryRepository.findByKeycodeOrderByDispOrderAsc(DBInit.KEYCODE_CUSTOMER_SERVICE_ROOT);
@@ -78,7 +77,7 @@ public class DefaultApp extends DialogflowApp {
     public ActionResponse processCategoryOption(ActionRequest request) throws ExecutionException, InterruptedException {
         ResponseBuilder responseBuilder = getResponseBuilder(request);
         List<String> suggestions = new ArrayList<String>();
-        suggestions.add("고객센터로 가기");
+        suggestions.add("홈으로 돌아가기");
 
         long parentId = 0;
         String selectedItem = request.getSelectedOption();
@@ -114,7 +113,7 @@ public class DefaultApp extends DialogflowApp {
     public ActionResponse processCategoryOptionConnect(ActionRequest request) throws ExecutionException, InterruptedException {
         ResponseBuilder responseBuilder = getResponseBuilder(request);
         List<String> suggestions = new ArrayList<String>();
-        suggestions.add("고객센터로 가기");
+        suggestions.add("홈으로 돌아가기");
 
         long parentId = 0;
         Map<String, Object> data = request.getConversationData();
@@ -154,6 +153,7 @@ public class DefaultApp extends DialogflowApp {
         CarouselSelectCarouselItem item;
 
         if (categories == null || categories.size() == 0) {
+            System.out.println(categories);
             processError(builder, suggestions, "데이터를 조회 할 수 없습니다.");
             return;
         } else if (categories.size() == 1) {
@@ -240,22 +240,27 @@ public class DefaultApp extends DialogflowApp {
         }
     }
 
-    @ForIntent("Support - Internet")
+        @ForIntent("Support - internet")
     public ActionResponse processSupportInternet(ActionRequest request) throws ExecutionException, InterruptedException {
         return processMidCategory(request, "cs.internet");
     }
 
-    @ForIntent("Support - Internet.lan")
+    @ForIntent("Support - internet.lan")
     public ActionResponse processSupportInternetLan(ActionRequest request) throws ExecutionException, InterruptedException {
         return processMidCategory(request, "cs.internet.lan");
     }
 
-    @ForIntent("Support - Internet.pwd")
+    @ForIntent("Support - internet.pwd")
     public ActionResponse processSupportInternetPwd(ActionRequest request) throws ExecutionException, InterruptedException {
         return processMidCategory(request, "cs.internet.pwd");
     }
 
-    @ForIntent("Support - Internet.wireless")
+    @ForIntent("Support - internet.wps")
+    public ActionResponse processSupportInternetWps(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.internet.wps");
+    }
+
+    @ForIntent("Support - internet.wireless")
     public ActionResponse processSupportInternetWireless(ActionRequest request) throws ExecutionException, InterruptedException {
         List<String> keycodes = new ArrayList<>();
         keycodes.add("cs.internet.pwd");
@@ -264,17 +269,187 @@ public class DefaultApp extends DialogflowApp {
         return processMidCategory(request, keycodes);
     }
 
+    @ForIntent("Support - remotecontroll")
+    public ActionResponse processSupportRemotecontroll(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.remote");
+    }
+
+    @ForIntent("Support - remotecontroll.color")
+    public ActionResponse processRemotecontrollColor(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.remote.color");
+    }
+
+    @ForIntent("Support - remotecontroll.out")
+    public ActionResponse processRemotecontrollOut(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.remote.out");
+    }
+
+    @ForIntent("Support - remotecontroll.all")
+    public ActionResponse processRemotecontrollAll(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.remote.all");
+    }
+
+    @ForIntent("Support - remotecontroll.back")
+    public ActionResponse processRemotecontrollBack(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.remote.back");
+    }
+
+    @ForIntent("Support - remotecontroll.ai")
+    public ActionResponse processRemotecontrollAi(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.remote.ai");
+    }
+
+    @ForIntent("Support - android")
+    public ActionResponse processSupportAndroid(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.android");
+    }
+
+    @ForIntent("Support - android.add")
+    public ActionResponse processAndroidAdd(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.android.add");
+    }
+
+    @ForIntent("Support - android.delete")
+    public ActionResponse processAndroidDelete(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.android.delete");
+    }
+
+    @ForIntent("Support - android.ytube")
+    public ActionResponse processAndroidYtube(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.android.ytube");
+    }
+
+    @ForIntent("Support - android.initpwd")
+    public ActionResponse processAndroidInitpwd(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.android.initpwd");
+    }
+
+    @ForIntent("Support - android.app")
+    public ActionResponse processAndroidApp(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.android.app");
+    }
+
+    @ForIntent("Support - use")
+    public ActionResponse processSupportUse(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.use");
+    }
+
+    @ForIntent("Support - use.my")
+    public ActionResponse processUseMy(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.use.my");
+    }
+
+    @ForIntent("Support - use.set")
+    public ActionResponse processUseSet(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.use.set");
+    }
+
+    @ForIntent("Support - use.inform")
+    public ActionResponse processUseInform(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.use.inform");
+    }
+
+    @ForIntent("Support - use.vod")
+    public ActionResponse processUseVod(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.use.vod");
+    }
+
+    @ForIntent("Support - as")
+    public ActionResponse processSupportAs(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.as");
+    }
+
+    @ForIntent("Support - as.signal")
+    public ActionResponse processAsSignal(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.as.signal");
+    }
+
+    @ForIntent("Support - as.casting")
+    public ActionResponse processAsCasting(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.as.casting");
+    }
+
+    @ForIntent("Support - android.mosaic")
+    public ActionResponse processAsMosaic(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.android.mosaic");
+    }
+
+    @ForIntent("Support - as.black")
+    public ActionResponse processAsBlack(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.as.black");
+    }
+
+    @ForIntent("Support - as.novoice")
+    public ActionResponse processAsNovoice(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.as.novoice");
+    }
+
+    @ForIntent("Support - as.volume")
+    public ActionResponse processAsVolume(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.as.volume");
+    }
+
+    @ForIntent("Support - as.control")
+    public ActionResponse processAsControl(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.as.control");
+    }
+
+    @ForIntent("Support - as.tell")
+    public ActionResponse processAsTell(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.as.tell");
+    }
+
+    @ForIntent("Support - as.power")
+    public ActionResponse processAsPower(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.as.power");
+    }
+
+    @ForIntent("Support - as.showars")
+    public ActionResponse processAsShowars(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.as.showars");
+    }
+
+    @ForIntent("Support - as.smartid")
+    public ActionResponse processAsSmartid(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.as.smartid");
+    }
+
+    @ForIntent("Shopping - direct")
+    public ActionResponse processShoppingDirect(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "shop.direct");
+    }
+
+    @ForIntent("Shopping - gs")
+    public ActionResponse processShoppingGs(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "shop.gs");
+    }
+
+    @ForIntent("Shopping - k")
+    public ActionResponse processShoppingKshpo(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "shop.kshop");
+    }
+
+    @ForIntent("Shopping - hyundai")
+    public ActionResponse processShoppingHyundai(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "shop.hyundai");
+    }
+
+    @ForIntent("Shopping - lotte")
+    public ActionResponse processShoppingLotte(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "shop.lotte");
+    }
+
     private ActionResponse processMidCategory(ActionRequest request, List<String> keycords) {
         ResponseBuilder responseBuilder = getResponseBuilder(request);
         List<String> suggestions = new ArrayList<String>();
-        suggestions.add("고객센터로 가기");
+        suggestions.add("홈으로 돌아가기");
 
         List<Category> roots = categoryRepository.findByKeycodeInOrderByDispOrderAsc(keycords);
 
         if (roots != null && roots.size() > 0) {
             processCategories(responseBuilder, suggestions, null, roots);
         } else
-            processError(responseBuilder, suggestions, "고객 서비스 정보를 읽어올 수 없습니다.");
+            processError(responseBuilder, suggestions, "정보를 읽어올 수 없습니다.");
 
         return responseBuilder.build();
     }
@@ -282,7 +457,7 @@ public class DefaultApp extends DialogflowApp {
     private ActionResponse processMidCategory(ActionRequest request, String keycord) {
         ResponseBuilder responseBuilder = getResponseBuilder(request);
         List<String> suggestions = new ArrayList<String>();
-        suggestions.add("고객센터로 가기");
+        suggestions.add("홈으로 돌아가기");
 
         Category root = null;
         List<Category> roots = categoryRepository.findByKeycodeOrderByDispOrderAsc(keycord);
@@ -299,7 +474,7 @@ public class DefaultApp extends DialogflowApp {
                 processRootCategories(responseBuilder, suggestions, root);
             }
         } else
-            processError(responseBuilder, suggestions, "고객 서비스 정보를 읽어올 수 없습니다.");
+            processError(responseBuilder, suggestions, "정보를 읽어올 수 없습니다.");
 
 
         return responseBuilder.build();
