@@ -72,7 +72,7 @@ public class DefaultApp extends DialogflowApp {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmm");
         String tmpStr = formatter.format(new Date()) + "00";
 
-        long curTime = Long.parseLong(tmpStr);
+        long curTime = Long.parseLong(tmpStr) + 90000;
         System.out.println(curTime);
 
         for (Channel channel : channels) {
@@ -214,6 +214,7 @@ public class DefaultApp extends DialogflowApp {
         } else if (categories.size() == 1) {
             processRootCategory(builder, suggestions, categories.get(0));
         } else {
+            int count = 0;
             for (Category category : categories) {
                 List<String> synonyms = new ArrayList<String>();
                 if (category.getSynonyms() != null) {
@@ -225,6 +226,11 @@ public class DefaultApp extends DialogflowApp {
                 item = new CarouselSelectCarouselItem().setTitle(category.getTitle()).setDescription(category.getDescription())
                         .setOptionInfo(new OptionInfo().setKey(Long.toString(category.getId())).setSynonyms(synonyms));
                 items.add(item);
+                if(count > 8 )
+                    break;
+                count++;
+
+
             }
 
             if (suggestions.size() > 0)
@@ -479,7 +485,7 @@ public class DefaultApp extends DialogflowApp {
         return processMidCategory(request, "shop.gs");
     }
 
-    @ForIntent("Shopping - k")
+    @ForIntent("Shopping - kshop")
     public ActionResponse processShoppingKshpo(ActionRequest request) throws ExecutionException, InterruptedException {
         return processMidCategory(request, "shop.kshop");
     }
