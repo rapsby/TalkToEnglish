@@ -13,7 +13,8 @@ import java.util.List;
 public class DBInit {
     public static final String KEYCODE_CUSTOMER_SERVICE_ROOT = "cserviceroot";
     public static final String KEYCODE_SHOPPING_ROOT = "shoppingroot";
-    public static final String KEYCODE_XIAOMI_SHOP_ROOT = "xaiomishop";
+    public static final String KEYCODE_BRODCAST_CHANNEL = "channelroot";
+   //public static final String KEYCODE_XIAOMI_SHOP_ROOT = "xaiomishop";
 
     @Autowired
     CategoryRepository categoryRepository;

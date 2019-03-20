@@ -6,29 +6,84 @@ import com.google.actions.api.DialogflowApp;
 import com.google.actions.api.ForIntent;
 import com.google.actions.api.response.ResponseBuilder;
 import com.google.actions.api.response.helperintent.SelectionCarousel;
+import com.google.api.client.util.Lists;
 import com.google.api.services.actions_fulfillment.v2.model.BasicCard;
 import com.google.api.services.actions_fulfillment.v2.model.CarouselSelectCarouselItem;
 import com.google.api.services.actions_fulfillment.v2.model.Image;
 import com.google.api.services.actions_fulfillment.v2.model.OptionInfo;
+import com.google.api.services.dialogflow_fulfillment.v2.model.QueryResult;
 import com.o2o.action.server.DBInit;
 import com.o2o.action.server.db.Category;
+import com.o2o.action.server.db.Channel;
+import com.o2o.action.server.db.Schedule;
 import com.o2o.action.server.repo.CategoryRepository;
+import com.o2o.action.server.repo.ChannelRepository;
+import com.o2o.action.server.repo.ScheduleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class DefaultApp extends DialogflowApp {
     private CategoryRepository categoryRepository;
+    private ChannelRepository channelRepository;
+    private ScheduleRepository scheduleRepository;
+
 
     public void setCategoryRepository(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
+
+    public void setChannelRepository(ChannelRepository channelRepository) {
+        this.channelRepository = channelRepository;
+    }
+
+    public void setScheduleRepository(ScheduleRepository scheduleRepository) {
+        this.scheduleRepository = scheduleRepository;
+    }
+
+    @ForIntent("Channel")
+    public ActionResponse processChannel(ActionRequest request) throws ExecutionException, InterruptedException {
+        ResponseBuilder responseBuilder = getResponseBuilder(request);
+        List<String> suggestions = new ArrayList<String>();
+        suggestions.add("채널로 이동");
+
+        QueryResult qr = request.getWebhookRequest().getQueryResult();
+
+        String eChannel = null;
+
+        if (qr != null) {
+            Map<String, Object> params = qr.getParameters();
+            eChannel = (String) params.get("Ent_channelname");
+        }
+
+        System.out.println(eChannel);
+
+        if (eChannel == null) {
+            processError(responseBuilder, suggestions, "방송 정보가 없습니다.");
+            return responseBuilder.build();
+        }
+
+        List<Channel> channels = Lists.newArrayList(channelRepository.findByChName(eChannel));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmm");
+        String tmpStr = formatter.format(new Date()) + "00";
+
+        long curTime = Long.parseLong(tmpStr);
+        System.out.println(curTime);
+
+        for (Channel channel : channels) {
+            List<Schedule> schedules = scheduleRepository.findByChannelAndStartTimeLessThanEqualAndEndTimeGreaterThan(channel, curTime, curTime);
+            for (Schedule schedule : schedules) {
+                responseBuilder.add(schedule.getName());
+            }
+        }
+        return responseBuilder.build();
+    }
+
 
     @ForIntent("Shopping")
     public ActionResponse processShop(ActionRequest request) throws ExecutionException, InterruptedException {
@@ -319,9 +374,9 @@ public class DefaultApp extends DialogflowApp {
         return processMidCategory(request, "cs.android.ytube");
     }
 
-    @ForIntent("Support - android.initpwd")
+    @ForIntent("Support - android.pwd")
     public ActionResponse processAndroidInitpwd(ActionRequest request) throws ExecutionException, InterruptedException {
-        return processMidCategory(request, "cs.android.initpwd");
+        return processMidCategory(request, "cs.android.pwd");
     }
 
     @ForIntent("Support - android.app")

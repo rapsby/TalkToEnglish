@@ -102,13 +102,16 @@ insert into category (id, title, synonyms, parent_id, cat_type, disp_order, spea
 values (30, '통합전원', '통합', 11, 'ITEM', 0, '<speak>다음과 같이 시도해 보시기 바랍니다. <audio src="https://actions.o2o.kr/content/test1.mp3"></audio></speak>', 'https://actions.o2o.kr/content/test1.gif', '리모컨 설정 이미지', '1. [확인 ○] + [선호채널] or [확인 ○] + [조용히] (동시에 누름) → LED ON \n2. [채널+] or [채널-] key를 천천히 TV화면이 꺼질때까지 누른다. (LED가 깜박임)\n 3. TV 화면이 꺼지면 [확인 ○] 누름 → 완료(LED 3회 점멸하며 꺼짐)');
 
 insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, description)
-values (31,'이전', '나가기', 11, 'ITEM', 0, '다음과 같은 용도입니다.', '외부선과 연결 시 선택');
+values (31,'이전', '나가기', 11, 'ITEM', 0, '다음과 같은 용도입니다.', '이전 - 현재화면 전 단계 이동 / 나가기 - 지금 메뉴에서 완전히 나감');
 
 insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, description)
 values (32,'AI버튼', '인공지능', 11, 'ITEM', 0, '다음과 같은 용도입니다.', '홈버튼과 OK버튼을 함께 켜져있는 셋톱에 4초이상 누름');
 
 insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, description)
 values (33,'색깔별버튼', '색', 11, 'ITEM', 0, '다음과 같은 용도입니다.', 'TV 화면에 보이는 색깔과 같은 버튼을 누름 (기능이 다름)');
+
+insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, description)
+values (34,'외부입력', '외부', 11, 'ITEM', 0, '다음과 같은 용도입니다.', '외부선과 연결 시 선택');
 
 insert into category (id, title, synonyms, parent_id, cat_type, disp_order, speach, description)
 values (40,'마이페이지', '마이', 12, 'ITEM', 0, '다음과 같이 이용하세요.', '마이페이지 -> VOD 구매목록, 쿠폰, TV포인트 내역, TV정보 기록 / 스마트카드번호 정보');

@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ChannelRepository extends CrudRepository<Channel, Long> {
     List<Channel> findByChCode(int code);
+    List<Channel> findByChName(String name);
 }

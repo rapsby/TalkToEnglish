@@ -8,6 +8,8 @@ import com.google.zxing.common.BitMatrix;
 import com.o2o.action.server.app.DefaultApp;
 import com.o2o.action.server.db.Category;
 import com.o2o.action.server.repo.CategoryRepository;
+import com.o2o.action.server.repo.ChannelRepository;
+import com.o2o.action.server.repo.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,10 @@ public class DefaultController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ChannelRepository channelRepository;
+    @Autowired
+    private ScheduleRepository scheduleRepository;
 
     public DefaultController() {
         defaultApp = new DefaultApp();
@@ -111,6 +117,8 @@ public class DefaultController {
     String processActions(@RequestBody String body, HttpServletRequest request,
                           HttpServletResponse response) {
         defaultApp.setCategoryRepository(categoryRepository);
+        defaultApp.setChannelRepository(channelRepository);
+        defaultApp.setScheduleRepository(scheduleRepository);
         String jsonResponse = null;
         try {
             System.out.println("request : " + body + "," + categoryRepository);
