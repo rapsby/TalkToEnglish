@@ -8,4 +8,5 @@ import java.util.List;
 public interface CategoryRepository extends CrudRepository<Category, Long> {
     List<Category> findByParentOrderByDispOrderAsc(Category parent);
     List<Category> findByKeycodeOrderByDispOrderAsc(String keycode);
+    List<Category> findByKeycodeInOrderByDispOrderAsc(List<String> keycodes);
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class DBInit {
     public static final String KEYCODE_CUSTOMER_SERVICE_ROOT = "cserviceroot";
-    public static final String KEYCODE_K_SHOPPINT_ROOT = "kshoppingroot";
+    public static final String KEYCODE_SHOPPINT_ROOT = "shoppingroot";
     public static final String KEYCODE_XIAOMI_SHOP_ROOT = "xaiomishop";
 
     @Autowired

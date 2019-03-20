@@ -30,6 +30,28 @@ public class DefaultApp extends DialogflowApp {
         this.categoryRepository = categoryRepository;
     }
 
+    @ForIntent("Shopping")
+    public ActionResponse processShop(ActionRequest request) throws ExecutionException, InterruptedException {
+        ResponseBuilder responseBuilder = getResponseBuilder(request);
+        List<String> suggestions = new ArrayList<String>();
+        suggestions.add("쇼핑으로 이동");
+
+        Category root = null;
+        List<Category> roots = categoryRepository.findByKeycodeOrderByDispOrderAsc(DBInit.KEYCODE_SHOPPINT_ROOT);
+
+        if (roots != null && roots.size() > 0) {
+            root = roots.get(0);
+            System.out.println(root.getId() + "," + root.getKeycode());
+        }
+
+        if (root != null)
+            processRootCategories(responseBuilder, suggestions, root);
+        else
+            processError(responseBuilder, suggestions, "쇼핑 정보를 읽어올 수 없습니다.");
+
+        return responseBuilder.build();
+    }
+
     @ForIntent("Support")
     public ActionResponse processSupport(ActionRequest request) throws ExecutionException, InterruptedException {
         ResponseBuilder responseBuilder = getResponseBuilder(request);
@@ -45,7 +67,7 @@ public class DefaultApp extends DialogflowApp {
         }
 
         if (root != null)
-            processCategories(responseBuilder, suggestions, root);
+            processRootCategories(responseBuilder, suggestions, root);
         else
             processError(responseBuilder, suggestions, "고객 서비스 정보를 읽어올 수 없습니다.");
 
@@ -77,9 +99,9 @@ public class DefaultApp extends DialogflowApp {
             data.put("currentItem", Long.toString(parentId));
 
             if (parent.getChildren() == null || parent.getChildren().size() <= 1) {
-                processCategory(responseBuilder, suggestions, parent);
+                processRootCategory(responseBuilder, suggestions, parent);
             } else {
-                processCategories(responseBuilder, suggestions, parent);
+                processRootCategories(responseBuilder, suggestions, parent);
             }
         } else {
             processError(responseBuilder, suggestions, "해당 내용을 찾을 수 없습니다.");
@@ -123,17 +145,21 @@ public class DefaultApp extends DialogflowApp {
         builder.addSuggestions(suggestions.toArray(new String[suggestions.size()]));
     }
 
-    private void processCategories(ResponseBuilder builder, List<String> suggestions, Category parent) {
+    private void processRootCategories(ResponseBuilder builder, List<String> suggestions, Category parent) {
+        processCategories(builder, suggestions, parent.getSpeach(), parent.getChildren());
+    }
+
+    private void processCategories(ResponseBuilder builder, List<String> suggestions, String speach, List<Category> categories) {
         List<CarouselSelectCarouselItem> items = new ArrayList<>();
         CarouselSelectCarouselItem item;
 
-        if (parent == null || parent.getChildren().size() == 0) {
+        if (categories == null || categories.size() == 0) {
             processError(builder, suggestions, "데이터를 조회 할 수 없습니다.");
             return;
-        } else if (parent.getChildren().size() == 1) {
-            processCategory(builder, suggestions, parent.getChildren().get(0));
+        } else if (categories.size() == 1) {
+            processRootCategory(builder, suggestions, categories.get(0));
         } else {
-            for (Category category : parent.getChildren()) {
+            for (Category category : categories) {
                 List<String> synonyms = new ArrayList<String>();
                 if (category.getSynonyms() != null) {
                     String[] tmpStrs = category.getSynonyms().split(";");
@@ -148,17 +174,17 @@ public class DefaultApp extends DialogflowApp {
 
             if (suggestions.size() > 0)
                 builder.addSuggestions(suggestions.toArray(new String[suggestions.size()]));
-            if (parent.getSpeach() == null)
+            if (speach == null)
                 builder.add("선택해주십시요.");
             else
-                builder.add(parent.getSpeach());
+                builder.add(speach);
 
             builder.add(new SelectionCarousel().setItems(items));
         }
 
     }
 
-    private void processCategory(ResponseBuilder builder, List<String> suggestions, Category category) {
+    private void processRootCategory(ResponseBuilder builder, List<String> suggestions, Category category) {
         List<CarouselSelectCarouselItem> items = new ArrayList<>();
         CarouselSelectCarouselItem item;
 
@@ -216,10 +242,44 @@ public class DefaultApp extends DialogflowApp {
 
     @ForIntent("Support - Internet")
     public ActionResponse processSupportInternet(ActionRequest request) throws ExecutionException, InterruptedException {
-        return processMidCategory(request,"cs.internet");
+        return processMidCategory(request, "cs.internet");
     }
 
-    private ActionResponse processMidCategory(ActionRequest request, String keycord){
+    @ForIntent("Support - Internet.lan")
+    public ActionResponse processSupportInternetLan(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.internet.lan");
+    }
+
+    @ForIntent("Support - Internet.pwd")
+    public ActionResponse processSupportInternetPwd(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.internet.pwd");
+    }
+
+    @ForIntent("Support - Internet.wireless")
+    public ActionResponse processSupportInternetWireless(ActionRequest request) throws ExecutionException, InterruptedException {
+        List<String> keycodes = new ArrayList<>();
+        keycodes.add("cs.internet.pwd");
+        keycodes.add("cs.internet.wps");
+
+        return processMidCategory(request, keycodes);
+    }
+
+    private ActionResponse processMidCategory(ActionRequest request, List<String> keycords) {
+        ResponseBuilder responseBuilder = getResponseBuilder(request);
+        List<String> suggestions = new ArrayList<String>();
+        suggestions.add("고객센터로 가기");
+
+        List<Category> roots = categoryRepository.findByKeycodeInOrderByDispOrderAsc(keycords);
+
+        if (roots != null && roots.size() > 0) {
+            processCategories(responseBuilder, suggestions, null, roots);
+        } else
+            processError(responseBuilder, suggestions, "고객 서비스 정보를 읽어올 수 없습니다.");
+
+        return responseBuilder.build();
+    }
+
+    private ActionResponse processMidCategory(ActionRequest request, String keycord) {
         ResponseBuilder responseBuilder = getResponseBuilder(request);
         List<String> suggestions = new ArrayList<String>();
         suggestions.add("고객센터로 가기");
@@ -232,10 +292,15 @@ public class DefaultApp extends DialogflowApp {
             System.out.println(root.getId() + "," + root.getKeycode());
         }
 
-        if (root != null)
-            processCategories(responseBuilder, suggestions, root);
-        else
+        if (root != null) {
+            if (root.getCatType().equals(Category.Type.ITEM)) {
+                processRootCategory(responseBuilder, suggestions, root);
+            } else {
+                processRootCategories(responseBuilder, suggestions, root);
+            }
+        } else
             processError(responseBuilder, suggestions, "고객 서비스 정보를 읽어올 수 없습니다.");
+
 
         return responseBuilder.build();
     }
