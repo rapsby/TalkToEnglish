@@ -301,7 +301,7 @@ public class DefaultApp extends DialogflowApp {
         }
     }
 
-        @ForIntent("Support - internet")
+    @ForIntent("Support - internet")
     public ActionResponse processSupportInternet(ActionRequest request) throws ExecutionException, InterruptedException {
         return processMidCategory(request, "cs.internet");
     }
@@ -390,6 +390,11 @@ public class DefaultApp extends DialogflowApp {
         return processMidCategory(request, "cs.android.app");
     }
 
+    @ForIntent("Support - android.casting")
+    public ActionResponse processAsCasting(ActionRequest request) throws ExecutionException, InterruptedException {
+        return processMidCategory(request, "cs.as.casting");
+    }
+
     @ForIntent("Support - use")
     public ActionResponse processSupportUse(ActionRequest request) throws ExecutionException, InterruptedException {
         return processMidCategory(request, "cs.use");
@@ -425,12 +430,7 @@ public class DefaultApp extends DialogflowApp {
         return processMidCategory(request, "cs.as.signal");
     }
 
-    @ForIntent("Support - as.casting")
-    public ActionResponse processAsCasting(ActionRequest request) throws ExecutionException, InterruptedException {
-        return processMidCategory(request, "cs.as.casting");
-    }
-
-    @ForIntent("Support - android.mosaic")
+    @ForIntent("Support - as.mosaic")
     public ActionResponse processAsMosaic(ActionRequest request) throws ExecutionException, InterruptedException {
         return processMidCategory(request, "cs.android.mosaic");
     }
