@@ -365,6 +365,15 @@ public class DefaultApp extends DialogflowApp {
         return processMidCategory(request, "cs.android");
     }
 
+    @ForIntent("Support - android.user")
+    public ActionResponse processAsUser(ActionRequest request) throws ExecutionException, InterruptedException {
+        List<String> keycodes = new ArrayList<>();
+        keycodes.add("cs.android.add");
+        keycodes.add("cs.android.delete");
+
+        return processMidCategory(request, keycodes);
+    }
+
     @ForIntent("Support - android.add")
     public ActionResponse processAndroidAdd(ActionRequest request) throws ExecutionException, InterruptedException {
         return processMidCategory(request, "cs.android.add");
@@ -428,6 +437,34 @@ public class DefaultApp extends DialogflowApp {
     @ForIntent("Support - as.signal")
     public ActionResponse processAsSignal(ActionRequest request) throws ExecutionException, InterruptedException {
         return processMidCategory(request, "cs.as.signal");
+    }
+
+    @ForIntent("Support - as.screen")
+    public ActionResponse processAsScreen(ActionRequest request) throws ExecutionException, InterruptedException {
+        List<String> keycodes = new ArrayList<>();
+        keycodes.add("cs.android.mosaic");
+        keycodes.add("cs.as.black");
+
+        return processMidCategory(request, keycodes);
+    }
+
+    @ForIntent("Support - as.voice")
+    public ActionResponse processAsVoice(ActionRequest request) throws ExecutionException, InterruptedException {
+        List<String> keycodes = new ArrayList<>();
+        keycodes.add("cs.as.novoice");
+        keycodes.add("cs.as.volume");
+
+        return processMidCategory(request, keycodes);
+    }
+
+    @ForIntent("Support - as.ars")
+    public ActionResponse processAsArs(ActionRequest request) throws ExecutionException, InterruptedException {
+        List<String> keycodes = new ArrayList<>();
+        keycodes.add("cs.as.control");
+        keycodes.add("cs.as.tell");
+        keycodes.add("cs.as.showars");
+
+        return processMidCategory(request, keycodes);
     }
 
     @ForIntent("Support - as.mosaic")
