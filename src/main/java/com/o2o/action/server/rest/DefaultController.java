@@ -6,6 +6,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.o2o.action.server.app.DefaultApp;
+import com.o2o.action.server.app.GogumaApp;
 import com.o2o.action.server.db.Category;
 import com.o2o.action.server.repo.CategoryRepository;
 import com.o2o.action.server.repo.ChannelRepository;
@@ -29,6 +30,8 @@ import java.util.concurrent.ExecutionException;
 public class DefaultController {
     private final DefaultApp defaultApp;
 
+    private final GogumaApp gogumaApp;
+
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -38,6 +41,7 @@ public class DefaultController {
 
     public DefaultController() {
         defaultApp = new DefaultApp();
+        gogumaApp = new GogumaApp();
     }
 
     @RequestMapping(value = "/api/1.0/login", method = RequestMethod.POST)
@@ -123,6 +127,27 @@ public class DefaultController {
         try {
             System.out.println("request : " + body + "," + categoryRepository);
             jsonResponse = defaultApp.handleRequest(body, getHeadersMap(request)).get();
+            System.out.println("response : " + jsonResponse);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return jsonResponse;
+    }
+
+    @RequestMapping(value = "/test1", method = RequestMethod.POST)
+    public @ResponseBody
+    String processTest1(@RequestBody String body, HttpServletRequest request,
+                          HttpServletResponse response) {
+        defaultApp.setCategoryRepository(categoryRepository);
+        defaultApp.setChannelRepository(channelRepository);
+        defaultApp.setScheduleRepository(scheduleRepository);
+        String jsonResponse = null;
+        try {
+            System.out.println("request : " + body + "," + categoryRepository);
+            jsonResponse = gogumaApp.handleRequest(body, getHeadersMap(request)).get();
             System.out.println("response : " + jsonResponse);
         } catch (InterruptedException e) {
             e.printStackTrace();
