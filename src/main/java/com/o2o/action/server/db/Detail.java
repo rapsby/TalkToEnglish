@@ -15,6 +15,9 @@ public class Detail {
     Type itemType;
     String subTitle;
     String linkURL;
+    @Column()
+    long cost = 0;
+    String relatedKeyword;
     @Id
     private Long id;
 
