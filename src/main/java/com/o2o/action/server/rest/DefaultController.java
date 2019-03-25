@@ -105,9 +105,9 @@ public class DefaultController {
         }
 
         if (categories != null) {
-            for (Category category : categories) {
-                category.setChildren(null);
-            }
+            //for (Category category : categories) {
+                //category.setChildren(null);
+            //}
 
             return categories;
         }
