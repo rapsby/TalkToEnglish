@@ -65,6 +65,22 @@ public class Detail {
         this.linkURL = linkURL;
     }
 
+    public long getCost() {
+        return cost;
+    }
+
+    public void setCost(long cost) {
+        this.cost = cost;
+    }
+
+    public String getRelatedKeyword() {
+        return relatedKeyword;
+    }
+
+    public void setRelatedKeyword(String relatedKeyword) {
+        this.relatedKeyword = relatedKeyword;
+    }
+
     public enum Type {
         CUSTOMER_INFO, PRODUCT
     }
