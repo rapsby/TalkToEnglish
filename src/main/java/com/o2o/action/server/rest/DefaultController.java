@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -85,15 +86,31 @@ public class DefaultController {
         }
     }
 
-    @RequestMapping(value = "/api/1.0/category", method = RequestMethod.GET)
+    @Transactional
+    @RequestMapping(value = "/api/1.0/category/child", method = RequestMethod.GET)
     public @ResponseBody
-    List<Category> getCategory(@RequestParam(value = "parentId", required = false) Long id) {
-        if (id == null)
-            return categoryRepository.findByParentOrderByDispOrderAsc(null);
+    List<Category> getCategory(@RequestParam(value = "parentId", required = false) Long id, @RequestParam(value = "keycode", required = false) String keycode) {
+        List<Category> categories = null;
 
-        Category category = categoryRepository.findById(id).get();
-        if (category != null)
-            return category.getChildren();
+        if (id != null) {
+            Category category = categoryRepository.findById(id).get();
+            categories = category.getChildren();
+        } else if (keycode != null) {
+            List<Category> tmpCategories = categoryRepository.findByKeycodeOrderByDispOrderAsc(keycode);
+            if (tmpCategories != null && tmpCategories.size() > 0) {
+                categories = tmpCategories.get(0).getChildren();
+            }
+        } else {
+            categories = categoryRepository.findByParentOrderByDispOrderAsc(null);
+        }
+
+        if (categories != null) {
+            for (Category category : categories) {
+                category.setChildren(null);
+            }
+
+            return categories;
+        }
         return null;
     }
 
@@ -140,7 +157,7 @@ public class DefaultController {
     @RequestMapping(value = "/test1", method = RequestMethod.POST)
     public @ResponseBody
     String processTest1(@RequestBody String body, HttpServletRequest request,
-                          HttpServletResponse response) {
+                        HttpServletResponse response) {
         defaultApp.setCategoryRepository(categoryRepository);
         defaultApp.setChannelRepository(channelRepository);
         defaultApp.setScheduleRepository(scheduleRepository);

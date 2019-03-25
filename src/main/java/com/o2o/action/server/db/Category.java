@@ -30,9 +30,9 @@ public class Category {
     String synonyms;
     String imagePath;
     String imageAltText;
-    @OneToOne(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.LAZY)
     private Detail detail;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", fetch = FetchType.LAZY)
     private List<Category> children;
 
     public Category() {
