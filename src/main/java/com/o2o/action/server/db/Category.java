@@ -33,7 +33,7 @@ public class Category {
     String imageAltText;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.LAZY)
     private Detail detail;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", fetch = FetchType.EAGER)
     @OrderBy("dispOrder ASC")
     private List<Category> children;
 
