@@ -1,6 +1,7 @@
 package com.o2o.action.server.db;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.core.annotation.Order;
 
 import javax.persistence.*;
 import java.util.List;
@@ -33,6 +34,7 @@ public class Category {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.LAZY)
     private Detail detail;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", fetch = FetchType.LAZY)
+    @OrderBy("dispOrder ASC")
     private List<Category> children;
 
     public Category() {

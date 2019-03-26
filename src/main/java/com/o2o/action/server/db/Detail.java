@@ -15,7 +15,7 @@ public class Detail {
     Type itemType;
     String subTitle;
     String linkURL;
-    long cost = 0;
+    Long cost = 0l;
     String relatedKeyword;
     @Id
     private Long id;
@@ -64,11 +64,11 @@ public class Detail {
         this.linkURL = linkURL;
     }
 
-    public long getCost() {
+    public Long getCost() {
         return cost;
     }
 
-    public void setCost(long cost) {
+    public void setCost(Long cost) {
         this.cost = cost;
     }
 
