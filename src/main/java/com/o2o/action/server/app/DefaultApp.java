@@ -236,6 +236,7 @@ public class DefaultApp extends DialogflowApp {
             suggestions.add("잘되요");
             suggestions.add("여전히 이상해요");
 
+            rb.add(simpleResponse);
             rb.add(basicCard);
             
         } else {
@@ -305,6 +306,8 @@ public class DefaultApp extends DialogflowApp {
             }
             rb.add(simpleResponse);
             rb.add(basicCard);
+
+
         }
 
         rb.addSuggestions(suggestions.toArray(new String[suggestions.size()]));
