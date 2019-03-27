@@ -3,11 +3,16 @@ package com.o2o.action.server.app;
 import com.google.actions.api.*;
 import com.google.actions.api.response.ResponseBuilder;
 import com.google.actions.api.response.helperintent.Confirmation;
+import com.google.actions.api.response.helperintent.SignIn;
+import com.google.api.client.http.HttpTransport;
 import com.o2o.action.server.repo.CategoryRepository;
 import com.o2o.action.server.repo.ChannelRepository;
 import com.o2o.action.server.repo.ScheduleRepository;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -168,4 +173,29 @@ public class GogumaApp extends DialogflowApp {
         }
         return rb.build();
     }
+
+    private String clientId = "<your_client_id>";
+
+    @ForIntent("account-test")
+    public ActionResponse processAccount(ActionRequest request) throws ExecutionException, InterruptedException {
+        ResponseBuilder rb = getResponseBuilder(request);
+
+        return rb.add("로그인 정보를 얻을 수 있을까요?").add(new SignIn().setContext("To get your account details")).build();
+    }
+
+    @ForIntent("account-test-process")
+    public ActionResponse processAccountResult(ActionRequest request) throws ExecutionException, InterruptedException {
+        ResponseBuilder responseBuilder = getResponseBuilder(request);
+        if (request.isSignInGranted()) {
+            String token = request.getUser().getIdToken();
+            responseBuilder.add(
+                    "I got your account details, "
+                            + token
+                            + ". What do you want to do next?");
+        } else {
+            responseBuilder.add("I won't be able to save your data, but what do you want to do next?");
+        }
+        return responseBuilder.build();
+    }
+
 }
