@@ -7,10 +7,7 @@ import com.google.actions.api.response.helperintent.Confirmation;
 import com.google.actions.api.response.helperintent.SelectionCarousel;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Value;
-import com.google.api.services.actions_fulfillment.v2.model.BasicCard;
-import com.google.api.services.actions_fulfillment.v2.model.CarouselSelectCarouselItem;
-import com.google.api.services.actions_fulfillment.v2.model.Image;
-import com.google.api.services.actions_fulfillment.v2.model.OptionInfo;
+import com.google.api.services.actions_fulfillment.v2.model.*;
 import com.google.api.services.dialogflow_fulfillment.v2.model.QueryResult;
 import com.o2o.action.server.DBInit;
 import com.o2o.action.server.db.Category;
@@ -21,6 +18,7 @@ import com.o2o.action.server.repo.ChannelRepository;
 import com.o2o.action.server.repo.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.applet.AudioClip;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -34,10 +32,6 @@ public class DefaultApp extends DialogflowApp {
     private CategoryRepository categoryRepository;
     private ChannelRepository channelRepository;
     private ScheduleRepository scheduleRepository;
-    Boolean IsCable = false;
-    Boolean IsArs = false;
-    int cCount[] = {0};
-
 
     public void setCategoryRepository(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
@@ -51,72 +45,11 @@ public class DefaultApp extends DialogflowApp {
         this.scheduleRepository = scheduleRepository;
     }
 
-    /*
-        @ForIntent("Channel")
-        public ActionResponse processChannel(ActionRequest request) throws ExecutionException, InterruptedException {
-            ResponseBuilder responseBuilder = getResponseBuilder(request);
-            List<String> suggestions = new ArrayList<String>();
-            suggestions.add("채널로 이동");
-
-            QueryResult qr = request.getWebhookRequest().getQueryResult();
-
-            String eChannel = null;
-
-            if (qr != null) {
-                Map<String, Object> params = qr.getParameters();
-                eChannel = (String) params.get("Ent_channelname");
-            }
-
-            System.out.println(eChannel);
-
-            if (eChannel == null) {
-                processError(responseBuilder, suggestions, "방송 정보가 없습니다.");
-                return responseBuilder.build();
-            }
-
-            List<Channel> channels = Lists.newArrayList(channelRepository.findByChName(eChannel));
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmm");
-            String tmpStr = formatter.format(new Date()) + "00";
-
-            long curTime = Long.parseLong(tmpStr) + 90000;
-            System.out.println(curTime);
-
-            for (Channel channel : channels) {
-                List<Schedule> schedules = scheduleRepository.findByChannelAndStartTimeLessThanEqualAndEndTimeGreaterThan(channel, curTime, curTime);
-                for (Schedule schedule : schedules) {
-                    responseBuilder.add(schedule.getName());
-                }
-            }
-            return responseBuilder.build();
-        }
-
-
-        @ForIntent("Shopping")
-        public ActionResponse processShop(ActionRequest request) throws ExecutionException, InterruptedException {
-            ResponseBuilder responseBuilder = getResponseBuilder(request);
-            List<String> suggestions = new ArrayList<String>();
-            suggestions.add("쇼핑으로 이동");
-
-            Category root = null;
-            List<Category> roots = categoryRepository.findByKeycodeOrderByDispOrderAsc(DBInit.KEYCODE_SHOPPING_ROOT);
-
-            if (roots != null && roots.size() > 0) {
-                root = roots.get(0);
-                System.out.println(root.getId() + "," + root.getKeycode());
-            }
-            if (root != null)
-                processRootCategories(responseBuilder, suggestions, root);
-            else
-                processError(responseBuilder, suggestions, "쇼핑 정보를 읽어올 수 없습니다.");
-
-            return responseBuilder.build();
-        }
-    */
-
     @ForIntent("support-find.symptom")
     public ActionResponse processFindSymptom(ActionRequest request) throws ExecutionException, InterruptedException {
         ResponseBuilder rb = getResponseBuilder(request);
         List<String> suggestions = new ArrayList<String>();
+        List<CarouselSelectCarouselItem> items = new ArrayList<>();
 
         String symptom = null;
         Object oSymptom = (Object) request.getParameter("symptom");
@@ -131,23 +64,43 @@ public class DefaultApp extends DialogflowApp {
 
         if (symptom == null || symptom.length() <= 0) {
             rb.add("화면이 어떻게 이상한가요?");
-            suggestions.add("화면이 깜박여요");
+            suggestions.add("화면이 깜빡여요");
             suggestions.add("화면이 안나와요");
+
         } else {
             //check status로 유도
             if (symptom.equalsIgnoreCase("sym1")) {
+
                 rb.add("TV 케이블 연결은 어떻게 되어 있나요?");
 
-                BasicCard basicCard = new BasicCard()
-                        .setTitle("HDMI로 연결")
-                        .setFormattedText("HDMI 케이블");
+                CarouselSelectCarouselItem item1, item2;
 
-                basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/cable_hdmi.jpg").setAccessibilityText("hdmi케이블이미지"));
-                rb.add(basicCard);
+                List<String> synonyms1 = new ArrayList<String>();
+                synonyms1.add("컴포넌트");
 
-                suggestions.add("HDMI로 연결");
-                suggestions.add("컴포넌트로 연결");
+                item1 = new CarouselSelectCarouselItem().setTitle("컴포넌트").setDescription("컴포넌트 케이블")
+                        .setOptionInfo(new OptionInfo().setKey("컴포넌트").setSynonyms(synonyms1));
+                item1.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/cablecomponent.jpg").setAccessibilityText("컴포넌트케이블이미지"));
+                items.add(item1);
+
+
+                List<String> synonyms2 = new ArrayList<String>();
+                synonyms2.add("HDMI");
+
+                item2 = new CarouselSelectCarouselItem().setTitle("HDMI").setDescription("HDMI 케이블")
+                        .setOptionInfo(new OptionInfo().setKey("HDMI").setSynonyms(synonyms2));
+
+                item2.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/cablehdmi.jpg").setAccessibilityText("hdmi케이블이미지"));
+
+                items.add(item2);
+
+                rb.add(new SelectionCarousel().setItems(items));
+
+                suggestions.add("컴포넌트");
+                suggestions.add("HDMI");
+
             }
+
             if (symptom.equalsIgnoreCase("sym2")) {
 
             }
@@ -168,21 +121,49 @@ public class DefaultApp extends DialogflowApp {
 
         String symptom = null;
         Object oSymptom = (Object) SymptomParas.get("symptom");
-        String connectionType = null;
         Object oConnectionType = (Object) request.getParameter("connectionType");
 
+
+        String connectionType = null;
+        connectionType = request.getSelectedOption();
+
         System.out.println(oSymptom);
-        System.out.println(oConnectionType);
+        System.out.println(connectionType );
 
         if (oSymptom != null && oSymptom instanceof String) {
             symptom = (String) oSymptom;
         }
-        if (oConnectionType != null && oConnectionType instanceof String) {
-            connectionType = (String) oSymptom;
+
+        if (connectionType == null) {
+            if (oConnectionType != null && oConnectionType instanceof String) {
+                connectionType = (String) oConnectionType;
+            }
         }
 
         //resolution으로 유도
-        rb.add("알겠습니다. 다음과 같이 시도해 보세요. 케이블 연결을 다시 한번 확인해 보시겠습니까?");
+
+        BasicCard basicCard = new BasicCard();
+
+
+       SimpleResponse simpleResponse = new SimpleResponse();
+
+        //
+        if(connectionType.contains("컴포넌트")){
+            simpleResponse.setTextToSpeech("<speak>알겠습니다. 다음과 같이 컴포넌트 케이블 연결을 다시 한번 확인해 보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/componentcheck.mp3'></audio></speak>");
+            basicCard.setTitle("컴포넌트 연결확인 방법")
+                    .setFormattedText("컴포넌트 연결확인 방법입니다.");
+            basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/componentcheck.gif").setAccessibilityText("컴포넌트연결확인방법 이미지"));
+
+        }else if(connectionType.contains("HDMI")){
+            simpleResponse.setTextToSpeech("<speak> 알겠습니다. 다음과 같이 HDMI 케이블 연결을 다시 한번 확인해 보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/hdmicheck.mp3'></audio></speak>");
+            basicCard.setTitle("HDMI 연결확인 방법")
+                    .setFormattedText("HDMI 연결확인 방법입니다.");
+            basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/hdmicheck.gif").setAccessibilityText("HDMI연결확인방법 이미지"));
+        }
+
+        rb.add(simpleResponse);
+        rb.add(basicCard);
+
         suggestions.add("잘되요");
         suggestions.add("여전히 이상해요");
 
@@ -228,20 +209,40 @@ public class DefaultApp extends DialogflowApp {
             solution = Integer.parseInt((String) oSolution);
         }
 
+        BasicCard basicCard = new BasicCard();
+        SimpleResponse simpleResponse = new SimpleResponse();
+
         if (solution == 1) {
             data.put("solution", "2");
-            rb.add("알겠습니다. TV 전원을 다시 한번 껏다 켜보시겠어요?");
+            simpleResponse.setTextToSpeech("알겠습니다. 다음과 같이 TV 전원을 다시 껏다 켜보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/suggesttvonoff.mp3'></audio></speak>");
+
+            basicCard.setTitle("TV 전원껏다켜는 방법")
+                    .setFormattedText("TV 전원을 다시 껏다 켜는 방법입니다.");
+            basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/suggesttvonoff.gif").setAccessibilityText("TV 전원껏다켜는 방법 이미지"));
+
             suggestions.add("잘되요");
-            suggestions.add("여전히 이상해요");
+            suggestions.add("다시 연결했는데도 이상해요");
+
+            rb.add(basicCard);
+
         } else if (solution == 2) {
             data.put("solution", "3");
-            rb.add("알겠습니다. RF 케이블 연결 상태를 확인해 주시겠어요?");
+            simpleResponse.setTextToSpeech("알겠습니다. RF 케이블 연결을 다시 한번 확인해 보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/suggestrfcable.mp3'></audio></speak>");
+
+            basicCard.setTitle(" RF 케이블 연결 확인하는 방법")
+                    .setFormattedText("RF 케이블 연결 확인하는 방법입니다.");
+            basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/suggestrfcable.gif").setAccessibilityText("RF 케이블 연결 확인하는 방법 이미지"));
+
             suggestions.add("잘되요");
             suggestions.add("여전히 이상해요");
+
+            rb.add(basicCard);
             
         } else {
             data.put("solution", "-1");
-            rb.add(new Confirmation().setConfirmationText("원격진단 이나 콜센터 연결 방법을 알려 드릴까요?"));
+            rb.add("원격진단 이나 콜센터 연결 방법을 알려 드릴까요?");
+            suggestions.add("원격진단 방법");
+            suggestions.add("콜센터 연결방법");
         }
         //resolution으로 유도
         rb.addSuggestions(suggestions.toArray(new String[suggestions.size()]));
@@ -249,24 +250,65 @@ public class DefaultApp extends DialogflowApp {
         return rb.build();
     }
 
-    @ForIntent("support-resolution.notwork-call.confirm")
-    public ActionResponse processResolutionNotworkCallConfirm(ActionRequest request) throws ExecutionException, InterruptedException {
+    @ForIntent("support-ascontrol")
+    public ActionResponse processSupportAscontrol(ActionRequest request) throws ExecutionException, InterruptedException {
         ResponseBuilder rb = getResponseBuilder(request);
         List<String> suggestions = new ArrayList<String>();
 
         boolean userConfirmation = request.getUserConfirmation();
 
-        if (userConfirmation) {
-            rb.add(new ActionContext("support-ascontrol-followup", 5));
-            rb.add(new Confirmation().setConfirmationText("콜센터는 1588-0032 로 전화해 주시면 됩니다." +
-                    "원격진단은 전화전에 스마트카드 번호를 확인해 주세요." +
-                    "스마트카드 확인 방법을 알려 드릴까요?"));
+        BasicCard basicCard = new BasicCard();
+        SimpleResponse simpleResponse = new SimpleResponse();
 
-            rb.addSuggestions(suggestions.toArray(new String[suggestions.size()]));
+        String cfinal = null;
 
-        } else {
-            rb.add("도움이 못되어서 죄송합니다. 다음에 다시 만나요.");
+        Object oFinal = (Object) request.getParameter("Ent_final");
+        if (oFinal != null && oFinal instanceof String) {
+            cfinal = (String) oFinal;
         }
+
+        if (cfinal == null || cfinal.length() <= 0) {
+            rb.add("콜센터 연결 방법 중 무엇을 도와드릴까요? ");
+
+            suggestions.add("홈으로 돌아가기");
+            suggestions.add("원격진단 방법");
+            suggestions.add("콜센터 연결방법");
+            suggestions.add("스마트카드번호 확인방법");
+
+        }else {
+            //check status로 유도
+            if (cfinal.equalsIgnoreCase("ascontrol")) {
+                simpleResponse.setTextToSpeech("<speak>네 원격진단 연결하는 방법을 설명해 드릴게요.  <audio src = 'https://actions.o2o.kr/content/servicecenter/ascontrol.mp3'></audio></speak>");
+                basicCard.setTitle("원격진단 방법")
+                        .setFormattedText("원격으로 진단하는 방법입니다.");
+                basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/ascontrol.gif").setAccessibilityText("원격진단 방법 이미지"));
+
+                suggestions.add("홈으로 돌아가기");
+                suggestions.add("콜센터 연결방법");
+                suggestions.add("스마트카드번호 확인방법");
+
+            }else if(cfinal.equalsIgnoreCase("callcenter")){
+                simpleResponse.setTextToSpeech("<speak>네 콜센터 연결하는 방법을 설명해 드릴게요. <audio src = 'https://actions.o2o.kr/content/servicecenter/callcenter.mp3'></audio></speak>");
+                basicCard.setTitle("콜센터 연결방법")
+                        .setFormattedText("콜센터 연결하는 방법입니다.");
+                basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/callcenter.gif").setAccessibilityText("콜센터 연결방법 이미지"));
+                suggestions.add("홈으로 돌아가기");
+                suggestions.add("원격진단 방법");
+
+            }else if(cfinal.equalsIgnoreCase("smartcardno")){
+                simpleResponse.setTextToSpeech("<speak>네 스마트카드번호를 확인하는 방법을 설명해 드릴게요. <audio src = 'https://actions.o2o.kr/content/servicecenter/smartcard.mp3'></audio></speak>");
+                basicCard.setTitle("스마트카드번호 확인방법")
+                        .setFormattedText("스마트카드번호 확인하는 방법입니다.");
+                basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/smartcard.gif").setAccessibilityText("스마트카드번호 확인방법 이미지"));
+                suggestions.add("홈으로 돌아가기");
+                suggestions.add("원격진단 방법");
+            }
+            rb.add(simpleResponse);
+            rb.add(basicCard);
+        }
+
+        rb.addSuggestions(suggestions.toArray(new String[suggestions.size()]));
+
         return rb.build();
     }
 }
