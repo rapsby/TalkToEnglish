@@ -9,6 +9,23 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
+/*
+@Configuration
+public class DBConfiguration {
+    @Bean
+    @Primary
+    @ConfigurationProperties("spring.datasource.no1")
+    public DataSourceProperties dataSourceno1Prop() {
+        return new DataSourceProperties();
+    }
+
+    @ConfigurationProperties(prefix = "spring.datasource.no1.configuration")
+    @Bean
+    @Primary
+    public DataSource dataSourceNo1(){
+        return dataSourceno1Prop().initializeDataSourceBuilder().build();
+    }
+}*/
 
 @Configuration
 public class DBConfiguration {

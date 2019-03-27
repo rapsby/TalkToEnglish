@@ -158,6 +158,7 @@ public class DefaultController {
     public @ResponseBody
     String processTest1(@RequestBody String body, HttpServletRequest request,
                         HttpServletResponse response) {
+
         defaultApp.setCategoryRepository(categoryRepository);
         defaultApp.setChannelRepository(channelRepository);
         defaultApp.setScheduleRepository(scheduleRepository);

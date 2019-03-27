@@ -214,7 +214,8 @@ public class DefaultApp extends DialogflowApp {
 
         if (solution == 1) {
             data.put("solution", "2");
-            simpleResponse.setTextToSpeech("알겠습니다. 다음과 같이 TV 전원을 다시 껏다 켜보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/suggesttvonoff.mp3'></audio></speak>");
+
+            simpleResponse.setTextToSpeech("<speak>알겠습니다. 다음과 같이 TV 전원을 다시 껏다 켜보시겠습니까? <audio src ='https://actions.o2o.kr/content/servicecenter/suggesttvonoff.mp3'></audio></speak>");
 
             basicCard.setTitle("TV 전원껏다켜는 방법")
                     .setFormattedText("TV 전원을 다시 껏다 켜는 방법입니다.");
@@ -223,11 +224,12 @@ public class DefaultApp extends DialogflowApp {
             suggestions.add("잘되요");
             suggestions.add("다시 연결했는데도 이상해요");
 
+            rb.add(simpleResponse);
             rb.add(basicCard);
 
         } else if (solution == 2) {
             data.put("solution", "3");
-            simpleResponse.setTextToSpeech("알겠습니다. RF 케이블 연결을 다시 한번 확인해 보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/suggestrfcable.mp3'></audio></speak>");
+            simpleResponse.setTextToSpeech("<speak>알겠습니다. RF 케이블 연결을 다시 한번 확인해 보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/suggestrfcable.mp3'></audio></speak>");
 
             basicCard.setTitle(" RF 케이블 연결 확인하는 방법")
                     .setFormattedText("RF 케이블 연결 확인하는 방법입니다.");
@@ -238,7 +240,7 @@ public class DefaultApp extends DialogflowApp {
 
             rb.add(simpleResponse);
             rb.add(basicCard);
-            
+
         } else {
             data.put("solution", "-1");
             rb.add("원격진단 이나 콜센터 연결 방법을 알려 드릴까요?");
@@ -246,6 +248,8 @@ public class DefaultApp extends DialogflowApp {
             suggestions.add("콜센터 연결방법");
         }
         //resolution으로 유도
+
+
         rb.addSuggestions(suggestions.toArray(new String[suggestions.size()]));
 
         return rb.build();
