@@ -63,9 +63,18 @@ public class DefaultApp extends DialogflowApp {
         }
 
         if (symptom == null || symptom.length() <= 0) {
+
             rb.add("화면이 어떻게 이상한가요?");
             suggestions.add("화면이 깜빡여요");
             suggestions.add("화면이 안나와요");
+
+            BasicCard basicCard = new BasicCard();
+
+            basicCard.setTitle("Skylife 서비스센터 AI 상담원")
+                    .setFormattedText("화면이 어떻게 이상하신지 말씀해주세요.");
+            basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/skylifeaiperson.gif").setAccessibilityText("Skylife 서비스센터 AI 상담원 이미지"));
+
+            rb.add(basicCard);
 
         } else {
             //check status로 유도
@@ -164,7 +173,7 @@ public class DefaultApp extends DialogflowApp {
         rb.add(simpleResponse);
         rb.add(basicCard);
 
-        suggestions.add("잘되요");
+        suggestions.add("잘돼요");
         suggestions.add("여전히 이상해요");
 
         Map<String, Object> data = rb.getConversationData();
@@ -223,10 +232,8 @@ public class DefaultApp extends DialogflowApp {
 
             suggestions.add("잘되요");
             suggestions.add("다시 연결했는데도 이상해요");
-
             rb.add(simpleResponse);
             rb.add(basicCard);
-
         } else if (solution == 2) {
             data.put("solution", "3");
             simpleResponse.setTextToSpeech("<speak>알겠습니다. RF 케이블 연결을 다시 한번 확인해 보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/suggestrfcable.mp3'></audio></speak>");
@@ -235,17 +242,23 @@ public class DefaultApp extends DialogflowApp {
                     .setFormattedText("RF 케이블 연결 확인하는 방법입니다.");
             basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/suggestrfcable.gif").setAccessibilityText("RF 케이블 연결 확인하는 방법 이미지"));
 
-            suggestions.add("잘되요");
+            suggestions.add("잘돼요");
             suggestions.add("여전히 이상해요");
-
             rb.add(simpleResponse);
             rb.add(basicCard);
-
         } else {
             data.put("solution", "-1");
             rb.add("원격진단 이나 콜센터 연결 방법을 알려 드릴까요?");
+
+            basicCard.setTitle("Skylife 서비스센터 AI 상담원")
+                    .setFormattedText("화면이 어떻게 이상하신지 말씀해주세요.");
+            basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/skylifeaiperson.gif").setAccessibilityText("Skylife 서비스센터 AI 상담원 이미지"));
+
+            rb.add(basicCard);
             suggestions.add("원격진단 방법");
             suggestions.add("콜센터 연결방법");
+
+            rb.add(basicCard);
         }
         //resolution으로 유도
 
@@ -275,6 +288,11 @@ public class DefaultApp extends DialogflowApp {
         if (cfinal == null || cfinal.length() <= 0) {
             rb.add("콜센터 연결 방법 중 무엇을 도와드릴까요? ");
 
+            basicCard.setTitle("Skylife 서비스센터 AI 상담원")
+                    .setFormattedText("원하시는 콜센터 연결 방법을 선택해 주세요.");
+            basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/skylifeaiperson.gif").setAccessibilityText("Skylife 서비스센터 AI 상담원 이미지"));
+
+            rb.add(basicCard);
             suggestions.add("홈으로 돌아가기");
             suggestions.add("원격진단 방법");
             suggestions.add("콜센터 연결방법");
