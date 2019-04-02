@@ -7,7 +7,6 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.o2o.action.server.app.DefaultApp;
 import com.o2o.action.server.app.GogumaApp;
-import com.o2o.action.server.app.ShoppingApp;
 import com.o2o.action.server.db.Category;
 import com.o2o.action.server.repo.CategoryRepository;
 import com.o2o.action.server.repo.ChannelRepository;
@@ -34,10 +33,6 @@ public class DefaultController {
 
     private final GogumaApp gogumaApp;
 
-    private final ShoppingApp shoppingApp;
-    
- 
-
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -48,7 +43,6 @@ public class DefaultController {
     public DefaultController() {
         defaultApp = new DefaultApp();
         gogumaApp = new GogumaApp();
-        shoppingApp = new ShoppingApp();
     }
 
     @RequestMapping(value = "/api/1.0/login", method = RequestMethod.POST)
@@ -143,9 +137,6 @@ public class DefaultController {
     public @ResponseBody
     String processActions(@RequestBody String body, HttpServletRequest request,
                           HttpServletResponse response) {
-        defaultApp.setCategoryRepository(categoryRepository);
-        defaultApp.setChannelRepository(channelRepository);
-        defaultApp.setScheduleRepository(scheduleRepository);
         String jsonResponse = null;
         try {
             System.out.println("request : " + body + "," + categoryRepository);
@@ -160,35 +151,10 @@ public class DefaultController {
         return jsonResponse;
     }
 
-    @RequestMapping(value = "/shopping", method = RequestMethod.POST)
-    public @ResponseBody
-    String shoppingActions(@RequestBody String body, HttpServletRequest request,
-                          HttpServletResponse response) {
-        shoppingApp.setCategoryRepository(categoryRepository);
-        shoppingApp.setChannelRepository(channelRepository);
-        shoppingApp.setScheduleRepository(scheduleRepository);
-        String jsonResponse = null;
-        try {
-            System.out.println("request : " + body + "," + categoryRepository);
-            jsonResponse = shoppingApp.handleRequest(body, getHeadersMap(request)).get();
-            System.out.println("response : " + jsonResponse);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        return jsonResponse;
-    }
-
     @RequestMapping(value = "/test1", method = RequestMethod.POST)
     public @ResponseBody
     String processTest1(@RequestBody String body, HttpServletRequest request,
                         HttpServletResponse response) {
-
-        defaultApp.setCategoryRepository(categoryRepository);
-        defaultApp.setChannelRepository(channelRepository);
-        defaultApp.setScheduleRepository(scheduleRepository);
         String jsonResponse = null;
         try {
             System.out.println("request : " + body + "," + categoryRepository);
@@ -202,8 +168,6 @@ public class DefaultController {
 
         return jsonResponse;
     }
-    
-    
 
     private Map<String, String> getHeadersMap(HttpServletRequest request) {
         Map<String, String> map = new HashMap<String, String>();
