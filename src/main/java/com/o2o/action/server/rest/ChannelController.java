@@ -53,7 +53,9 @@ public class ChannelController {
 	public @ResponseBody List<Channel> getChannel() {
 		List<Channel> channels = Lists.newArrayList(channelRepository.findAll());
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmm");
-		String tmpStr = formatter.format(new Date()) + "00";
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.HOUR, 9);
+		String tmpStr = formatter.format(c.getTime()) + "00";
 
 		long curTime = Long.parseLong(tmpStr);
 
@@ -96,7 +98,9 @@ public class ChannelController {
 		List<Channel> channels = Lists.newArrayList(channelRepository.findAll());
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmm");
-		String tmpStr = formatter.format(new Date()) + "00";
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.HOUR, 9);
+		String tmpStr = formatter.format(c.getTime()) + "00";
 
 		long curTime = Long.parseLong(tmpStr);
 
