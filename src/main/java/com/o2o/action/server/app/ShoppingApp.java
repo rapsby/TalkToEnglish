@@ -308,7 +308,6 @@ public class ShoppingApp extends DialogflowApp {
         Category root = null;
         List<Category> roots = categoryRepository.findByKeycodeOrderByDispOrderAsc(keycord);
 
-
         if (roots != null && roots.size() > 0) {
             root = roots.get(0);
             System.out.println(root.getId() + "," + root.getKeycode());
