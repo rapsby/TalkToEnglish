@@ -59,6 +59,7 @@ public class DefaultApp extends DialogflowApp {
 
 		} else {
 			Map<String, Object> data = rb.getConversationData();
+			data.clear();
 			data.put("symptom", symptom);
 
 			// check status로 유도
@@ -127,48 +128,11 @@ public class DefaultApp extends DialogflowApp {
 			}
 		}
 		data.put("connectionType", connectionType);
-		data.put("solution", "1");
 
 		System.out.println(symptom);
 		System.out.println(connectionType);
 
-		return genCheckStatus(rb, symptom, connectionType);
-	}
-
-	public ActionResponse genCheckStatus(ResponseBuilder rb, String symptom, String connectionType) {
-		List<String> suggestions = new ArrayList<String>();
-
-		// resolution으로 유도
-
-		BasicCard basicCard = new BasicCard();
-
-		SimpleResponse simpleResponse = new SimpleResponse();
-
-		//
-		if (connectionType.equalsIgnoreCase("con2")) {
-			simpleResponse.setTextToSpeech(
-					"<speak>알겠습니다. 다음과 같이 컴포넌트 케이블 연결을 다시 한번 확인해 보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/componentcheck.mp3'></audio></speak>");
-			basicCard.setTitle("컴포넌트 연결확인 방법").setFormattedText("컴포넌트 연결확인 방법입니다.");
-			basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/componentcheck.gif")
-					.setAccessibilityText("컴포넌트연결확인방법 이미지"));
-
-		} else { // if (connectionType.equalsIgnoreCase("con1")
-			simpleResponse.setTextToSpeech(
-					"<speak> 알겠습니다. 다음과 같이 HDMI 케이블 연결을 다시 한번 확인해 보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/hdmicheck.mp3'></audio></speak>");
-			basicCard.setTitle("HDMI 연결확인 방법").setFormattedText("HDMI 연결확인 방법입니다.");
-			basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/hdmicheck.gif")
-					.setAccessibilityText("HDMI연결확인방법 이미지"));
-		}
-
-		rb.add(simpleResponse);
-		rb.add(basicCard);
-
-		suggestions.add("잘돼요");
-		suggestions.add("여전히 이상해요");
-
-		rb.addSuggestions(suggestions.toArray(new String[suggestions.size()]));
-
-		return rb.build();
+		return genResolutionNotwork(rb, symptom, connectionType, 1);
 	}
 
 	@ForIntent("support-resolution.notwork")
@@ -193,11 +157,13 @@ public class DefaultApp extends DialogflowApp {
 		}
 		if (oSolution != null && oSolution instanceof String) {
 			solution = Integer.parseInt((String) oSolution);
+			solution++;
 		}
+
 		System.out.println(symptom);
 		System.out.println(connectionType);
 		System.out.println(solution);
-
+		
 		return genResolutionNotwork(rb, symptom, connectionType, solution);
 	}
 
@@ -208,9 +174,27 @@ public class DefaultApp extends DialogflowApp {
 		SimpleResponse simpleResponse = new SimpleResponse();
 		Map<String, Object> data = rb.getConversationData();
 
+		data.put("solution", Integer.toString(solution));
 		if (solution == 1) {
-			data.put("solution", "2");
+			if (connectionType.equalsIgnoreCase("con2")) {
+				simpleResponse.setTextToSpeech(
+						"<speak>알겠습니다. 다음과 같이 컴포넌트 케이블 연결을 다시 한번 확인해 보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/componentcheck.mp3'></audio></speak>");
+				basicCard.setTitle("컴포넌트 연결확인 방법").setFormattedText("컴포넌트 연결확인 방법입니다.");
+				basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/componentcheck.gif")
+						.setAccessibilityText("컴포넌트연결확인방법 이미지"));
 
+			} else { // if (connectionType.equalsIgnoreCase("con1")
+				simpleResponse.setTextToSpeech(
+						"<speak> 알겠습니다. 다음과 같이 HDMI 케이블 연결을 다시 한번 확인해 보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/hdmicheck.mp3'></audio></speak>");
+				basicCard.setTitle("HDMI 연결확인 방법").setFormattedText("HDMI 연결확인 방법입니다.");
+				basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/hdmicheck.gif")
+						.setAccessibilityText("HDMI연결확인방법 이미지"));
+			}
+			suggestions.add("잘돼요");
+			suggestions.add("여전히 이상해요");
+			rb.add(simpleResponse);
+			rb.add(basicCard);
+		} else if (solution == 2) {
 			simpleResponse.setTextToSpeech(
 					"<speak>알겠습니다. 다음과 같이 TV 전원을 다시 껏다 켜보시겠습니까? <audio src ='https://actions.o2o.kr/content/servicecenter/suggesttvonoff.mp3'></audio></speak>");
 
@@ -218,12 +202,11 @@ public class DefaultApp extends DialogflowApp {
 			basicCard.setImage(new Image().setUrl("https://actions.o2o.kr/content/servicecenter/suggesttvonoff.gif")
 					.setAccessibilityText("TV 전원껏다켜는 방법 이미지"));
 
-			suggestions.add("잘되요");
+			suggestions.add("잘돼요");
 			suggestions.add("다시 연결했는데도 이상해요");
 			rb.add(simpleResponse);
 			rb.add(basicCard);
-		} else if (solution == 2) {
-			data.put("solution", "3");
+		} else if (solution == 3) {
 			simpleResponse.setTextToSpeech(
 					"<speak>알겠습니다. RF 케이블 연결을 다시 한번 확인해 보시겠습니까? <audio src = 'https://actions.o2o.kr/content/servicecenter/suggestrfcable.mp3'></audio></speak>");
 
@@ -352,16 +335,11 @@ public class DefaultApp extends DialogflowApp {
 		System.out.println(connectionType);
 		System.out.println(solution);
 
-		Map<String, Object> storage = request.getUserStorage();
-		storage.put("sym", symptom);
-		storage.put("con", connectionType);
-		storage.put("sol", solution);
-		System.out.println("solution");
-
 		String encodedUrl = null;
 		try {
 			encodedUrl = URLEncoder.encode(
-					"https://assistant.google.com/services/invoke/uid/000000ed4bb85dee?intent=support-resume",
+					"https://assistant.google.com/services/invoke/uid/000000ed4bb85dee?intent=support-resume&param.pa1="
+							+ symptom + "&param.pa2=" + connectionType + "&param.pa3=" + solution,
 					StandardCharsets.UTF_8.toString());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -382,20 +360,24 @@ public class DefaultApp extends DialogflowApp {
 	@ForIntent("support-resume")
 	public ActionResponse processResume(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder rb = getResponseBuilder(request);
-		Map<String, Object> storage = request.getUserStorage();
 
 		String symptom = null;
-		Object oSymptom = (Object) storage.get("sym");
+		Object oSymptom = (Object) request.getParameter("pa1");
 		String connectionType = null;
-		Object oConnectionType = (Object) storage.get("con");
+		Object oConnectionType = (Object) request.getParameter("pa2");
 		int solution = 0;
-		Object oSolution = storage.get("sol");
+		Object oSolution = request.getParameter("pa3");
 
 		if (oSymptom != null && oSymptom instanceof String) {
 			symptom = (String) oSymptom;
+			if (symptom.equalsIgnoreCase("null")) {
+				symptom = null;
+			}
 		}
 		if (oConnectionType != null && oConnectionType instanceof String) {
 			connectionType = (String) oConnectionType;
+			if (connectionType.equalsIgnoreCase("null"))
+				connectionType = null;
 		}
 		if (oSolution != null && oSolution instanceof String) {
 			try {
@@ -408,12 +390,12 @@ public class DefaultApp extends DialogflowApp {
 		System.out.println(symptom);
 		System.out.println(connectionType);
 		System.out.println(solution);
-		
+
 		//
-		
+
 		ActionContext context = new ActionContext("support-find-symptom", 10);
 		rb.add(context);
-		
+
 		Map<String, Object> data = rb.getConversationData();
 
 		data.put("symptom", symptom);
@@ -423,14 +405,14 @@ public class DefaultApp extends DialogflowApp {
 		if (solution != 0) {
 			genResolutionNotwork(rb, symptom, connectionType, solution);
 		} else if (connectionType != null && connectionType.length() > 0) {
-			genCheckStatus(rb, symptom, connectionType);
+			genResolutionNotwork(rb, symptom, connectionType, 1);
 		} else if (symptom != null && symptom.length() > 0) {
 			genFindSymptom(rb, symptom);
 		} else {
 			genFindSymptom(rb, symptom);
 		}
 
-		//rb.add("계속 하기 위해 노력 중입니다.");
+		// rb.add("계속 하기 위해 노력 중입니다.");
 		return rb.build();
 	}
 }

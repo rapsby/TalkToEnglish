@@ -211,7 +211,7 @@ public class GogumaApp extends DialogflowApp {
 		String encodedUrl = null;
 		try {
 			encodedUrl = URLEncoder.encode(
-					"https://assistant.google.com/services/invoke/uid/0000007ec4fe9129?intent=resume.link",
+					"https://assistant.google.com/services/invoke/uid/0000007ec4fe9129?intent=resume.link&param.pa1=good&param.pa2=bad",
 					StandardCharsets.UTF_8.toString());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
