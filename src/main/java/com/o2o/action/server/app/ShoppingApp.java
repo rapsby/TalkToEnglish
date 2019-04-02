@@ -312,7 +312,7 @@ public class ShoppingApp extends DialogflowApp {
             root = roots.get(0);
             System.out.println(root.getId() + "," + root.getKeycode());
         }
-
+        
         if (root != null) {
             if (root.getCatType().equals(Category.Type.ITEM)) {
                 processRootCategory(responseBuilder, suggestions, root);
