@@ -137,9 +137,6 @@ public class DefaultController {
     public @ResponseBody
     String processActions(@RequestBody String body, HttpServletRequest request,
                           HttpServletResponse response) {
-        defaultApp.setCategoryRepository(categoryRepository);
-        defaultApp.setChannelRepository(channelRepository);
-        defaultApp.setScheduleRepository(scheduleRepository);
         String jsonResponse = null;
         try {
             System.out.println("request : " + body + "," + categoryRepository);
@@ -158,10 +155,6 @@ public class DefaultController {
     public @ResponseBody
     String processTest1(@RequestBody String body, HttpServletRequest request,
                         HttpServletResponse response) {
-
-        defaultApp.setCategoryRepository(categoryRepository);
-        defaultApp.setChannelRepository(channelRepository);
-        defaultApp.setScheduleRepository(scheduleRepository);
         String jsonResponse = null;
         try {
             System.out.println("request : " + body + "," + categoryRepository);
