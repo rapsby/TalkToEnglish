@@ -299,6 +299,7 @@ public class ShoppingApp extends DialogflowApp {
         return responseBuilder.build();
     }
 
+    
     private ActionResponse processMidCategory(ActionRequest request, String keycord) {
         ResponseBuilder responseBuilder = getResponseBuilder(request);
         List<String> suggestions = new ArrayList<String>();
