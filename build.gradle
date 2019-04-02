@@ -77,6 +77,7 @@ task('deploy') {
 				//execute ("mkdir /opt/tomcat/webapps/chef")
 				execute ("sudo chown tomcat ${filename}")
 				//execute ("sudo mv ${filename} /opt/tomcat_dev/webapps/no1.war")
+                //execute ("sudo mv ${filename} /opt/tomcat/webapps/skylife.war")
                 execute ("sudo mv ${filename} /opt/tomcat/webapps/skylife.war")
 				//execute ("sudo service tomcat start")
 				//execute ("cd \$HOME; /usr/bin/pkill -f 'java -jar ${filename}'", ignoreError: true)

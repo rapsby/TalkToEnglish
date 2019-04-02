@@ -14,6 +14,24 @@ import javax.sql.DataSource;
 public class DBConfiguration {
     @Bean
     @Primary
+    @ConfigurationProperties("spring.datasource.cym")
+    public DataSourceProperties dataSourcecymProp() {
+        return new DataSourceProperties();
+    }
+
+    @ConfigurationProperties(prefix = "spring.datasource.cym.configuration")
+    @Bean
+    @Primary
+    public DataSource dataSourceCym(){
+        return dataSourcecymProp().initializeDataSourceBuilder().build();
+    }
+}
+*/
+/*
+@Configuration
+public class DBConfiguration {
+    @Bean
+    @Primary
     @ConfigurationProperties("spring.datasource.no1")
     public DataSourceProperties dataSourceno1Prop() {
         return new DataSourceProperties();
