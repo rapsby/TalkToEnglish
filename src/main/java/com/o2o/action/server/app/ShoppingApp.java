@@ -284,9 +284,6 @@ public class ShoppingApp extends DialogflowApp {
         return processMidCategory(request, "shop.xiaomi");
     }
 
-    
-    
-
     private ActionResponse processMidCategory(ActionRequest request, List<String> keycords) {
         ResponseBuilder responseBuilder = getResponseBuilder(request);
         List<String> suggestions = new ArrayList<String>();
