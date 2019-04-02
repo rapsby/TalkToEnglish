@@ -322,7 +322,6 @@ public class ShoppingApp extends DialogflowApp {
         } else
             processError(responseBuilder, suggestions, "정보를 읽어올 수 없습니다.");
 
-
         return responseBuilder.build();
     }
     
