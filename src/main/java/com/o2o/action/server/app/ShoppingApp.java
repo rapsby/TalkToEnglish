@@ -136,6 +136,7 @@ public class ShoppingApp extends DialogflowApp {
             }
         }
 
+
         System.out.println("selectedItem : " + parentId);
 
         return responseBuilder.build();
