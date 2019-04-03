@@ -303,7 +303,7 @@ public class ShoppingApp extends DialogflowApp {
 		if (category != null && category.getDetail() != null && category.getDetail().getLinkURL() != null) {
 			String encodedUrl = null;
 			try {
-				encodedUrl = URLEncoder.encode("https://actions.o2o.kr/csnopy/product?id=" + category.getId(),
+				encodedUrl = URLEncoder.encode("https://actions.o2o.kr/skylife/product?id=" + category.getId(),
 						StandardCharsets.UTF_8.toString()); // category.getDetail().getLinkURL(),
 															// StandardCharsets.UTF_8.toString()
 			} catch (UnsupportedEncodingException e) {
