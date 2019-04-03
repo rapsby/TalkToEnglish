@@ -20,4 +20,9 @@ public class MainController {
     public String channel(Model model) {
         return "channel";
     }
+    
+    @GetMapping("/product")
+    public String product(Model model) {
+        return "product";
+    }
 }
