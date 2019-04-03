@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="contextRoot" data-th-attr="content=${#request.contextPath}">
     <meta name="userId" data-th-attr="content=${session.userId}">
+    <meta name="productId" data-th-attr="content=${productId}">
+    <title>Sky 쇼핑몰 상품 구매</title>
 
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/flatpickr.min.css}">
@@ -12,10 +14,7 @@
     <script th:src="@{/js/popper.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/js/moment-with-locales.min.js}"></script>
-    <script th:src="@{/js/flatpickr.js}"></script>
-    <script th:src="@{/js/feather.min.js}"></script>
-    <script th:src="@{/js-o2o/main.js}"></script>
+    <script th:src="@{/js-o2o/product.js}"></script>
     <style>
         body {
             padding-top: 56px;
@@ -94,7 +93,7 @@
 <body class="w-100 h-100">
 <div class="d-flex w-100 h-100 mx-auto flex-column">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" th:href="@{/}">Skylife</a>
+        <a class="navbar-brand" th:href="@{/}">Sky 쇼핑몰</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
                 aria-controls="navbarsExampleDefault"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -123,10 +122,19 @@
     </nav>
     <div class="container-fluid">
         <div class="row">
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-					상품 정보
-                </div>
+            <main role="main" class="col-md-12 ml-sm-auto col-lg-12 pt-3 px-4">
+				<div class="card mb-4 shadow-sm">
+			      <div class="card-header">
+			        <h4 class="my-0 font-weight-normal" id="product_main_title"></h4>
+			      </div>
+			      <div class="card-body">
+					<img src="" id="product_main_image"/>
+			        <h1 class="card-title pricing-card-title"><span id="product_main_cost"></span> <small class="text-muted">vat포함</small></h1>
+			        <div id="product_main_description">
+			        </div>
+			        <button type="button" class="btn btn-lg btn-block btn-primary">구매</button>
+			      </div>
+			    </div>
             </main>
         </div>
     </div>

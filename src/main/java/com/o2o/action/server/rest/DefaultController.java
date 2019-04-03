@@ -88,6 +88,17 @@ public class DefaultController {
 	}
 
 	@Transactional
+	@RequestMapping(value = "/api/1.0/category", method = RequestMethod.GET)
+	public @ResponseBody Category getCategory(@RequestParam(value = "id", required = false) Long id) {
+		if (id != null) {
+			Category category = categoryRepository.findById(id).get();
+			return category;
+		}
+
+		return null;
+	}
+
+	@Transactional
 	@RequestMapping(value = "/api/1.0/category/child", method = RequestMethod.GET)
 	public @ResponseBody List<Category> getCategory(@RequestParam(value = "parentId", required = false) Long id,
 			@RequestParam(value = "keycode", required = false) String keycode) {
