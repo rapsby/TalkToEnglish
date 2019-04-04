@@ -24,14 +24,11 @@ public class AdminFilter implements Filter {
 
         if (checkAuth) {
             if (!req.getServletPath().equalsIgnoreCase("/login")) {
-
-
                 HttpSession httpSession = req.getSession();
                 if (httpSession == null) {
                     resp.sendRedirect(req.getContextPath() + "/login");
                     return;
                 }
-
                 String userId = (String) httpSession.getAttribute("userId");
                 if (userId == null || userId.length() <= 0) {
                     resp.sendRedirect(req.getContextPath() + "/login");
