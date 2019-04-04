@@ -147,7 +147,23 @@ public class DefaultController {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        return jsonResponse;
+    }
 
+    @RequestMapping(value = "/no1", method = RequestMethod.POST)
+    public @ResponseBody
+    String processNo1(@RequestBody String body, HttpServletRequest request,
+                          HttpServletResponse response) {
+        String jsonResponse = null;
+        try {
+            System.out.println("request : " + body + "," + categoryRepository);
+            jsonResponse = defaultApp.handleRequest(body, getHeadersMap(request)).get();
+            System.out.println("response : " + jsonResponse);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         return jsonResponse;
     }
 
