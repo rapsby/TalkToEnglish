@@ -62,7 +62,7 @@ remotes {
   }
 }
 
-task('deploy') {
+task('deployDev') {
 	dependsOn 'bootWar'
 	group = 'application'
 
@@ -71,18 +71,27 @@ task('deploy') {
 		String filename = bootWar.archiveFileName.get();
 		ssh.run {
 			session(remotes.webServer) {
-				//execute ("sudo service tomcat stop")
-				//execute ("rm -rf /opt/tomcat/webapps/chef)
 				put from: "${path}/${filename}", into: './'
-				//execute ("mkdir /opt/tomcat/webapps/chef")
 				execute ("sudo chown tomcat ${filename}")
-				//execute ("sudo mv ${filename} /opt/tomcat_dev/webapps/no1.war")
-                execute ("sudo mv ${filename} /opt/tomcat/webapps/skylife.war")
-                //execute ("sudo mv ${filename} /opt/tomcat/webapps/cym.war")
-				//execute ("sudo service tomcat start")
-				//execute ("cd \$HOME; /usr/bin/pkill -f 'java -jar ${filename}'", ignoreError: true)
-				//execute ("cd \$HOME; authbind --deep java -jar ${filename} < /dev/null > log/server_out.log 2> log/server_err.log & ")
+                execute ("sudo mv ${filename} /opt/dev/tomcat_d1/webapps/devsvr1.war")
 			}
 		}
-  }
+	}
+}
+
+task('deployProd') {
+	dependsOn 'bootWar'
+	group = 'release'
+
+	doLast {
+		String path = bootWar.destinationDirectory.getAsFile().get();
+		String filename = bootWar.archiveFileName.get();
+		ssh.run {
+			session(remotes.webServer) {
+				put from: "${path}/${filename}", into: './'
+				execute ("sudo chown tomcat ${filename}")
+                execute ("sudo mv ${filename} /opt/tomcat/webapps/skylife.war")
+			}
+		}
+	}
 }
