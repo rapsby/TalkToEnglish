@@ -29,6 +29,8 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.o2o.action.server.app.DefaultApp;
 import com.o2o.action.server.app.GogumaApp;
+import com.o2o.action.server.app.MyTestApp;
+import com.o2o.action.server.app.OnionApp;
 import com.o2o.action.server.db.Category;
 import com.o2o.action.server.repo.CategoryRepository;
 
@@ -38,6 +40,10 @@ public class DefaultController {
 	private final DefaultApp defaultApp;
 
 	private final GogumaApp gogumaApp;
+	
+	private final MyTestApp myTestApp;
+	
+	private final OnionApp onionApp;
 
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -45,6 +51,9 @@ public class DefaultController {
 	public DefaultController() {
 		defaultApp = new DefaultApp();
 		gogumaApp = new GogumaApp();
+		myTestApp = new MyTestApp();
+		onionApp = new OnionApp();
+		
 	}
 
 	@RequestMapping(value = "/api/1.0/login", method = RequestMethod.POST)
@@ -179,13 +188,29 @@ public class DefaultController {
         return jsonResponse;
     }
 
-	@RequestMapping(value = "/test1", method = RequestMethod.POST)
-	public @ResponseBody String processTest1(@RequestBody String body, HttpServletRequest request,
+	@RequestMapping(value = "/news", method = RequestMethod.POST)
+	public @ResponseBody String processNews(@RequestBody String body, HttpServletRequest request,
 			HttpServletResponse response) {
 		String jsonResponse = null;
 		try {
 			System.out.println("request : " + body + "," + categoryRepository);
-			jsonResponse = gogumaApp.handleRequest(body, getHeadersMap(request)).get();
+			jsonResponse = myTestApp.handleRequest(body, getHeadersMap(request)).get();
+			System.out.println("response : " + jsonResponse);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+
+		return jsonResponse;
+	}
+	@RequestMapping(value = "/englishing", method = RequestMethod.POST)
+	public @ResponseBody String processEnglishing(@RequestBody String body, HttpServletRequest request,
+			HttpServletResponse response) {
+		String jsonResponse = null;
+		try {
+			System.out.println("request : " + body + "," + categoryRepository);
+			jsonResponse = onionApp.handleRequest(body, getHeadersMap(request)).get();
 			System.out.println("response : " + jsonResponse);
 		} catch (InterruptedException e) {
 			e.printStackTrace();

@@ -4,25 +4,20 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import com.google.actions.api.ActionContext;
-import com.google.actions.api.ActionRequest;
-import com.google.actions.api.ActionResponse;
-import com.google.actions.api.DialogflowApp;
-import com.google.actions.api.ForIntent;
+import com.google.actions.api.*;
 import com.google.actions.api.response.ResponseBuilder;
-import com.google.actions.api.response.helperintent.Confirmation;
-import com.google.actions.api.response.helperintent.SignIn;
-import com.google.api.services.actions_fulfillment.v2.model.BasicCard;
-import com.google.api.services.actions_fulfillment.v2.model.Image;
+import com.google.actions.api.response.helperintent.*;
+import com.google.api.services.actions_fulfillment.v2.model.*;
 import com.o2o.action.server.repo.CategoryRepository;
 import com.o2o.action.server.repo.ChannelRepository;
 import com.o2o.action.server.repo.ScheduleRepository;
 
-public class GogumaApp extends DialogflowApp {
+public class MyTestApp extends DialogflowApp {
 	private CategoryRepository categoryRepository;
 	private ChannelRepository channelRepository;
 	private ScheduleRepository scheduleRepository;
@@ -220,15 +215,15 @@ public class GogumaApp extends DialogflowApp {
 		System.out.println(encodedUrl);
 
 		responseBuilder.add("다음 QR 코드를 모바일 장치로 찍으면 됩니다.")
-				.add(new BasicCard().setTitle("QR코드를 통한 모바일 링크")
-						.setFormattedText("다음 QR코드를 모바일에서 읽을 경우 Actions를 모바일에서 계속 하실 수 있습니다.")
-						.setImage(new Image().setUrl("https://actions.o2o.kr/csnopy/api/1.0/qrcode?url=" + encodedUrl)
-								.setAccessibilityText("모바일 장치 연결을 위한 QR코드"))
-						.setImageDisplayOptions("DEFAULT"));
+		.add(new BasicCard().setTitle("QR코드를 통한 모바일 링크")
+				.setFormattedText("다음 QR코드를 모바일에서 읽을 경우 Actions를 모바일에서 계속 하실 수 있습니다.")
+				.setImage(new Image().setUrl("https://actions.o2o.kr/csnopy/api/1.0/qrcode?url=" + encodedUrl)
+						.setAccessibilityText("모바일 장치 연결을 위한 QR코드"))
+				.setImageDisplayOptions("DEFAULT"));
 
 		return responseBuilder.build();
 	}
-/*
+
 	@ForIntent("resume.link")
 	public ActionResponse processResumeLink(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
@@ -239,16 +234,87 @@ public class GogumaApp extends DialogflowApp {
 		responseBuilder.add("계속 다시 하면 될듯 합니다.");
 		return responseBuilder.build();
 	}
-	*/
+
 	@ForIntent("news")
-	public ActionResponse processResumeLink(ActionRequest request) throws ExecutionException, InterruptedException {
+	public ActionResponse processNews(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 
-		Map<String, Object> storage = request.getUserStorage();
-		System.out.println(storage.get("testkey"));
+		MediaObject mediaObject =
+				new MediaObject()
+				.setName("Jazz in Paris")
+				.setContentUrl("https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3")
+				.setDescription("A funky Jazz tune");
+		List<MediaObject> mediaObjects = new ArrayList<>();
+		mediaObjects.add(mediaObject);
+		return responseBuilder.add(new MediaResponse().setMediaObjects(mediaObjects)).build();
 
-		responseBuilder.add("고구마.");
-		return responseBuilder.build();
+		//return responseBuilder.add(new MediaResponse().setMediaObjects(mediaObjects)).build();
+	}
+	@ForIntent("music")
+	public ActionResponse processMusic(ActionRequest request) throws ExecutionException, InterruptedException {
+		ResponseBuilder responseBuilder = getResponseBuilder(request);
+
+		MediaObject mediaObject = new MediaObject();
+		mediaObject
+		.setName("Jazz in Paris")
+		.setContentUrl("https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3")
+		.setDescription("A funky Jazz tune")
+		.setIcon(
+				new Image()
+				.setUrl("https://storage.googleapis.com/automotive-media/album_art.jpg")
+				.setAccessibilityText("Ocean view"));
+		List<MediaObject> mediaObjects = new ArrayList<>();
+		mediaObjects.add(mediaObject);
+		return responseBuilder.add(new MediaResponse().setMediaObjects(mediaObjects)).build();
+		//return responseBuilder.add(new MediaResponse().setMediaObjects(mediaObjects)).build();
+		//return responseBuilder.add("hi").build();
+
 	}
 
+	@ForIntent("newscard")
+	public ActionResponse processNewscard(ActionRequest request) throws ExecutionException, InterruptedException {
+		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		List<CarouselSelectCarouselItem> items = new ArrayList<>();
+		CarouselSelectCarouselItem item = new CarouselSelectCarouselItem();
+		item.setTitle("Animal")
+		.setDescription("Play with animals")
+		.setOptionInfo(
+				new OptionInfo()
+				.setKey("animal"))
+		.setImage(
+				new Image()
+				.setUrl("https://storage.googleapis.com/automotive-media/album_art.jpg")
+				.setAccessibilityText("Animal"));
+		items.add(item);
+
+		item = new CarouselSelectCarouselItem();
+		item.setTitle("Dinosaur")
+		.setDescription("Play with dinosaurs")
+		.setOptionInfo(
+				new OptionInfo()
+				.setKey("dinosaur")
+				.setSynonyms(Arrays.asList("dino")))
+		.setImage(new Image().setUrl("https://storage.googleapis.com/automotive-media/album_art.jpg")
+				.setAccessibilityText("Dinosaur"));
+		items.add(item);
+		return responseBuilder
+				.add("Setting a topic")
+				.add(new SelectionCarousel().setItems(items))
+				.build();
+	}
+
+
+	
+	@ForIntent("newnews")
+	public ActionResponse processNewnews(ActionRequest request)
+			throws ExecutionException, InterruptedException {
+		ResponseBuilder responseBuilder = getResponseBuilder(request);
+
+		String ssmlResponse =
+				"<speak>"
+						+ "<audio src=\"https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3\">"
+						+ "</audio>. "
+						+ "</speak>";
+		return responseBuilder.add(ssmlResponse).build();
+	}
 }

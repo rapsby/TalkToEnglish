@@ -73,7 +73,7 @@ task('deployDev') {
 			session(remotes.webServer) {
 				put from: "${path}/${filename}", into: './'
 				execute ("sudo chown tomcat ${filename}")
-                execute ("sudo mv ${filename} /opt/dev/tomcat_d1/webapps/devsvr1.war")
+                execute ("sudo mv ${filename} /opt/dev/tomcat_d5/webapps/devsvr5.war")
 			}
 		}
 	}
