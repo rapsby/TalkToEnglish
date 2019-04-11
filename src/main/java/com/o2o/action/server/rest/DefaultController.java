@@ -46,7 +46,7 @@ public class DefaultController {
 	
 	private final OnionApp onionApp;
 	
-	private final English enlgish;
+	private final English english;
 
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -56,7 +56,7 @@ public class DefaultController {
 		gogumaApp = new GogumaApp();
 		myTestApp = new MyTestApp();
 		onionApp = new OnionApp();
-		enlgish = new English();
+		english = new English();
 		
 	}
 
@@ -215,7 +215,7 @@ public class DefaultController {
 	      String jsonResponse = null;
 	      try {
 	         System.out.println("request : " + body + "," + categoryRepository);
-	         jsonResponse = animoApp.handleRequest(body, getHeadersMap(request)).get();
+	         jsonResponse = english.handleRequest(body, getHeadersMap(request)).get();
 	         System.out.println("response : " + jsonResponse);
 	      } catch (InterruptedException e) {
 	         e.printStackTrace();
