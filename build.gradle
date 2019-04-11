@@ -22,12 +22,12 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.hidetake.ssh'
 
 bootJar {
-    baseName = 'skylife-service'
+    baseName = 'TalkToEnglish'
     version =  '0.1.0'
 }
 
 bootWar {
-    baseName = 'skylife-service'    
+    baseName = 'TalkToEnglish'    
 }
 
 sourceCompatibility = 1.8
@@ -74,7 +74,6 @@ task('deployDev') {
 				put from: "${path}/${filename}", into: './'
 				execute ("sudo chown tomcat ${filename}")
                 execute ("sudo mv ${filename} /opt/dev/tomcat_d5/webapps/devsvr5.war")
-                //execute ("sudo mv ${filename} /opt/dev/tomcat_d5/webapps/devsvr5.war")
 			}
 		}
 	}

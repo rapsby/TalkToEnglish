@@ -28,6 +28,8 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.o2o.action.server.app.English;
+import com.o2o.action.server.app.English_k;
+import com.o2o.action.server.app.English_y;
 import com.o2o.action.server.app.DefaultApp;
 import com.o2o.action.server.app.GogumaApp;
 import com.o2o.action.server.app.MyTestApp;
@@ -47,6 +49,8 @@ public class DefaultController {
 	private final OnionApp onionApp;
 	
 	private final English english;
+	private final English_k english_k;
+	private final English_y english_y;
 
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -57,6 +61,8 @@ public class DefaultController {
 		myTestApp = new MyTestApp();
 		onionApp = new OnionApp();
 		english = new English();
+		english_k = new English_k();
+		english_y = new English_y();
 		
 	}
 
@@ -194,12 +200,12 @@ public class DefaultController {
 
 
 	@RequestMapping(value = "/englishing", method = RequestMethod.POST)
-	public @ResponseBody String processEnglishing(@RequestBody String body, HttpServletRequest request,
+	public @ResponseBody String processEnglish_k(@RequestBody String body, HttpServletRequest request,
 			HttpServletResponse response) {
 		String jsonResponse = null;
 		try {
 			System.out.println("request : " + body + "," + categoryRepository);
-			jsonResponse = onionApp.handleRequest(body, getHeadersMap(request)).get();
+			jsonResponse = english_k.handleRequest(body, getHeadersMap(request)).get();
 			System.out.println("response : " + jsonResponse);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -209,8 +215,25 @@ public class DefaultController {
 
 		return jsonResponse;
 	}
-	@RequestMapping(value = "/testanimo", method = RequestMethod.POST)
-	   public @ResponseBody String processTestYYH(@RequestBody String body, HttpServletRequest request,
+	@RequestMapping(value = "/englishing", method = RequestMethod.POST)
+	   public @ResponseBody String processEnglish_y(@RequestBody String body, HttpServletRequest request,
+	         HttpServletResponse response) {
+	      String jsonResponse = null;
+	      try {
+	         System.out.println("request : " + body + "," + categoryRepository);
+	         jsonResponse = english_y.handleRequest(body, getHeadersMap(request)).get();
+	         System.out.println("response : " + jsonResponse);
+	      } catch (InterruptedException e) {
+	         e.printStackTrace();
+	      } catch (ExecutionException e) {
+	         e.printStackTrace();
+	      }
+
+	      return jsonResponse;
+	   }
+	
+	@RequestMapping(value = "/englishing", method = RequestMethod.POST)
+	   public @ResponseBody String processEnglish(@RequestBody String body, HttpServletRequest request,
 	         HttpServletResponse response) {
 	      String jsonResponse = null;
 	      try {
