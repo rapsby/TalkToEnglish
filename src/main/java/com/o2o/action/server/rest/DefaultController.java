@@ -46,7 +46,7 @@ public class DefaultController {
 	
 	private final OnionApp onionApp;
 	
-	private final English animoApp;
+	private final English enlgish;
 
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -56,7 +56,7 @@ public class DefaultController {
 		gogumaApp = new GogumaApp();
 		myTestApp = new MyTestApp();
 		onionApp = new OnionApp();
-		animoApp = new English();
+		enlgish = new English();
 		
 	}
 
@@ -192,22 +192,7 @@ public class DefaultController {
         return jsonResponse;
     }
 
-	@RequestMapping(value = "/news", method = RequestMethod.POST)
-	public @ResponseBody String processNews(@RequestBody String body, HttpServletRequest request,
-			HttpServletResponse response) {
-		String jsonResponse = null;
-		try {
-			System.out.println("request : " + body + "," + categoryRepository);
-			jsonResponse = myTestApp.handleRequest(body, getHeadersMap(request)).get();
-			System.out.println("response : " + jsonResponse);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		}
 
-		return jsonResponse;
-	}
 	@RequestMapping(value = "/englishing", method = RequestMethod.POST)
 	public @ResponseBody String processEnglishing(@RequestBody String body, HttpServletRequest request,
 			HttpServletResponse response) {
