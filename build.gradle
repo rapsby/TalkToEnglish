@@ -22,12 +22,12 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.hidetake.ssh'
 
 bootJar {
-    baseName = 'TalkToEnglish'
+    baseName = 'skylife-service'
     version =  '0.1.0'
 }
 
 bootWar {
-    baseName = 'TalkToEnglish'    
+    baseName = 'skylife-service'    
 }
 
 sourceCompatibility = 1.8

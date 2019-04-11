@@ -199,38 +199,6 @@ public class DefaultController {
     }
 
 
-	@RequestMapping(value = "/englishing", method = RequestMethod.POST)
-	public @ResponseBody String processEnglish_k(@RequestBody String body, HttpServletRequest request,
-			HttpServletResponse response) {
-		String jsonResponse = null;
-		try {
-			System.out.println("request : " + body + "," + categoryRepository);
-			jsonResponse = english_k.handleRequest(body, getHeadersMap(request)).get();
-			System.out.println("response : " + jsonResponse);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		return jsonResponse;
-	}
-	@RequestMapping(value = "/englishing", method = RequestMethod.POST)
-	   public @ResponseBody String processEnglish_y(@RequestBody String body, HttpServletRequest request,
-	         HttpServletResponse response) {
-	      String jsonResponse = null;
-	      try {
-	         System.out.println("request : " + body + "," + categoryRepository);
-	         jsonResponse = english_y.handleRequest(body, getHeadersMap(request)).get();
-	         System.out.println("response : " + jsonResponse);
-	      } catch (InterruptedException e) {
-	         e.printStackTrace();
-	      } catch (ExecutionException e) {
-	         e.printStackTrace();
-	      }
-
-	      return jsonResponse;
-	   }
 	
 	@RequestMapping(value = "/englishing", method = RequestMethod.POST)
 	   public @ResponseBody String processEnglish(@RequestBody String body, HttpServletRequest request,
