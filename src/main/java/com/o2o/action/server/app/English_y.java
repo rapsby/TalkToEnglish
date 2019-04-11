@@ -23,7 +23,7 @@ import com.google.api.services.actions_fulfillment.v2.model.MediaResponse;
 import com.google.api.services.actions_fulfillment.v2.model.OpenUrlAction;
 import com.google.api.services.actions_fulfillment.v2.model.OptionInfo;
 
-public class AnimoApp extends DialogflowApp {
+public class English_y extends DialogflowApp {
 	@ForIntent("CurrentTime")
 	public ActionResponse processCurrentTime(ActionRequest request) throws ExecutionException, InterruptedException {
 		String a = "";

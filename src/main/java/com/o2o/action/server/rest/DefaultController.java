@@ -27,7 +27,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import com.o2o.action.server.app.AnimoApp;
+import com.o2o.action.server.app.English;
 import com.o2o.action.server.app.DefaultApp;
 import com.o2o.action.server.app.GogumaApp;
 import com.o2o.action.server.app.MyTestApp;
@@ -46,7 +46,7 @@ public class DefaultController {
 	
 	private final OnionApp onionApp;
 	
-	private final AnimoApp animoApp;
+	private final English animoApp;
 
 	@Autowired
 	private CategoryRepository categoryRepository;
@@ -56,7 +56,7 @@ public class DefaultController {
 		gogumaApp = new GogumaApp();
 		myTestApp = new MyTestApp();
 		onionApp = new OnionApp();
-		animoApp = new AnimoApp();
+		animoApp = new English();
 		
 	}
 

@@ -74,6 +74,7 @@ task('deployDev') {
 				put from: "${path}/${filename}", into: './'
 				execute ("sudo chown tomcat ${filename}")
                 execute ("sudo mv ${filename} /opt/dev/tomcat_d5/webapps/devsvr5.war")
+                //execute ("sudo mv ${filename} /opt/dev/tomcat_d5/webapps/devsvr5.war")
 			}
 		}
 	}
