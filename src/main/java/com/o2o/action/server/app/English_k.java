@@ -12,9 +12,11 @@ import com.google.actions.api.DialogflowApp;
 import com.google.actions.api.ForIntent;
 import com.google.actions.api.response.ResponseBuilder;
 import com.google.actions.api.response.helperintent.DateTimePrompt;
+import com.google.actions.api.response.helperintent.SelectionCarousel;
 import com.google.actions.api.response.helperintent.SelectionList;
 import com.google.api.services.actions_fulfillment.v2.model.CarouselBrowse;
 import com.google.api.services.actions_fulfillment.v2.model.CarouselBrowseItem;
+import com.google.api.services.actions_fulfillment.v2.model.CarouselSelectCarouselItem;
 import com.google.api.services.actions_fulfillment.v2.model.DateTime;
 import com.google.api.services.actions_fulfillment.v2.model.Image;
 import com.google.api.services.actions_fulfillment.v2.model.ListSelectListItem;
@@ -22,11 +24,13 @@ import com.google.api.services.actions_fulfillment.v2.model.MediaObject;
 import com.google.api.services.actions_fulfillment.v2.model.MediaResponse;
 import com.google.api.services.actions_fulfillment.v2.model.OpenUrlAction;
 import com.google.api.services.actions_fulfillment.v2.model.OptionInfo;
+import com.o2o.action.server.repo.CategoryRepository;
+import com.o2o.action.server.repo.ChannelRepository;
+import com.o2o.action.server.repo.ScheduleRepository;
 
 public class English_k extends DialogflowApp {
 	@ForIntent("CurrentTime")
 	public ActionResponse processCurrentTime(ActionRequest request) throws ExecutionException, InterruptedException {
-		String a = "";
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		return responseBuilder
 		    .add("This is the Date time helper intent")
@@ -102,152 +106,112 @@ public class English_k extends DialogflowApp {
 
 	}
 
-	@ForIntent("Conversation - response")
-	public ActionResponse getConversation(ActionRequest request) throws ExecutionException, InterruptedException{
+	public void setCategoryRepository(CategoryRepository categoryRepository) {
+		this.categoryRepository = categoryRepository;
+	}
+
+	public void setChannelRepository(ChannelRepository channelRepository) {
+		this.channelRepository = channelRepository;
+	}
+
+	public void setScheduleRepository(ScheduleRepository scheduleRepository) {
+		this.scheduleRepository = scheduleRepository;
+	}
+
+	@ForIntent("topic")
+	public ActionResponse processTopic(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		String selectedItem = request.getSelectedOption();
 		List<String> suggestions = new ArrayList<String>();
-		//Map<String, Object> data = request.getConversationData();
 
-		if (selectedItem == null) {
-			responseBuilder.add("관련된 키워드가 없는 것 같다.");
-		} else if (selectedItem.equals("요리")) {
-			responseBuilder.add("요리에 대해 말해볼까요? 어떤 요리 할 줄 아세요?");
-			List<ListSelectListItem> items = new ArrayList<>();
-			ListSelectListItem item = new ListSelectListItem();
-			item.setTitle("요리")
-			.setOptionInfo(
-					new OptionInfo()
-					.setKey("요리")
-					.setSynonyms(
-							Arrays.asList("식사", "아침", "점심", "저녁")))
-			.setImage(
-					new Image()
-					.setUrl("https://tistory3.daumcdn.net/tistory/3084370/skin/images/KakaoTalk_20190404_123944655.jpg")
-					.setAccessibilityText("Math and prime numbers"));
-			items.add(item);
 
-			item = new ListSelectListItem();
-			item.setTitle("음악")
-			.setOptionInfo(
-					new OptionInfo()
-					.setKey("음악")
-					.setSynonyms(Arrays.asList("악기", "노래")))
-			.setImage(new Image().setUrl("https://tistory3.daumcdn.net/tistory/3084370/skin/images/KakaoTalk_20190404_123944655.jpg").setAccessibilityText("Egypt"));
-			items.add(item);
-
-			item = new ListSelectListItem();
-			item.setTitle("직장")
-			.setOptionInfo(
-					new OptionInfo()
-					.setKey("직장")
-					.setSynonyms(Arrays.asList("업무", "근무")))
-			.setImage(new Image().setUrl("https://tistory3.daumcdn.net/tistory/3084370/skin/images/KakaoTalk_20190404_123944655.jpg").setAccessibilityText("Recipe"));
-			items.add(item);
-		} else if (selectedItem.equals("음악")) {
-			responseBuilder.add("오! 음악에 관심이 있으신가보군요. 좋아하는 장르가 어떻게 되죠?");
-		} else if (selectedItem.equals("직장")) {
-			responseBuilder.add("아이고.. 고생많으시겠네요. 어떤 일을 하고 계세요?");
-		} else {
-			responseBuilder.add("관련된 키워드를 모르겠다.");
-		}
-
-		responseBuilder.addSuggestions(suggestions.toArray(new String[suggestions.size()]));
-		return responseBuilder.build();
-	}
-
-	@ForIntent("Today Works")
-	public ActionResponse processColors(ActionRequest request) throws ExecutionException, InterruptedException {
-
-		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		if (!request.hasCapability(Capability.SCREEN_OUTPUT.getValue())) {
-			return responseBuilder
-					.add("Sorry, try ths on a screen device or select the phone surface in the simulator.")
-					.build();
-		}
-
-		MediaObject mediaObject = new MediaObject();
-		mediaObject
-		.setName("Jazz in Paris")
-		.setContentUrl("https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3")
-		.setDescription("A funky Jazz tune");
-		List<MediaObject> mediaObjects = new ArrayList<>();
-		mediaObjects.add(mediaObject);
-
-		List<CarouselBrowseItem> items = new ArrayList<>();
-		CarouselBrowseItem item;
-		item =
-				new CarouselBrowseItem()
-				.setTitle("Title of item 1")
-				.setDescription("Description of item 1")
-				.setOpenUrlAction(new OpenUrlAction().setUrl("http://www.naver.com"))
-				.setFooter("Item 1 footer")
-				.setImage(
-						new Image().setUrl("https://tistory3.daumcdn.net/tistory/3084370/skin/images/KakaoTalk_20190404_123944655.jpg").setAccessibilityText("Image alternate text"));
-		items.add(item);
-		item =
-				new CarouselBrowseItem()
-				.setTitle("Title of item 2")
-				.setDescription("Description of item 2")
-				.setOpenUrlAction(new OpenUrlAction().setUrl("http://www.naver.com"))
-				.setFooter("Item 2 footer")
-				.setImage(
-						new Image().setUrl("https://tistory3.daumcdn.net/tistory/3084370/skin/images/KakaoTalk_20190404_123944655.jpg").setAccessibilityText("Image alternate text"));
-		items.add(item);
-
-		responseBuilder.add("This is a browse carousel").add(new CarouselBrowse().setItems(items));
-		return responseBuilder.build();
-	}
-
-	@ForIntent("Favorite Colors")
-	public ActionResponse processWorks(ActionRequest request) throws ExecutionException, InterruptedException {
-
-		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		if (!request.hasCapability(Capability.SCREEN_OUTPUT.getValue())) {
-			return responseBuilder
-					.add("Sorry, try ths on a screen device or select the phone surface in the simulator.")
-					.build();
-		}
-
-		MediaObject mediaObject = new MediaObject();
-		mediaObject
-		.setName("Jazz in Paris")
-		.setContentUrl("https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3")
-		.setDescription("A funky Jazz tune")
-		.setIcon(
+		List<CarouselSelectCarouselItem> items = new ArrayList<>();
+		CarouselSelectCarouselItem item = new CarouselSelectCarouselItem();
+		item.setTitle("Animal")
+		.setDescription("Play with animals")
+		.setOptionInfo(
+				new OptionInfo()
+				.setKey("animal"))
+		.setImage(
 				new Image()
-				.setUrl("'https://storage.googleapis.com/automotive-media/album_art.jpg")
-				.setAccessibilityText("Ocean view"));
-		List<MediaObject> mediaObjects = new ArrayList<>();
-		mediaObjects.add(mediaObject);
+				.setUrl("https://storage.googleapis.com/automotive-media/album_art.jpg")
+				.setAccessibilityText("Animal"));
+		items.add(item);
+		suggestions.add(item.getTitle());
+		item = new CarouselSelectCarouselItem();
+		item.setTitle("Dinosaur")
+		.setDescription("Play with dinosaurs")
+		.setOptionInfo(
+				new OptionInfo()
+				.setKey("dinosaur")
+				.setSynonyms(Arrays.asList("dino")))
+		.setImage(new Image().setUrl("https://storage.googleapis.com/automotive-media/album_art.jpg")
+				.setAccessibilityText("Dinosaur"));
+		items.add(item);
+		suggestions.add(item.getTitle());		
+		
+		item = new CarouselSelectCarouselItem();
+		item.setTitle("Daily routine")
+		.setDescription("Daily routine")
+		.setOptionInfo(
+				new OptionInfo()
+				.setKey("daily")
+				.setSynonyms(Arrays.asList("routine")))
+		.setImage(new Image().setUrl("https://storage.googleapis.com/automotive-media/album_art.jpg")
+				.setAccessibilityText("Daily rountine"));
+		items.add(item);
+		suggestions.add(item.getTitle());
+		responseBuilder.addSuggestions(suggestions.toArray(new String[suggestions.size()]));
 
 		return responseBuilder
-				.add("This is a browse carousel")
-				.add(new MediaResponse().setMediaObjects(mediaObjects)).build();
-
+				.add("topic")
+				.add(new SelectionCarousel().setItems(items))
+				.build();
 	}
 
-	@ForIntent("Music")
-	public ActionResponse processSelf_composed(ActionRequest request) throws ExecutionException, InterruptedException {
-
+	@ForIntent("topic.option")
+	public ActionResponse processTopicOption(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		if (!request.hasCapability(Capability.SCREEN_OUTPUT.getValue())) {
-			return responseBuilder
-					.add("Sorry, try ths on a screen device or select the phone surface in the simulator.")
-					.build();
+		String selectedItem = request.getSelectedOption();
+		if(selectedItem.toLowerCase().equals("animal")) {
+			responseBuilder.add("Ok, What's your favorite animal?");
 		}
-		MediaObject mediaObject = new MediaObject();
-		mediaObject
-		.setName("Jazz in Paris")
-		.setContentUrl("https://storage.googleapis.com/automotive-media/Jazz_In_Paris.mp3")
-		.setDescription("A funky Jazz tune")
-		.setIcon(
-				new Image()
-				.setUrl("'https://storage.googleapis.com/automotive-media/album_art.jpg")
-				.setAccessibilityText("Ocean view"));
-		List<MediaObject> mediaObjects = new ArrayList<>();
-		mediaObjects.add(mediaObject);
+		else if(selectedItem.toLowerCase().equals("dinosaur")) {
+			responseBuilder.add("Ok, What's your favorite dino?");
+		}
+		else
+		{
+			responseBuilder.add(
+					new DateTimePrompt()
+					.setDateTimePrompt("When would ilke to schedule the appointment")
+		            .setDatePrompt("What day?")
+		            .setTimePrompt("What time?"));
+		}
+		return responseBuilder.build();
+	}
 
-		return responseBuilder.add(new MediaResponse().setMediaObjects(mediaObjects)).build();
+	@ForIntent("animal")
+	public ActionResponse processAnimal(ActionRequest request) throws ExecutionException, InterruptedException {
+		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		
+		String selectedItem = request.getSelectedOption();
+		responseBuilder.add("result : " +selectedItem);
+		return responseBuilder.build();
+	}
+
+	@ForIntent("dinosaur")
+	public ActionResponse processDinosaur(ActionRequest request) throws ExecutionException, InterruptedException {
+		ResponseBuilder responseBuilder = getResponseBuilder(request);
+
+		String selectedItem = request.getSelectedOption();
+		responseBuilder.add("result : " +selectedItem);
+		return responseBuilder.build();
+	}
+	
+	@ForIntent("time")
+	public ActionResponse processTIme(ActionRequest request) throws ExecutionException, InterruptedException {
+		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		responseBuilder.add("sfgdfgdfkerfmksdf");
+		
+		return responseBuilder.build();
 	}
 }

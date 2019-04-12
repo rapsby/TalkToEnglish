@@ -26,7 +26,6 @@ import com.google.api.services.actions_fulfillment.v2.model.OptionInfo;
 public class English extends DialogflowApp {
 	@ForIntent("CurrentTime")
 	public ActionResponse processCurrentTime(ActionRequest request) throws ExecutionException, InterruptedException {
-		String a = "";
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		return responseBuilder
 		    .add("This is the Date time helper intent")
