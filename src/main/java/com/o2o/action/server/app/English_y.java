@@ -71,13 +71,20 @@ public class English_y extends DialogflowApp {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		String selectedItem = request.getSelectedOption();
+		
 
-		if (selectedItem.equals("School")) 
+		
+		if (selectedItem.equals("School")) {
 			return YH_F_r_school(request);
-		else if (selectedItem.equals("Study")) 
+		}
+		else if (selectedItem.equals("Study")) {
 			return YH_F_r_study(request);
-		else if (selectedItem.equals("Life")) 	// Life 키워드 선택
+		}
+		else if (selectedItem.equals("Life")) {	// Life 키워드 선택
+			
 			return YH_F_r_life(request);
+		}
+
 		else 
 			return responseBuilder.build();
 	}
@@ -86,7 +93,7 @@ public class English_y extends DialogflowApp {
 	public ActionResponse YH_F_r_school(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		responseBuilder.add("Let's talk about school");
-		
+
 		return responseBuilder.build();
 
 	}
@@ -105,29 +112,39 @@ public class English_y extends DialogflowApp {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		responseBuilder.add("Let's talk about life");
-		String cfinal = "";
-		Object oFinal = (Object) request.getParameter("Life");
-		if (oFinal != null && oFinal instanceof String) {
-			cfinal = (String) oFinal;
-		} else
-			cfinal = "temp";
 		
-		if (cfinal.equalsIgnoreCase("weather"))
-		{
+		
+		String word = null;
+		String cfinal = null;
+		responseBuilder.add(word);
+		/*
+		if (param.equalsIgnoreCase("weather")) {
+			Object oFinal = (Object) request.getParameter("Ent_final");
+			if (oFinal != null && oFinal instanceof String) {
+				cfinal = (String) oFinal;
+			}
 			responseBuilder.add("weather22");
 		}
-		
-		else if (cfinal.equalsIgnoreCase("cooking"))
-		{
+
+		else if (param.equalsIgnoreCase("cooking")) {
+			Object oFinal = (Object) request.getParameter("Ent_final");
+			if (oFinal != null && oFinal instanceof String) {
+				cfinal = (String) oFinal;
+			}
 			responseBuilder.add("cooking22");
 		}
-		
-		else if (cfinal.equalsIgnoreCase("life"))
+
+		else if (param.equalsIgnoreCase("life")) {
+			Object oFinal = (Object) request.getParameter("life");
+			if (oFinal != null && oFinal instanceof String) {
+				cfinal = (String) oFinal;
+			}
 			responseBuilder.add("life22");
-		
+		}
+
 		else
-			responseBuilder.add("nope");
-		
+			responseBuilder.add(param);*/
+
 		return responseBuilder.build();
 
 	}
@@ -142,8 +159,8 @@ public class English_y extends DialogflowApp {
 				.add(
 						new DateTimePrompt()
 						.setDateTimePrompt("When would ilke to schedule the appointment")
-						.setDatePrompt("2019-04-12")
-						.setTimePrompt("18:00"))
+						.setDatePrompt("What day?")
+						.setTimePrompt("What time?"))
 				.build();
 
 	}

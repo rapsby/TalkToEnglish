@@ -106,18 +106,6 @@ public class English_k extends DialogflowApp {
 
 	}
 
-	public void setCategoryRepository(CategoryRepository categoryRepository) {
-		this.categoryRepository = categoryRepository;
-	}
-
-	public void setChannelRepository(ChannelRepository channelRepository) {
-		this.channelRepository = channelRepository;
-	}
-
-	public void setScheduleRepository(ScheduleRepository scheduleRepository) {
-		this.scheduleRepository = scheduleRepository;
-	}
-
 	@ForIntent("topic")
 	public ActionResponse processTopic(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
