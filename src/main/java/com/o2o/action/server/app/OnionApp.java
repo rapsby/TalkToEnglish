@@ -110,7 +110,7 @@ public class OnionApp extends DialogflowApp {
 		{
 			responseBuilder.add(
 					new DateTimePrompt()
-					.setDateTimePrompt("When would ilke to schedule the appointment")
+					.setDateTimePrompt("what timemmmmmmmmmmmmmmmmm?")
 		            .setDatePrompt("What day?")
 		            .setTimePrompt("What time?"));
 		}
@@ -138,7 +138,7 @@ public class OnionApp extends DialogflowApp {
 	@ForIntent("time")
 	public ActionResponse processTIme(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("sfgdfgdfkerfmksdf");
+		responseBuilder.add(request.getDateTime().getTime().toString());
 		
 		return responseBuilder.build();
 	}
