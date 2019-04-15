@@ -42,7 +42,7 @@ public class English_k extends DialogflowApp {
 		    .build();
 
 	}
-	
+
 	@ForIntent("CurrentTime - response")
 	public ActionResponse processCurrentTimeResponse(ActionRequest request) throws ExecutionException, InterruptedException {
 
@@ -170,9 +170,9 @@ public class English_k extends DialogflowApp {
 		{
 			responseBuilder.add(
 					new DateTimePrompt()
-					.setDateTimePrompt("When would ilke to schedule the appointment")
-		            .setDatePrompt("What day?")
-		            .setTimePrompt("What time?"));
+					.setDateTimePrompt("When would ilke to schedule the appointment"));
+		            //.setDatePrompt("What day?")
+		            //.setTimePrompt("What time?");
 		}
 		return responseBuilder.build();
 	}
