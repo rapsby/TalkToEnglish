@@ -27,7 +27,7 @@ import com.google.api.services.actions_fulfillment.v2.model.DateTimeValueSpecDat
 
 public class English_y extends DialogflowApp {
 	@ForIntent("Category") // 호출 : 123
-	public ActionResponse processYH(ActionRequest request) throws ExecutionException, InterruptedException {
+	public ActionResponse processCategory(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 
 		List<ListSelectListItem> items = new ArrayList<>();
@@ -67,62 +67,55 @@ public class English_y extends DialogflowApp {
 	}
 
 	@ForIntent("Category_R")
-	public ActionResponse processYH_response(ActionRequest request) throws ExecutionException, InterruptedException {
+	public ActionResponse processResponse(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		String selectedItem = request.getSelectedOption();
-		
+
 		if (selectedItem.equals("School")) {
-			return YH_F_r_school(request);
+			responseBuilder.add("Let's talk about school. What will you do at school?");
 		}
 		else if (selectedItem.equals("Study")) {
-			return YH_F_r_study(request);
+			responseBuilder.add("Let's talk about Study. What will you do study?");
 		}
-		else if (selectedItem.equals("Life")) {	// Life 키워드 선택
-			
-			return YH_F_r_life(request);
-		}
+		else {
 
-		else 
-			return responseBuilder.build();
+			return responseBuilder
+				    .add("This is the Date time helper intent")
+				    .add(
+				        new DateTimePrompt()
+				            .setDateTimePrompt("When would ilke to schedule the appointment")
+				            .setDatePrompt("What day?")
+				            .setTimePrompt("What time?"))
+				    .build();
+		}
+		return responseBuilder.build();
 	}
 
 	@ForIntent("Category_R_school")
-	public ActionResponse YH_F_r_school(ActionRequest request) throws ExecutionException, InterruptedException {
+	public ActionResponse School(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("Let's talk about school. What will you do at school?");
-
 		return responseBuilder.build();
-
 	}
 
 	@ForIntent("Category_R_study")
-	public ActionResponse YH_F_r_study(ActionRequest request) throws ExecutionException, InterruptedException {
+	public ActionResponse Study(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("Let's talk about Study. What will you do study?");
 		return responseBuilder.build();
 
 	}
 
 	@ForIntent("Category_R_life")
-	public ActionResponse YH_F_r_life(ActionRequest request) throws ExecutionException, InterruptedException {
+	public ActionResponse Life(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("Let's talk about life. What is your hobby?");
-
-		return responseBuilder.build();
+		//String temp = request.getRawText();
+		DateTime dateTimeValue = request.getDateTime();
+		return responseBuilder							// ex) 11:30 > 23시로 인식, 날짜 : today, 5/1, ...
+				.add(dateTimeValue.getTime().toString())			// {hours=??}
+				.add(dateTimeValue.getDate().toString()).build();	// {day=??, month=??, year=????}
 
 	}
 
-	@ForIntent("Life_R")
-	public ActionResponse YH_Life_r(ActionRequest request) throws ExecutionException, InterruptedException {
-
-		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("umm.. " + request.getRawText()); // getRawText() : 사용자의 입력
-		responseBuilder.add((String)request.getParameter("Life"));
-
-		return responseBuilder.build();
-
-	}
 }
