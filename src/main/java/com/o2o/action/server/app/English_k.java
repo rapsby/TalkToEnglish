@@ -42,7 +42,7 @@ public class English_k extends DialogflowApp {
 		    .build();
 
 	}
-	
+
 	@ForIntent("CurrentTime - response")
 	public ActionResponse processCurrentTimeResponse(ActionRequest request) throws ExecutionException, InterruptedException {
 
@@ -105,7 +105,6 @@ public class English_k extends DialogflowApp {
 				.addSuggestions( new String[]{ "요리", "음악", "직장" }).build();
 
 	}
-
 
 	@ForIntent("topic")
 	public ActionResponse processTopic(ActionRequest request) throws ExecutionException, InterruptedException {

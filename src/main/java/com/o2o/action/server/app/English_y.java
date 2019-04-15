@@ -71,13 +71,20 @@ public class English_y extends DialogflowApp {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		String selectedItem = request.getSelectedOption();
+		
 
-		if (selectedItem.equals("School")) 
+		
+		if (selectedItem.equals("School")) {
 			return YH_F_r_school(request);
-		else if (selectedItem.equals("Study")) 
+		}
+		else if (selectedItem.equals("Study")) {
 			return YH_F_r_study(request);
-		else if (selectedItem.equals("Life")) 	// Life 키워드 선택
+		}
+		else if (selectedItem.equals("Life")) {	// Life 키워드 선택
+			
 			return YH_F_r_life(request);
+		}
+
 		else 
 			return responseBuilder.build();
 	}
@@ -85,8 +92,8 @@ public class English_y extends DialogflowApp {
 	@ForIntent("YH_First - response - school")
 	public ActionResponse YH_F_r_school(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("Let's talk about school");
-		
+		responseBuilder.add("Let's talk about school. What will you do at school?");
+
 		return responseBuilder.build();
 
 	}
@@ -95,7 +102,7 @@ public class English_y extends DialogflowApp {
 	public ActionResponse YH_F_r_study(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("Let's talk about Study");
+		responseBuilder.add("Let's talk about Study. What will you do study?");
 		return responseBuilder.build();
 
 	}
@@ -104,62 +111,20 @@ public class English_y extends DialogflowApp {
 	public ActionResponse YH_F_r_life(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("Let's talk about life");
-		String cfinal = "";
-		Object oFinal = (Object) request.getParameter("Life");
-		if (oFinal != null && oFinal instanceof String) {
-			cfinal = (String) oFinal;
-		} else
-			cfinal = "temp";
-		
-		if (cfinal.equalsIgnoreCase("weather"))
-		{
-			responseBuilder.add("weather22");
-		}
-		
-		else if (cfinal.equalsIgnoreCase("cooking"))
-		{
-			responseBuilder.add("cooking22");
-		}
-		
-		else if (cfinal.equalsIgnoreCase("life"))
-			responseBuilder.add("life22");
-		
-		else
-			responseBuilder.add("nope");
-		
+		responseBuilder.add("Let's talk about life. What is your hobby?");
+
 		return responseBuilder.build();
 
 	}
 
-
-	@ForIntent("YH_Date")
-	public ActionResponse processDate(ActionRequest request) throws ExecutionException, InterruptedException {
-
-		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		return responseBuilder
-				.add("This is the Date time helper intent")
-				.add(
-						new DateTimePrompt()
-						.setDateTimePrompt("When would ilke to schedule the appointment")
-						.setDatePrompt("2019-04-12")
-						.setTimePrompt("18:00"))
-				.build();
-
-	}
-
-	@ForIntent("YH_Date - response")
-	public ActionResponse processDate_response(ActionRequest request) throws ExecutionException, InterruptedException {
+	@ForIntent("Life - response")
+	public ActionResponse YH_Life_r(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		String response;
-		DateTime dateTimeValue = request.getDateTime();
-		if (dateTimeValue != null) {
-			response = "Alright, date set.";
-		} else {
-			response = "I'm having a hard time finding an appointment";
-		}
-		return responseBuilder.add(response).build();
+		responseBuilder.add("umm.. " + request.getRawText()); // getRawText() : 사용자의 입력
+		responseBuilder.add((String)request.getParameter("Life"));
+
+		return responseBuilder.build();
 
 	}
 }
