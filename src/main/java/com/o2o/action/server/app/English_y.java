@@ -26,7 +26,7 @@ import com.google.api.services.actions_fulfillment.v2.model.SimpleResponse;
 import com.google.api.services.actions_fulfillment.v2.model.DateTimeValueSpecDateTimeDialogSpec;
 
 public class English_y extends DialogflowApp {
-	@ForIntent("Category")
+	@ForIntent("Category") // 호출 : 123
 	public ActionResponse processYH(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 
