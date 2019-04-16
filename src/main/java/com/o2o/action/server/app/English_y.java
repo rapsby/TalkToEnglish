@@ -26,8 +26,13 @@ import com.google.api.services.actions_fulfillment.v2.model.SimpleResponse;
 import com.google.api.services.actions_fulfillment.v2.model.DateTimeValueSpecDateTimeDialogSpec;
 
 public class English_y extends DialogflowApp {
+<<<<<<< HEAD
 	@ForIntent("YH_First")
 	public ActionResponse processYH(ActionRequest request) throws ExecutionException, InterruptedException {
+=======
+	@ForIntent("Category") // 호출 : 123
+	public ActionResponse processCategory(ActionRequest request) throws ExecutionException, InterruptedException {
+>>>>>>> 2efd4c996293241de7692b92dd79776ebca5fe68
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 
 		List<ListSelectListItem> items = new ArrayList<>();
@@ -66,6 +71,7 @@ public class English_y extends DialogflowApp {
 
 	}
 
+<<<<<<< HEAD
 	@ForIntent("YH_First - response")
 	public ActionResponse processYH_response(ActionRequest request) throws ExecutionException, InterruptedException {
 
@@ -74,49 +80,76 @@ public class English_y extends DialogflowApp {
 		
 
 		
+=======
+	@ForIntent("Category_R")
+	public ActionResponse processResponse(ActionRequest request) throws ExecutionException, InterruptedException {
+
+		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		String selectedItem = request.getSelectedOption();
+
+>>>>>>> 2efd4c996293241de7692b92dd79776ebca5fe68
 		if (selectedItem.equals("School")) {
-			return YH_F_r_school(request);
+			responseBuilder.add("Let's talk about school. What will you do at school?");
 		}
 		else if (selectedItem.equals("Study")) {
-			return YH_F_r_study(request);
+			responseBuilder.add("Let's talk about Study. What will you do study?");
 		}
-		else if (selectedItem.equals("Life")) {	// Life 키워드 선택
-			
-			return YH_F_r_life(request);
-		}
+		else {
 
-		else 
-			return responseBuilder.build();
+			return responseBuilder
+				    .add("This is the Date time helper intent")
+				    .add(
+				        new DateTimePrompt()
+				            .setDateTimePrompt("When would ilke to schedule the appointment")
+				            .setDatePrompt("What day?")
+				            .setTimePrompt("What time?"))
+				    .build();
+		}
+		return responseBuilder.build();
 	}
 
+<<<<<<< HEAD
 	@ForIntent("YH_First - response - school")
 	public ActionResponse YH_F_r_school(ActionRequest request) throws ExecutionException, InterruptedException {
+=======
+	@ForIntent("Category_R_school")
+	public ActionResponse School(ActionRequest request) throws ExecutionException, InterruptedException {
+>>>>>>> 2efd4c996293241de7692b92dd79776ebca5fe68
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("Let's talk about school. What will you do at school?");
-
 		return responseBuilder.build();
-
 	}
 
+<<<<<<< HEAD
 	@ForIntent("YH_First - response - study")
 	public ActionResponse YH_F_r_study(ActionRequest request) throws ExecutionException, InterruptedException {
+=======
+	@ForIntent("Category_R_study")
+	public ActionResponse Study(ActionRequest request) throws ExecutionException, InterruptedException {
+>>>>>>> 2efd4c996293241de7692b92dd79776ebca5fe68
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("Let's talk about Study. What will you do study?");
 		return responseBuilder.build();
 
 	}
 
+<<<<<<< HEAD
 	@ForIntent("YH_First - response - life")
 	public ActionResponse YH_F_r_life(ActionRequest request) throws ExecutionException, InterruptedException {
+=======
+	@ForIntent("Category_R_life")
+	public ActionResponse Life(ActionRequest request) throws ExecutionException, InterruptedException {
+>>>>>>> 2efd4c996293241de7692b92dd79776ebca5fe68
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("Let's talk about life. What is your hobby?");
-
-		return responseBuilder.build();
+		//String temp = request.getRawText();
+		DateTime dateTimeValue = request.getDateTime();
+		return responseBuilder							// ex) 11:30 > 23시로 인식, 날짜 : today, 5/1, ...
+				.add(dateTimeValue.getTime().toString())			// {hours=??}
+				.add(dateTimeValue.getDate().toString()).build();	// {day=??, month=??, year=????}
 
 	}
 
+<<<<<<< HEAD
 	@ForIntent("Life - response")
 	public ActionResponse YH_Life_r(ActionRequest request) throws ExecutionException, InterruptedException {
 
@@ -128,4 +161,6 @@ public class English_y extends DialogflowApp {
 
 	}
 
+=======
+>>>>>>> 2efd4c996293241de7692b92dd79776ebca5fe68
 }

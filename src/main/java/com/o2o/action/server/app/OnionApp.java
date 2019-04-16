@@ -100,6 +100,7 @@ public class OnionApp extends DialogflowApp {
 	public ActionResponse processTopicOption(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		String selectedItem = request.getSelectedOption();
+		
 		if(selectedItem.toLowerCase().equals("animal")) {
 			responseBuilder.add("Ok, What's your favorite animal?");
 		}
