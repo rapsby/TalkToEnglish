@@ -113,8 +113,7 @@ public class English_y extends DialogflowApp {
 		//String temp = request.getRawText();
 		DateTime dateTimeValue = request.getDateTime();
 		return responseBuilder							// ex) 11:30 > 23시로 인식, 날짜 : today, 5/1, ...
-				.add(dateTimeValue.getTime().toString())			// {hours=??}
-				.add(dateTimeValue.getDate().toString()).build();	// {day=??, month=??, year=????}
+				.add(dateTimeValue.getTime().toString()).build();
 
 	}
 
