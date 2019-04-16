@@ -126,7 +126,7 @@ public class English_y extends DialogflowApp {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		String ask[] = {"rain?", "breakfast", "task?"};
 		int index = (int)(Math.random()*3);
-		
+		// ddd
 		responseBuilder.add("That's good. So ");
 		responseBuilder.add(ask[index]);
 		
