@@ -28,31 +28,26 @@ public class English extends DialogflowApp {
 	public ActionResponse processCurrentTime(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		return responseBuilder
-		    .add("This is the Date time helper intent")
-		    .add(
-		        new DateTimePrompt()
-		            .setDateTimePrompt("When would ilke to schedule the appointment")
-		            .setDatePrompt("2019-04-10")
-		            .setTimePrompt("12:30"))
-		    .build();
+				.add("This is the Date time helper intent")
+				.add(
+						new DateTimePrompt()
+						.setDateTimePrompt("When would ilke to schedule the appointment")
+						.setDatePrompt("2019-04-10")
+						.setTimePrompt("12:30"))
+				.build();
 
 	}
-	
+
 	@ForIntent("CurrentTime - response")
 	public ActionResponse processCurrentTimeResponse(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		String response;
-		DateTime dateTimeValue = request.getDateTime();
-		if (dateTimeValue != null) {
-		  response = "Alright, date set.";
-		} else {
-		  response = "I'm having a hard time finding an appointment";
-		}
-		return responseBuilder.add(response).build();
-
+		responseBuilder.add(request.getDateTime().getTime().toString());
+		return responseBuilder.build();
 	}
-	
+
+
+
 	@ForIntent("Conversation")
 	public ActionResponse processConversation(ActionRequest request) throws ExecutionException, InterruptedException {
 

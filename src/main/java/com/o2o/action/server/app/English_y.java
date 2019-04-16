@@ -26,7 +26,7 @@ import com.google.api.services.actions_fulfillment.v2.model.SimpleResponse;
 import com.google.api.services.actions_fulfillment.v2.model.DateTimeValueSpecDateTimeDialogSpec;
 
 public class English_y extends DialogflowApp {
-	@ForIntent("Category") // 호출 : 123
+	@ForIntent("YH_First")
 	public ActionResponse processYH(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 
@@ -66,11 +66,13 @@ public class English_y extends DialogflowApp {
 
 	}
 
-	@ForIntent("Category_R")
+	@ForIntent("YH_First - response")
 	public ActionResponse processYH_response(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		String selectedItem = request.getSelectedOption();
+		
+
 		
 		if (selectedItem.equals("School")) {
 			return YH_F_r_school(request);
@@ -87,7 +89,7 @@ public class English_y extends DialogflowApp {
 			return responseBuilder.build();
 	}
 
-	@ForIntent("Category_R_school")
+	@ForIntent("YH_First - response - school")
 	public ActionResponse YH_F_r_school(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		responseBuilder.add("Let's talk about school. What will you do at school?");
@@ -96,7 +98,7 @@ public class English_y extends DialogflowApp {
 
 	}
 
-	@ForIntent("Category_R_study")
+	@ForIntent("YH_First - response - study")
 	public ActionResponse YH_F_r_study(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
@@ -105,7 +107,7 @@ public class English_y extends DialogflowApp {
 
 	}
 
-	@ForIntent("Category_R_life")
+	@ForIntent("YH_First - response - life")
 	public ActionResponse YH_F_r_life(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
@@ -115,7 +117,7 @@ public class English_y extends DialogflowApp {
 
 	}
 
-	@ForIntent("Life_R")
+	@ForIntent("Life - response")
 	public ActionResponse YH_Life_r(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
@@ -125,4 +127,5 @@ public class English_y extends DialogflowApp {
 		return responseBuilder.build();
 
 	}
+
 }
