@@ -1,31 +1,24 @@
 package com.o2o.action.server.app;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import com.google.actions.api.ActionRequest;
 import com.google.actions.api.ActionResponse;
-import com.google.actions.api.Capability;
 import com.google.actions.api.DialogflowApp;
 import com.google.actions.api.ForIntent;
 import com.google.actions.api.response.ResponseBuilder;
 import com.google.actions.api.response.helperintent.DateTimePrompt;
 import com.google.actions.api.response.helperintent.SelectionList;
-import com.google.api.services.actions_fulfillment.v2.model.CarouselBrowse;
-import com.google.api.services.actions_fulfillment.v2.model.CarouselBrowseItem;
 import com.google.api.services.actions_fulfillment.v2.model.DateTime;
 import com.google.api.services.actions_fulfillment.v2.model.Image;
 import com.google.api.services.actions_fulfillment.v2.model.ListSelectListItem;
-import com.google.api.services.actions_fulfillment.v2.model.MediaObject;
-import com.google.api.services.actions_fulfillment.v2.model.MediaResponse;
-import com.google.api.services.actions_fulfillment.v2.model.OpenUrlAction;
 import com.google.api.services.actions_fulfillment.v2.model.OptionInfo;
-import com.google.api.services.actions_fulfillment.v2.model.SimpleResponse;
-import com.google.api.services.actions_fulfillment.v2.model.DateTimeValueSpecDateTimeDialogSpec;
 
 public class English_y extends DialogflowApp {
+	
+	
 	@ForIntent("Category") // 호출 : 123
 	public ActionResponse processCategory(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
@@ -79,15 +72,20 @@ public class English_y extends DialogflowApp {
 			responseBuilder.add("Let's talk about Study. What will you do study?");
 		}
 		else {
+			
 
 			responseBuilder
 				    .add("This is the Date time helper intent")
 				    .add(
 				        new DateTimePrompt()
-				        	.setTimePrompt("What time?")
 				            .setDateTimePrompt("When would ilke to schedule the appointment")
 				            .setDatePrompt("What day?")
+<<<<<<< HEAD
 				            );
+=======
+				            .setTimePrompt("What time?"))
+				    .build();
+>>>>>>> 3f51c2a4934e31e9ccde706bdbf5a337d3f9765e
 		}
 		return responseBuilder.build();
 	}
@@ -112,21 +110,20 @@ public class English_y extends DialogflowApp {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		DateTime dateTime = request.getDateTime();
 		if(dateTime == null)
-		{
 			return responseBuilder.add("time is null").build();
-		}
+
 		int hours = dateTime.getTime().getHours();
 		int minutes = dateTime.getTime().getMinutes();
+		
 		if(hours<=8 && hours >=4)
-		{
 			responseBuilder.add(hours+":"+minutes+". you get up early.");
-		}
 		else
-		{
 			responseBuilder.add(hours+":"+minutes+". you get up late.");
-		}
+		
+		responseBuilder.add("Why did you get up that?");
 		return responseBuilder.build();
 	}
+<<<<<<< HEAD
 	@ForIntent("input.welcome")
 	public ActionResponse welcome(ActionRequest request) {
 		  ResponseBuilder responseBuilder = getResponseBuilder(request);
@@ -137,5 +134,21 @@ public class English_y extends DialogflowApp {
 		  }
 		  return responseBuilder.build();
 		}
+=======
+	
+	@ForIntent("Life_conversation")
+	public ActionResponse Life_con(ActionRequest request) throws ExecutionException, InterruptedException {
+
+		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		String ask[] = {"rain?", "breakfast", "task?"};
+		int index = (int)(Math.random()*3);
+		
+		responseBuilder.add("That's good. So ");
+		responseBuilder.add(ask[index]);
+		
+		return responseBuilder.build();
+
+	}
+>>>>>>> 3f51c2a4934e31e9ccde706bdbf5a337d3f9765e
 
 }
