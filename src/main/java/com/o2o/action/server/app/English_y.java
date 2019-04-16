@@ -60,7 +60,7 @@ public class English_y extends DialogflowApp {
 				.setAccessibilityText("Recipe"));
 		items.add(item);
 
-		return responseBuilder.add("empty")
+		return responseBuilder.add("Pick what you want to talk.")
 				.add(new SelectionList().setTitle("Category").setItems(items))
 				.addSuggestions( new String[]{ "School", "Study", "Life" }).build();
 
@@ -84,9 +84,11 @@ public class English_y extends DialogflowApp {
 				    .add("This is the Date time helper intent")
 				    .add(
 				        new DateTimePrompt()
+				        	.setTimePrompt("What time?")
 				            .setDateTimePrompt("When would ilke to schedule the appointment")
 				            .setDatePrompt("What day?")
-				            .setTimePrompt("What time?"))
+				            )
+				            
 				    .build();
 		}
 		return responseBuilder.build();
@@ -110,11 +112,22 @@ public class English_y extends DialogflowApp {
 	public ActionResponse Life(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		//String temp = request.getRawText();
-		DateTime dateTimeValue = request.getDateTime();
-		return responseBuilder							// ex) 11:30 > 23시로 인식, 날짜 : today, 5/1, ...
-				.add(dateTimeValue.getTime().toString()).build();
-
+		DateTime dateTime = request.getDateTime();
+		if(dateTime == null)
+		{
+			return responseBuilder.add("time is null").build();
+		}
+		int hours = dateTime.getTime().getHours();
+		int minutes = dateTime.getTime().getMinutes();
+		if(hours<=8 && hours >=4)
+		{
+			responseBuilder.add(hours+":"+minutes+". you get up early.");
+		}
+		else
+		{
+			responseBuilder.add(hours+":"+minutes+". you get up late.");
+		}
+		return responseBuilder.build();
 	}
 
 }

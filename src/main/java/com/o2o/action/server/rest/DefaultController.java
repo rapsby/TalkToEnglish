@@ -206,7 +206,7 @@ public class DefaultController {
 	      String jsonResponse = null;
 	      try {
 	         System.out.println("request : " + body + "," + categoryRepository);
-	         jsonResponse = english.handleRequest(body, getHeadersMap(request)).get();
+	         jsonResponse = english_y.handleRequest(body, getHeadersMap(request)).get();
 	         System.out.println("response : " + jsonResponse);
 	      } catch (InterruptedException e) {
 	         e.printStackTrace();
