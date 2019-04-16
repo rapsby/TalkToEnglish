@@ -80,16 +80,14 @@ public class English_y extends DialogflowApp {
 		}
 		else {
 
-			return responseBuilder
+			responseBuilder
 				    .add("This is the Date time helper intent")
 				    .add(
 				        new DateTimePrompt()
 				        	.setTimePrompt("What time?")
 				            .setDateTimePrompt("When would ilke to schedule the appointment")
 				            .setDatePrompt("What day?")
-				            )
-				            
-				    .build();
+				            );
 		}
 		return responseBuilder.build();
 	}
@@ -129,5 +127,15 @@ public class English_y extends DialogflowApp {
 		}
 		return responseBuilder.build();
 	}
+	@ForIntent("input.welcome")
+	public ActionResponse welcome(ActionRequest request) {
+		  ResponseBuilder responseBuilder = getResponseBuilder(request);
+		  if (request.getUser().getLastSeen() != null) {
+		    responseBuilder.add("Hey you're back...");
+		  } else {
+		    responseBuilder.add("Welcome to Number Genie!...");
+		  }
+		  return responseBuilder.build();
+		}
 
 }
