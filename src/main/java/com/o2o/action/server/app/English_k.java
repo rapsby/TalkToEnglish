@@ -198,7 +198,7 @@ public class English_k extends DialogflowApp {
 	@ForIntent("time")
 	public ActionResponse processTIme(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("sfgdfgdfkerfmksdf");
+		responseBuilder.add(request.getDateTime().getTime().toString());
 		
 		return responseBuilder.build();
 	}

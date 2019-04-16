@@ -26,8 +26,13 @@ import com.google.api.services.actions_fulfillment.v2.model.SimpleResponse;
 import com.google.api.services.actions_fulfillment.v2.model.DateTimeValueSpecDateTimeDialogSpec;
 
 public class English_y extends DialogflowApp {
+<<<<<<< HEAD
+	@ForIntent("YH_First")
+	public ActionResponse processYH(ActionRequest request) throws ExecutionException, InterruptedException {
+=======
 	@ForIntent("Category") // 호출 : 123
 	public ActionResponse processCategory(ActionRequest request) throws ExecutionException, InterruptedException {
+>>>>>>> 2efd4c996293241de7692b92dd79776ebca5fe68
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 
 		List<ListSelectListItem> items = new ArrayList<>();
@@ -66,12 +71,23 @@ public class English_y extends DialogflowApp {
 
 	}
 
+<<<<<<< HEAD
+	@ForIntent("YH_First - response")
+	public ActionResponse processYH_response(ActionRequest request) throws ExecutionException, InterruptedException {
+
+		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		String selectedItem = request.getSelectedOption();
+		
+
+		
+=======
 	@ForIntent("Category_R")
 	public ActionResponse processResponse(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		String selectedItem = request.getSelectedOption();
 
+>>>>>>> 2efd4c996293241de7692b92dd79776ebca5fe68
 		if (selectedItem.equals("School")) {
 			responseBuilder.add("Let's talk about school. What will you do at school?");
 		}
@@ -92,22 +108,37 @@ public class English_y extends DialogflowApp {
 		return responseBuilder.build();
 	}
 
+<<<<<<< HEAD
+	@ForIntent("YH_First - response - school")
+	public ActionResponse YH_F_r_school(ActionRequest request) throws ExecutionException, InterruptedException {
+=======
 	@ForIntent("Category_R_school")
 	public ActionResponse School(ActionRequest request) throws ExecutionException, InterruptedException {
+>>>>>>> 2efd4c996293241de7692b92dd79776ebca5fe68
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		return responseBuilder.build();
 	}
 
+<<<<<<< HEAD
+	@ForIntent("YH_First - response - study")
+	public ActionResponse YH_F_r_study(ActionRequest request) throws ExecutionException, InterruptedException {
+=======
 	@ForIntent("Category_R_study")
 	public ActionResponse Study(ActionRequest request) throws ExecutionException, InterruptedException {
+>>>>>>> 2efd4c996293241de7692b92dd79776ebca5fe68
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		return responseBuilder.build();
 
 	}
 
+<<<<<<< HEAD
+	@ForIntent("YH_First - response - life")
+	public ActionResponse YH_F_r_life(ActionRequest request) throws ExecutionException, InterruptedException {
+=======
 	@ForIntent("Category_R_life")
 	public ActionResponse Life(ActionRequest request) throws ExecutionException, InterruptedException {
+>>>>>>> 2efd4c996293241de7692b92dd79776ebca5fe68
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		//String temp = request.getRawText();
@@ -117,4 +148,18 @@ public class English_y extends DialogflowApp {
 
 	}
 
+<<<<<<< HEAD
+	@ForIntent("Life - response")
+	public ActionResponse YH_Life_r(ActionRequest request) throws ExecutionException, InterruptedException {
+
+		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		responseBuilder.add("umm.. " + request.getRawText()); // getRawText() : 사용자의 입력
+		responseBuilder.add((String)request.getParameter("Life"));
+
+		return responseBuilder.build();
+
+	}
+
+=======
+>>>>>>> 2efd4c996293241de7692b92dd79776ebca5fe68
 }
