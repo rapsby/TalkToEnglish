@@ -74,14 +74,18 @@ public class English_y extends DialogflowApp {
 		else {
 			
 
-			return responseBuilder
+			responseBuilder
 				    .add("This is the Date time helper intent")
 				    .add(
 				        new DateTimePrompt()
 				            .setDateTimePrompt("When would ilke to schedule the appointment")
 				            .setDatePrompt("What day?")
+<<<<<<< HEAD
+				            );
+=======
 				            .setTimePrompt("What time?"))
 				    .build();
+>>>>>>> 3f51c2a4934e31e9ccde706bdbf5a337d3f9765e
 		}
 		return responseBuilder.build();
 	}
@@ -119,6 +123,18 @@ public class English_y extends DialogflowApp {
 		responseBuilder.add("Why did you get up that?");
 		return responseBuilder.build();
 	}
+<<<<<<< HEAD
+	@ForIntent("input.welcome")
+	public ActionResponse welcome(ActionRequest request) {
+		  ResponseBuilder responseBuilder = getResponseBuilder(request);
+		  if (request.getUser().getLastSeen() != null) {
+		    responseBuilder.add("Hey you're back...");
+		  } else {
+		    responseBuilder.add("Welcome to Number Genie!...");
+		  }
+		  return responseBuilder.build();
+		}
+=======
 	
 	@ForIntent("Life_conversation")
 	public ActionResponse Life_con(ActionRequest request) throws ExecutionException, InterruptedException {
@@ -133,5 +149,6 @@ public class English_y extends DialogflowApp {
 		return responseBuilder.build();
 
 	}
+>>>>>>> 3f51c2a4934e31e9ccde706bdbf5a337d3f9765e
 
 }
