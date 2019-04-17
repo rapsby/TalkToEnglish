@@ -19,7 +19,7 @@ import com.google.api.services.actions_fulfillment.v2.model.OptionInfo;
 public class English_y extends DialogflowApp {
 	
 	
-	@ForIntent("Default Welcome Intent") // 호출 : 123
+	@ForIntent("Default Welcome Intent")
 	public ActionResponse processCategory(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 
@@ -53,7 +53,7 @@ public class English_y extends DialogflowApp {
 				.setAccessibilityText("Recipe"));
 		items.add(item);
 
-		return responseBuilder.add("Pick what you want to talk.")
+		return responseBuilder.add(" Pick what you want to talk.")
 				.add(new SelectionList().setTitle("Category").setItems(items))
 				.addSuggestions( new String[]{ "School", "Study", "Life" }).build();
 
@@ -78,7 +78,7 @@ public class English_y extends DialogflowApp {
 				    .add("This is the Date time helper intent")
 				    .add(
 				        new DateTimePrompt()
-				            .setDateTimePrompt("When would ilke to schedule the appointment")
+				            .setDateTimePrompt("What time did you get up?")
 				            .setDatePrompt("What day?")
 				            .setTimePrompt("What time?"))
 				    .build();
@@ -111,12 +111,12 @@ public class English_y extends DialogflowApp {
 		int hours = dateTime.getTime().getHours();
 		int minutes = dateTime.getTime().getMinutes();
 		
-		if(hours<=8 && hours >=4)
+		if(hours <= 8 && hours >= 4)
 			responseBuilder.add(hours+":"+minutes+". you get up early.");
 		else
 			responseBuilder.add(hours+":"+minutes+". you get up late.");
 		
-		responseBuilder.add("Why did you get up that?");
+		responseBuilder.add(" Why did you get up that?");
 		return responseBuilder.build();
 	}
 	
@@ -124,9 +124,10 @@ public class English_y extends DialogflowApp {
 	public ActionResponse Life_con(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		String ask[] = {"rain?", "breakfast", "task?"};
+		String ask[] = {"rain?", "breakfast?", "task?"};
 		int index = (int)(Math.random()*3);
 		
+		responseBuilder.add(request.getRawText() + "? ");
 		responseBuilder.add("That's good. So ");
 		responseBuilder.add(ask[index]);
 		
