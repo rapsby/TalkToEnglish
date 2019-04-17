@@ -15,6 +15,7 @@ import com.google.api.services.actions_fulfillment.v2.model.DateTime;
 import com.google.api.services.actions_fulfillment.v2.model.Image;
 import com.google.api.services.actions_fulfillment.v2.model.ListSelectListItem;
 import com.google.api.services.actions_fulfillment.v2.model.OptionInfo;
+import com.google.api.services.actions_fulfillment.v2.model.SimpleResponse;
 
 public class English_y extends DialogflowApp {
 	
@@ -53,7 +54,8 @@ public class English_y extends DialogflowApp {
 				.setAccessibilityText("Recipe"));
 		items.add(item);
 
-		return responseBuilder.add(" Pick what you want to talk.")
+		String welcome = " Pick what you want to talk.";
+		return responseBuilder.add(welcome)
 				.add(new SelectionList().setTitle("Category").setItems(items))
 				.addSuggestions( new String[]{ "School", "Study", "Life" }).build();
 
@@ -105,31 +107,35 @@ public class English_y extends DialogflowApp {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		DateTime dateTime = request.getDateTime();
+		String response = "";
 		if(dateTime == null)
 			return responseBuilder.add("time is null").build();
 
 		int hours = dateTime.getTime().getHours();
 		int minutes = dateTime.getTime().getMinutes();
 		
-		if(hours <= 8 && hours >= 4)
-			responseBuilder.add(hours+":"+minutes+". you get up early.");
-		else
-			responseBuilder.add(hours+":"+minutes+". you get up late.");
+		if(hours <= 8 && hours >= 4) {
+			response += hours+":"+minutes+". oh, you get up early.";
+			responseBuilder.addSuggestions( new String[]{ "Business", "Exercise", "Breakfast" });
+		}
+		else {
+			response += hours+":"+minutes+". oh, you get up late.";
+			responseBuilder.addSuggestions( new String[]{ "I lost sleep last night", "Assignment", "temp" });
+		}
 		
-		responseBuilder.add(" Why did you get up that?");
-		return responseBuilder.build();
+		response += " Why did you get up that?";
+		return responseBuilder.add(response).build();
 	}
 	
 	@ForIntent("Life_conversation")
 	public ActionResponse Life_con(ActionRequest request) throws ExecutionException, InterruptedException {
 
+		
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		String ask[] = {"rain?", "breakfast?", "task?"};
+		String ask[] = {"rain?", "breakfast?", "work?"};
 		int index = (int)(Math.random()*3);
 		
-		responseBuilder.add(request.getRawText() + "? ");
-		responseBuilder.add("That's good. So ");
-		responseBuilder.add(ask[index]);
+		responseBuilder.add("So was it. Umm.. " + ask[index]);
 		
 		return responseBuilder.build();
 
