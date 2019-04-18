@@ -85,20 +85,17 @@ public class English_y extends DialogflowApp {
 		String selectedItem = request.getSelectedOption();
 
 		if (selectedItem.equals("School")) {
-			usedSchool = true;
-			responseBuilder.add("Let's talk about school. What will you do at school?");
+			responseBuilder.add("Let's talk about school. What's your major?");
 		}
 		else if (selectedItem.equals("Study")) {
-			usedStudy = true;
-			responseBuilder.add("Let's talk about Study. What will you do study?");
+			responseBuilder.add("Let's talk about Study. What is your favorite subject?");
 		}
 		else {
-			usedLife = true;
 			responseBuilder
 			.add("This is the Date time helper intent")
 			.add(
 					new DateTimePrompt()
-					.setDateTimePrompt("What time did you get up? ")
+					.setDateTimePrompt("What time did you get up?")
 					.setDatePrompt("What day?")
 					.setTimePrompt("What time?"));
 		}
@@ -108,6 +105,7 @@ public class English_y extends DialogflowApp {
 	@ForIntent("Category_R_school")
 	public ActionResponse School(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		responseBuilder.add("Oh, Really? That's good. What are you do?");
 		return responseBuilder.build();
 	}
 
@@ -115,6 +113,7 @@ public class English_y extends DialogflowApp {
 	public ActionResponse Study(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		responseBuilder.add("That's good. Studying it, what can you be?");
 		return responseBuilder.build();
 
 	}
