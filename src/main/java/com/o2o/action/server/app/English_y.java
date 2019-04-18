@@ -42,6 +42,7 @@ public class English_y extends DialogflowApp {
 					.setAccessibilityText("Math and prime numbers"));
 			items.add(item);
 			suggestions.add(item.getTitle());
+			usedSchool = true;
 		}
 		if(!usedStudy) {
 			item = new ListSelectListItem();
@@ -53,6 +54,7 @@ public class English_y extends DialogflowApp {
 					.setAccessibilityText("Recipe"));
 			items.add(item);
 			suggestions.add(item.getTitle());
+			usedStudy = true;
 		}
 
 		if(!usedLife)
@@ -66,6 +68,7 @@ public class English_y extends DialogflowApp {
 					.setAccessibilityText("Recipe"));
 			items.add(item);
 			suggestions.add(item.getTitle());
+			usedLife = true;
 		}
 		String welcome = " Pick what you want to talk.";
 		return responseBuilder.add(welcome)
