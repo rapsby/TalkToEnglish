@@ -25,13 +25,13 @@ public class English_y extends DialogflowApp {
 
 
 	@ForIntent("Default Welcome Intent")
-	public ActionResponse processCategory(ActionRequest request) throws ExecutionException, InterruptedException {
+	public ActionResponse Start(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 
 		List<ListSelectListItem> items = new ArrayList<>();
 		ListSelectListItem item = new ListSelectListItem();
 		List<String> suggestions = new ArrayList<>();
-		if(!usedSchool) 
+		if(!usedSchool) {
 		
 			item.setTitle("School")
 			.setOptionInfo(
@@ -43,8 +43,9 @@ public class English_y extends DialogflowApp {
 					.setAccessibilityText("Math and prime numbers"));
 			items.add(item);
 			suggestions.add(item.getTitle());
-		
-		if(!usedStudy) 
+			usedSchool = true;
+		}
+		if(!usedStudy) {
 		
 			item = new ListSelectListItem();
 			item.setTitle("Study")
@@ -55,9 +56,11 @@ public class English_y extends DialogflowApp {
 					.setAccessibilityText("Recipe"));
 			items.add(item);
 			suggestions.add(item.getTitle());
+			usedStudy = true;
+		}
 		
 
-		if(!usedLife)
+		if(!usedLife) {
 
 			item = new ListSelectListItem();
 			item.setTitle("Life")
@@ -68,6 +71,8 @@ public class English_y extends DialogflowApp {
 					.setAccessibilityText("Recipe"));
 			items.add(item);
 			suggestions.add(item.getTitle());
+			usedLife = true;
+		}
 
 		String welcome = " Pick what you want to talk.";
 		String [] sug = new String [suggestions.size()];
@@ -85,10 +90,10 @@ public class English_y extends DialogflowApp {
 		String selectedItem = request.getSelectedOption();
 
 		if (selectedItem.equals("School")) {
-			responseBuilder.add("Let's talk about school. What's your major?");
+			responseBuilder.add("What's your major?");
 		}
 		else if (selectedItem.equals("Study")) {
-			responseBuilder.add("Let's talk about Study. What is your favorite subject?");
+			responseBuilder.add("What is your favorite subject?");
 		}
 		else {
 			responseBuilder
@@ -142,9 +147,9 @@ public class English_y extends DialogflowApp {
 		response += " Why did you get up that?";
 		return responseBuilder.add(response).build();
 	}
-
-	@ForIntent("Life_conversation")
-	public ActionResponse Life_con(ActionRequest request) throws ExecutionException, InterruptedException {
+	
+	@ForIntent("School_conversation")
+	public ActionResponse School_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
@@ -155,6 +160,39 @@ public class English_y extends DialogflowApp {
 
 		return responseBuilder.build();
 
+	}
+	
+	@ForIntent("Study_conversation")
+	public ActionResponse Study_conv(ActionRequest request) throws ExecutionException, InterruptedException {
+
+
+		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		String ask[] = {"rain?", "breakfast?", "work?"};
+		int index = (int)(Math.random()*3);
+
+		responseBuilder.add("So was it. Umm.. " + ask[index]);
+		
+		return responseBuilder.build();
+
+	}
+
+	@ForIntent("Life_conversation")
+	public ActionResponse Life_conv(ActionRequest request) throws ExecutionException, InterruptedException {
+
+
+		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		String ask[] = {"rain?", "breakfast?", "work?"};
+		int index = (int)(Math.random()*3);
+
+		responseBuilder.add("So was it. Umm.. " + ask[index]);
+		
+		return responseBuilder.build();
+
+	}
+	
+	@ForIntent("Home")
+	public ActionResponse Home(ActionRequest request) throws ExecutionException, InterruptedException {
+		return Start(request);
 	}
 
 }
