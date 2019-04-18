@@ -74,14 +74,13 @@ public class English_y extends DialogflowApp {
 		else {
 			
 
-			return responseBuilder
+			responseBuilder
 				    .add("This is the Date time helper intent")
 				    .add(
 				        new DateTimePrompt()
 				            .setDateTimePrompt("When would ilke to schedule the appointment")
 				            .setDatePrompt("What day?")
-				            .setTimePrompt("What time?"))
-				    .build();
+				            .setTimePrompt("What time?"));
 		}
 		return responseBuilder.build();
 	}
