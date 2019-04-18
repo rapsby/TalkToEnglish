@@ -31,7 +31,8 @@ public class English_y extends DialogflowApp {
 		List<ListSelectListItem> items = new ArrayList<>();
 		ListSelectListItem item = new ListSelectListItem();
 		List<String> suggestions = new ArrayList<>();
-		if(!usedSchool) {
+		if(!usedSchool) 
+		
 			item.setTitle("School")
 			.setOptionInfo(
 					new OptionInfo()
@@ -42,9 +43,9 @@ public class English_y extends DialogflowApp {
 					.setAccessibilityText("Math and prime numbers"));
 			items.add(item);
 			suggestions.add(item.getTitle());
-			usedSchool = true;
-		}
-		if(!usedStudy) {
+		
+		if(!usedStudy) 
+		
 			item = new ListSelectListItem();
 			item.setTitle("Study")
 			.setOptionInfo(
@@ -54,11 +55,10 @@ public class English_y extends DialogflowApp {
 					.setAccessibilityText("Recipe"));
 			items.add(item);
 			suggestions.add(item.getTitle());
-			usedStudy = true;
-		}
+		
 
 		if(!usedLife)
-		{
+
 			item = new ListSelectListItem();
 			item.setTitle("Life")
 			.setOptionInfo(
@@ -68,12 +68,13 @@ public class English_y extends DialogflowApp {
 					.setAccessibilityText("Recipe"));
 			items.add(item);
 			suggestions.add(item.getTitle());
-			usedLife = true;
-		}
+
 		String welcome = " Pick what you want to talk.";
+		String [] sug = new String [suggestions.size()];
 		return responseBuilder.add(welcome)
 				.add(new SelectionList().setTitle("Category").setItems(items))
-				.addSuggestions((String [])suggestions.toArray()).build();
+				.addSuggestions((String [])suggestions.toArray(sug))
+				.build();
 
 	}
 
@@ -84,19 +85,20 @@ public class English_y extends DialogflowApp {
 		String selectedItem = request.getSelectedOption();
 
 		if (selectedItem.equals("School")) {
+			usedSchool = true;
 			responseBuilder.add("Let's talk about school. What will you do at school?");
 		}
 		else if (selectedItem.equals("Study")) {
+			usedStudy = true;
 			responseBuilder.add("Let's talk about Study. What will you do study?");
 		}
 		else {
-
-
+			usedLife = true;
 			responseBuilder
 			.add("This is the Date time helper intent")
 			.add(
 					new DateTimePrompt()
-					.setDateTimePrompt("What time did you get up?")
+					.setDateTimePrompt("What time did you get up? ")
 					.setDatePrompt("What day?")
 					.setTimePrompt("What time?"));
 		}
