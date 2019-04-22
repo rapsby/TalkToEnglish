@@ -43,7 +43,6 @@ public class English_y extends DialogflowApp {
 					.setAccessibilityText("Math and prime numbers"));
 			items.add(item);
 			suggestions.add(item.getTitle());
-			usedSchool = true;
 		}
 		if(!usedStudy) {
 		
@@ -56,7 +55,6 @@ public class English_y extends DialogflowApp {
 					.setAccessibilityText("Recipe"));
 			items.add(item);
 			suggestions.add(item.getTitle());
-			usedStudy = true;
 		}
 		
 
@@ -71,7 +69,6 @@ public class English_y extends DialogflowApp {
 					.setAccessibilityText("Recipe"));
 			items.add(item);
 			suggestions.add(item.getTitle());
-			usedLife = true;
 		}
 
 		String welcome = " Pick what you want to talk.";
@@ -80,7 +77,6 @@ public class English_y extends DialogflowApp {
 				.add(new SelectionList().setTitle("Category").setItems(items))
 				.addSuggestions((String [])suggestions.toArray(sug))
 				.build();
-
 	}
 
 	@ForIntent("Category_R")
@@ -90,12 +86,15 @@ public class English_y extends DialogflowApp {
 		String selectedItem = request.getSelectedOption();
 
 		if (selectedItem.equals("School")) {
+			usedSchool = true;
 			responseBuilder.add("What's your major?");
 		}
 		else if (selectedItem.equals("Study")) {
+			usedStudy = true;
 			responseBuilder.add("What is your favorite subject?");
 		}
 		else {
+			usedLife = true;
 			responseBuilder
 			.add("This is the Date time helper intent")
 			.add(
@@ -183,14 +182,14 @@ public class English_y extends DialogflowApp {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		String ask[] = {"rain?", "breakfast?", "work?"};
 		int index = (int)(Math.random()*3);
-
+		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + ask[index]);
 		
-		return responseBuilder.build();
+		return responseBuilder.addSuggestions(sug).build();
 
 	}
 	
-	@ForIntent("Home")
+	@ForIntent("Home")	// I talk
 	public ActionResponse Home(ActionRequest request) throws ExecutionException, InterruptedException {
 		return Start(request);
 	}
