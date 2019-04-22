@@ -27,8 +27,8 @@ public class English_y extends DialogflowApp {
 		ListSelectListItem item = new ListSelectListItem();
 		List<String> suggestions = new ArrayList<>();
 		Map<String, Object> data = request.getConversationData();
+		
 		if(!data.containsKey("School")) {
-			
 			item.setTitle("School")
 			.setOptionInfo(
 					new OptionInfo()
@@ -40,8 +40,8 @@ public class English_y extends DialogflowApp {
 			items.add(item);
 			suggestions.add(item.getTitle());
 		}
+	
 		if(!data.containsKey("Study")) {
-			
 			item = new ListSelectListItem();
 			item.setTitle("Study")
 			.setOptionInfo(
@@ -52,10 +52,8 @@ public class English_y extends DialogflowApp {
 			items.add(item);
 			suggestions.add(item.getTitle());
 		}
-		
 
 		if(!data.containsKey("Lifestyle")) {
-			
 			item = new ListSelectListItem();
 			item.setTitle("Lifestyle")
 			.setOptionInfo(
@@ -102,7 +100,7 @@ public class English_y extends DialogflowApp {
 	@ForIntent("Category_R_school")
 	public ActionResponse School(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		if (request.getRawText().equals(request.getParameter("School"))) {
+		if (request.getRawText().equalsIgnoreCase((String)request.getParameter("School"))) {
 			responseBuilder.addSuggestions( new String[]{ "Coding", "Teaching", "Experiment"});
 			responseBuilder.add("Oh, " + request.getRawText() + "? That's good. What are you do?");
 		}
@@ -114,7 +112,7 @@ public class English_y extends DialogflowApp {
 	public ActionResponse Study(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		if (request.getRawText().equals(request.getParameter("Study"))) {
+		if (request.getRawText().equalsIgnoreCase((String)request.getParameter("Study"))) {
 			responseBuilder.addSuggestions( new String[]{ "Computer Engineer", "Lawyer", "Official"});
 			responseBuilder.add("That's good. Studying it, what can you be?");
 		}
@@ -161,7 +159,7 @@ public class English_y extends DialogflowApp {
 
 	}
 	
-	@ForIntent("Study_conversation")
+	@ForIntent("Study_conversation") // 대소문자 구분안하게
 	public ActionResponse Study_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
@@ -171,7 +169,6 @@ public class English_y extends DialogflowApp {
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
 		
 		return responseBuilder.addSuggestions(sug).build();
-
 	}
 
 	@ForIntent("Life_conversation")
