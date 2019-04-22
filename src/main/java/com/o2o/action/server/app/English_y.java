@@ -19,11 +19,6 @@ import com.google.api.services.actions_fulfillment.v2.model.OptionInfo;
 
 public class English_y extends DialogflowApp {
 
-	static boolean usedSchool = false;
-	static boolean usedStudy = false;
-	static boolean usedLife = false;
-
-
 	@ForIntent("Default Welcome Intent")
 	public ActionResponse Start(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
@@ -31,8 +26,9 @@ public class English_y extends DialogflowApp {
 		List<ListSelectListItem> items = new ArrayList<>();
 		ListSelectListItem item = new ListSelectListItem();
 		List<String> suggestions = new ArrayList<>();
-		if(!usedSchool) {
-		
+		Map<String, Object> data = request.getConversationData();
+		if(data.containsKey("School")) {
+			
 			item.setTitle("School")
 			.setOptionInfo(
 					new OptionInfo()
@@ -44,8 +40,8 @@ public class English_y extends DialogflowApp {
 			items.add(item);
 			suggestions.add(item.getTitle());
 		}
-		if(!usedStudy) {
-		
+		if(data.containsKey("Study")) {
+			data.put("Study", 1);
 			item = new ListSelectListItem();
 			item.setTitle("Study")
 			.setOptionInfo(
@@ -58,13 +54,13 @@ public class English_y extends DialogflowApp {
 		}
 		
 
-		if(!usedLife) {
-
+		if(data.containsKey("Lifestyle")) {
+			data.put("Lifestyle", 1);
 			item = new ListSelectListItem();
-			item.setTitle("Life")
+			item.setTitle("Lifestyle")
 			.setOptionInfo(
 					new OptionInfo()
-					.setKey("Life"))
+					.setKey("Lifestyle"))
 			.setImage(new Image().setUrl("https://tistory3.daumcdn.net/tistory/3084370/skin/images/KakaoTalk_20190404_123944655.jpg")
 					.setAccessibilityText("Recipe"));
 			items.add(item);
@@ -155,8 +151,9 @@ public class English_y extends DialogflowApp {
 	@ForIntent("School_conversation")
 	public ActionResponse School_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
-		usedSchool = true;
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		Map<String, Object> data = request.getConversationData();
+		data.put("School", 1);
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
 		
@@ -167,8 +164,9 @@ public class English_y extends DialogflowApp {
 	@ForIntent("Study_conversation")
 	public ActionResponse Study_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
-		usedStudy = true;
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		Map<String, Object> data = request.getConversationData();
+		data.put("Study", 1);
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
 		
@@ -179,8 +177,9 @@ public class English_y extends DialogflowApp {
 	@ForIntent("Life_conversation")
 	public ActionResponse Life_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
-		usedLife = true;
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
+		Map<String, Object> data = request.getConversationData();
+		data.put("Lifestyle", 1);
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
 		
