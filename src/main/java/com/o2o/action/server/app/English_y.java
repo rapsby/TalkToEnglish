@@ -86,15 +86,15 @@ public class English_y extends DialogflowApp {
 		String selectedItem = request.getSelectedOption();
 
 		if (selectedItem.equals("School")) {
-			usedSchool = true;
+			
 			responseBuilder.add("What's your major?");
 		}
 		else if (selectedItem.equals("Study")) {
-			usedStudy = true;
+			
 			responseBuilder.add("What is your favorite subject?");
 		}
 		else {
-			usedLife = true;
+			
 			responseBuilder
 			.add("This is the Date time helper intent")
 			.add(
@@ -150,43 +150,36 @@ public class English_y extends DialogflowApp {
 	@ForIntent("School_conversation")
 	public ActionResponse School_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
-
+		usedSchool = true;
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		String ask[] = {"rain?", "breakfast?", "work?"};
-		int index = (int)(Math.random()*3);
-
-		responseBuilder.add("So was it. Umm.. " + ask[index]);
-
-		return responseBuilder.build();
+		String sug[] = new String[] {"Yes", "No"};
+		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
+		
+		return responseBuilder.addSuggestions(sug).build();
 
 	}
 	
 	@ForIntent("Study_conversation")
 	public ActionResponse Study_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
-
+		usedStudy = true;
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		String ask[] = {"rain?", "breakfast?", "work?"};
-		int index = (int)(Math.random()*3);
-
-		responseBuilder.add("So was it. Umm.. " + ask[index]);
+		String sug[] = new String[] {"Yes", "No"};
+		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
 		
-		return responseBuilder.build();
+		return responseBuilder.addSuggestions(sug).build();
 
 	}
 
 	@ForIntent("Life_conversation")
 	public ActionResponse Life_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
-
+		usedLife = true;
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		String ask[] = {"rain?", "breakfast?", "work?"};
-		int index = (int)(Math.random()*3);
 		String sug[] = new String[] {"Yes", "No"};
-		responseBuilder.add("So was it. Umm.. " + ask[index]);
+		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
 		
 		return responseBuilder.addSuggestions(sug).build();
-
 	}
 	
 	@ForIntent("Home")	// I talk
