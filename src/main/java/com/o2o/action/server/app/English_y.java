@@ -2,6 +2,7 @@ package com.o2o.action.server.app;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import com.google.actions.api.ActionRequest;
@@ -15,7 +16,6 @@ import com.google.api.services.actions_fulfillment.v2.model.DateTime;
 import com.google.api.services.actions_fulfillment.v2.model.Image;
 import com.google.api.services.actions_fulfillment.v2.model.ListSelectListItem;
 import com.google.api.services.actions_fulfillment.v2.model.OptionInfo;
-import com.google.api.services.actions_fulfillment.v2.model.SimpleResponse;
 
 public class English_y extends DialogflowApp {
 
@@ -85,16 +85,13 @@ public class English_y extends DialogflowApp {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		String selectedItem = request.getSelectedOption();
 
-		if (selectedItem.equals("School")) {
-			
+		if (selectedItem.equals("School")) {// computer
 			responseBuilder.add("What's your major?");
 		}
-		else if (selectedItem.equals("Study")) {
-			
+		else if (selectedItem.equals("Study")) {// operating system, os
 			responseBuilder.add("What is your favorite subject?");
 		}
 		else {
-			
 			responseBuilder
 			.add("This is the Date time helper intent")
 			.add(
@@ -109,7 +106,11 @@ public class English_y extends DialogflowApp {
 	@ForIntent("Category_R_school")
 	public ActionResponse School(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("Oh, Really? That's good. What are you do?");
+		if (request.getRawText().equals(request.getParameter("School"))) {
+			responseBuilder.addSuggestions( new String[]{ "Coding", "Teaching", "Experiment"});
+			responseBuilder.add("Oh, " + request.getRawText() + "? That's good. What are you do?");
+		}
+		
 		return responseBuilder.build();
 	}
 
@@ -117,7 +118,11 @@ public class English_y extends DialogflowApp {
 	public ActionResponse Study(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		responseBuilder.add("That's good. Studying it, what can you be?");
+		if (request.getRawText().equals(request.getParameter("School"))) {
+			responseBuilder.addSuggestions( new String[]{ "Computer Engineer", "Lawyer", "Official"});
+			responseBuilder.add("That's good. Studying it, what can you be?");
+		}
+		
 		return responseBuilder.build();
 
 	}
@@ -140,7 +145,7 @@ public class English_y extends DialogflowApp {
 		}
 		else {
 			response += hours+":"+minutes+". oh, you get up late.";
-			responseBuilder.addSuggestions( new String[]{ "I lost sleep last night", "Assignment", "temp" });
+			responseBuilder.addSuggestions( new String[]{ "I lost sleep last night", "Assignment", "Nothing" });
 		}
 
 		response += " Why did you get up that?";
@@ -182,7 +187,7 @@ public class English_y extends DialogflowApp {
 		return responseBuilder.addSuggestions(sug).build();
 	}
 	
-	@ForIntent("Home")	// I talk
+	@ForIntent("Home")	// "Yes", No setting "No"
 	public ActionResponse Home(ActionRequest request) throws ExecutionException, InterruptedException {
 		return Start(request);
 	}
