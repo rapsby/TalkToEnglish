@@ -119,9 +119,8 @@ public class English_y extends DialogflowApp {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		responseBuilder.add("That's good. Studying it, what can you be?");
 		return responseBuilder.build();
-
 	}
-
+	
 	@ForIntent("Category_R_life")
 	public ActionResponse Life(ActionRequest request) throws ExecutionException, InterruptedException {
 
@@ -178,8 +177,8 @@ public class English_y extends DialogflowApp {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
-		
-		return responseBuilder.addSuggestions(sug).build();
+		//.addSuggestions(sug)
+		return responseBuilder.build();
 	}
 	
 	@ForIntent("Home")	// I talk
