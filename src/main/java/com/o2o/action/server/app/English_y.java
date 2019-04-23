@@ -71,12 +71,12 @@ public class English_y extends DialogflowApp {
 		}
 		
 		item = new ListSelectListItem();
-		item.setTitle("Home")
+		item.setTitle(" ")
 		.setOptionInfo(
 				new OptionInfo()
 				.setKey("null"));
 		items.add(item);
-		suggestions.add(item.getTitle());
+		//suggestions.add(item.getTitle());
 
 		String welcome = " Pick what you want to talk.";
 		String [] sug = new String [suggestions.size()];
