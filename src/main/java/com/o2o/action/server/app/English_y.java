@@ -131,9 +131,10 @@ public class English_y extends DialogflowApp {
 			return responseBuilder.add("time is null").build();
 
 		int hours = dateTime.getTime().getHours();
-		String minutes = String.valueOf(dateTime.getTime().getMinutes());
-		if (minutes.equals(null))
-			minutes = "00";
+		String minutes = "00";
+		if (dateTime.getTime().getMinutes() != null)
+			minutes = String.valueOf(dateTime.getTime().getMinutes());			
+		
 		if(hours <= 8 && hours >= 4) {
 			response += hours+":"+minutes+". oh, you get up early.";
 			responseBuilder.addSuggestions( new String[]{ "Business", "Exercise", "Breakfast" });
