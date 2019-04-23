@@ -27,7 +27,7 @@ public class English_y extends DialogflowApp {
 		ListSelectListItem item = new ListSelectListItem();
 		List<String> suggestions = new ArrayList<>();
 		Map<String, Object> data = request.getConversationData();
-		
+
 		if(!data.containsKey("School")) {
 			item.setTitle("School")
 			.setOptionInfo(
@@ -36,11 +36,11 @@ public class English_y extends DialogflowApp {
 			.setImage(
 					new Image()
 					.setUrl("https://tistory3.daumcdn.net/tistory/3084370/skin/images/KakaoTalk_20190404_123944655.jpg")
-					.setAccessibilityText("Math and prime numbers"));
+					.setAccessibilityText("High School or University"));
 			items.add(item);
 			suggestions.add(item.getTitle());
 		}
-	
+
 		if(!data.containsKey("Study")) {
 			item = new ListSelectListItem();
 			item.setTitle("Study")
@@ -48,7 +48,7 @@ public class English_y extends DialogflowApp {
 					new OptionInfo()
 					.setKey("Study"))
 			.setImage(new Image().setUrl("https://tistory3.daumcdn.net/tistory/3084370/skin/images/KakaoTalk_20190404_123944655.jpg")
-					.setAccessibilityText("Recipe"));
+					.setAccessibilityText("Major or Subject"));
 			items.add(item);
 			suggestions.add(item.getTitle());
 		}
@@ -60,7 +60,7 @@ public class English_y extends DialogflowApp {
 					new OptionInfo()
 					.setKey("Lifestyle"))
 			.setImage(new Image().setUrl("https://tistory3.daumcdn.net/tistory/3084370/skin/images/KakaoTalk_20190404_123944655.jpg")
-					.setAccessibilityText("Recipe"));
+					.setAccessibilityText("Get up"));
 			items.add(item);
 			suggestions.add(item.getTitle());
 		}
@@ -104,7 +104,7 @@ public class English_y extends DialogflowApp {
 			responseBuilder.addSuggestions( new String[]{ "Coding", "Teaching", "Experiment"});
 			responseBuilder.add("Oh, " + request.getRawText() + "? That's good. What are you do?");
 		}
-		
+
 		return responseBuilder.build();
 	}
 
@@ -113,10 +113,10 @@ public class English_y extends DialogflowApp {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		if (request.getRawText().equalsIgnoreCase((String)request.getParameter("Study"))) {
-			responseBuilder.addSuggestions( new String[]{ "Computer Engineer", "Lawyer", "Official"});
+			responseBuilder.addSuggestions( new String[]{ "Engineer", "Lawyer", "Official"});
 			responseBuilder.add("That's good. Studying it, what can you be?");
 		}
-		
+
 		return responseBuilder.build();
 	}
 	
@@ -130,7 +130,9 @@ public class English_y extends DialogflowApp {
 			return responseBuilder.add("time is null").build();
 
 		int hours = dateTime.getTime().getHours();
-		int minutes = dateTime.getTime().getMinutes();
+		String minutes = "00";
+		if (dateTime.getTime().getMinutes() != null)
+			minutes = String.valueOf(dateTime.getTime().getMinutes());			
 
 		if(hours <= 8 && hours >= 4) {
 			response += hours+":"+minutes+". oh, you get up early.";
@@ -144,29 +146,35 @@ public class English_y extends DialogflowApp {
 		response += " Why did you get up that?";
 		return responseBuilder.add(response).build();
 	}
-	
+
 	@ForIntent("School_conversation")
 	public ActionResponse School_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		Map<String, Object> data = request.getConversationData();
 		data.put("School", 1);
+		
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
+<<<<<<< HEAD
 		responseBuilder.add(data.toString());
 		return responseBuilder.addSuggestions(sug).build();
+=======
+>>>>>>> 981220781ec20143baff2a875be90ec1b6521386
 
+		return responseBuilder.addSuggestions(sug).build();
 	}
-	
-	@ForIntent("Study_conversation") // 대소문자 구분안하게
+
+	@ForIntent("Study_conversation")
 	public ActionResponse Study_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		Map<String, Object> data = request.getConversationData();
 		data.put("Study", 1);
+
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
-		
+
 		return responseBuilder.addSuggestions(sug).build();
 	}
 
@@ -176,12 +184,13 @@ public class English_y extends DialogflowApp {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		Map<String, Object> data = request.getConversationData();
 		data.put("Lifestyle", 1);
+		
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
-		
+
 		return responseBuilder.addSuggestions(sug).build();
 	}
-	
+
 	@ForIntent("Home")	// "Yes", No setting "No"
 	public ActionResponse Home(ActionRequest request) throws ExecutionException, InterruptedException {
 		return Start(request);
