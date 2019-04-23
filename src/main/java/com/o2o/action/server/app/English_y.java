@@ -22,11 +22,12 @@ public class English_y extends DialogflowApp {
 	@ForIntent("Default Welcome Intent")
 	public ActionResponse Start(ActionRequest request) throws ExecutionException, InterruptedException {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-
+		
 		List<ListSelectListItem> items = new ArrayList<>();
 		ListSelectListItem item = new ListSelectListItem();
 		List<String> suggestions = new ArrayList<>();
 		Map<String, Object> data = request.getConversationData();
+		
 
 		if(!data.containsKey("School")) {
 			item.setTitle("School")
@@ -64,6 +65,18 @@ public class English_y extends DialogflowApp {
 			items.add(item);
 			suggestions.add(item.getTitle());
 		}
+		
+		if (!data.isEmpty() && suggestions.size() == 0) {
+			return responseBuilder.add("There are no remaining topics.").build();
+		}
+		
+		item = new ListSelectListItem();
+		item.setTitle("Home")
+		.setOptionInfo(
+				new OptionInfo()
+				.setKey("null"));
+		items.add(item);
+		suggestions.add(item.getTitle());
 
 		String welcome = " Pick what you want to talk.";
 		String [] sug = new String [suggestions.size()];
@@ -85,7 +98,7 @@ public class English_y extends DialogflowApp {
 		else if (selectedItem.equals("Study")) {// operating system, os
 			responseBuilder.add("What is your favorite subject?");
 		}
-		else {
+		else if (selectedItem.equals("Lifestyle")){
 			responseBuilder
 			.add("This is the Date time helper intent")
 			.add(
@@ -94,6 +107,8 @@ public class English_y extends DialogflowApp {
 					.setDatePrompt("What day?")
 					.setTimePrompt("What time?"));
 		}
+		else 
+			return Start(request);
 		return responseBuilder.build();
 	}
 
@@ -154,7 +169,7 @@ public class English_y extends DialogflowApp {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		Map<String, Object> data = request.getConversationData();
 		data.put("School", 1);
-		
+
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
 
@@ -166,9 +181,10 @@ public class English_y extends DialogflowApp {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		Map<String, Object> data = request.getConversationData();
-		data.put("Study", 1);
+		data.put("Study", 2);
 
 		String sug[] = new String[] {"Yes", "No"};
+
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
 
 		return responseBuilder.addSuggestions(sug).build();
@@ -179,8 +195,8 @@ public class English_y extends DialogflowApp {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		Map<String, Object> data = request.getConversationData();
-		data.put("Lifestyle", 1);
-		
+		data.put("Lifestyle", 3);
+
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
 
