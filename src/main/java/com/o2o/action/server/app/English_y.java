@@ -36,7 +36,7 @@ public class English_y extends DialogflowApp {
 			.setImage(
 					new Image()
 					.setUrl("https://tistory3.daumcdn.net/tistory/3084370/skin/images/KakaoTalk_20190404_123944655.jpg")
-					.setAccessibilityText("Math and prime numbers"));
+					.setAccessibilityText("High School or University"));
 			items.add(item);
 			suggestions.add(item.getTitle());
 		}
@@ -48,7 +48,7 @@ public class English_y extends DialogflowApp {
 					new OptionInfo()
 					.setKey("Study"))
 			.setImage(new Image().setUrl("https://tistory3.daumcdn.net/tistory/3084370/skin/images/KakaoTalk_20190404_123944655.jpg")
-					.setAccessibilityText("Recipe"));
+					.setAccessibilityText("Major or Subject"));
 			items.add(item);
 			suggestions.add(item.getTitle());
 		}
@@ -60,7 +60,7 @@ public class English_y extends DialogflowApp {
 					new OptionInfo()
 					.setKey("Lifestyle"))
 			.setImage(new Image().setUrl("https://tistory3.daumcdn.net/tistory/3084370/skin/images/KakaoTalk_20190404_123944655.jpg")
-					.setAccessibilityText("Recipe"));
+					.setAccessibilityText("Get up"));
 			items.add(item);
 			suggestions.add(item.getTitle());
 		}
@@ -131,8 +131,9 @@ public class English_y extends DialogflowApp {
 			return responseBuilder.add("time is null").build();
 
 		int hours = dateTime.getTime().getHours();
-		int minutes = dateTime.getTime().getMinutes();
-
+		String minutes = String.valueOf(dateTime.getTime().getMinutes());
+		if (minutes.equals(null))
+			minutes = "00";
 		if(hours <= 8 && hours >= 4) {
 			response += hours+":"+minutes+". oh, you get up early.";
 			responseBuilder.addSuggestions( new String[]{ "Business", "Exercise", "Breakfast" });
@@ -151,12 +152,14 @@ public class English_y extends DialogflowApp {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		Map<String, Object> data = request.getConversationData();
-		data.put("School", 1);
+		if (request.getRawText().equalsIgnoreCase((String)request.getParameter("School_R"))) {
+			data.put("School", 1);
+		}
+		
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
 		
 		return responseBuilder.addSuggestions(sug).build();
-
 	}
 	
 	@ForIntent("Study_conversation") // 대소문자 구분안하게
@@ -164,7 +167,9 @@ public class English_y extends DialogflowApp {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		Map<String, Object> data = request.getConversationData();
-		data.put("Study", 1);
+		if (request.getRawText().equalsIgnoreCase((String)request.getParameter("Study_R"))) {
+			data.put("Study", 1);
+		}
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
 		
