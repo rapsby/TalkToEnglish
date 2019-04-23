@@ -153,7 +153,7 @@ public class English_y extends DialogflowApp {
 		data.put("School", 1);
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
-		
+		responseBuilder.add(data.toString());
 		return responseBuilder.addSuggestions(sug).build();
 
 	}
@@ -178,8 +178,8 @@ public class English_y extends DialogflowApp {
 		data.put("Lifestyle", 1);
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
-		//.addSuggestions(sug)
-		return responseBuilder.build();
+		
+		return responseBuilder.addSuggestions(sug).build();
 	}
 	
 	@ForIntent("Home")	// "Yes", No setting "No"
