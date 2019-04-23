@@ -27,7 +27,7 @@ public class English_y extends DialogflowApp {
 		ListSelectListItem item = new ListSelectListItem();
 		List<String> suggestions = new ArrayList<>();
 		Map<String, Object> data = request.getConversationData();
-		
+
 		if(!data.containsKey("School")) {
 			item.setTitle("School")
 			.setOptionInfo(
@@ -40,7 +40,7 @@ public class English_y extends DialogflowApp {
 			items.add(item);
 			suggestions.add(item.getTitle());
 		}
-	
+
 		if(!data.containsKey("Study")) {
 			item = new ListSelectListItem();
 			item.setTitle("Study")
@@ -104,7 +104,7 @@ public class English_y extends DialogflowApp {
 			responseBuilder.addSuggestions( new String[]{ "Coding", "Teaching", "Experiment"});
 			responseBuilder.add("Oh, " + request.getRawText() + "? That's good. What are you do?");
 		}
-		
+
 		return responseBuilder.build();
 	}
 
@@ -113,10 +113,10 @@ public class English_y extends DialogflowApp {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		if (request.getRawText().equalsIgnoreCase((String)request.getParameter("Study"))) {
-			responseBuilder.addSuggestions( new String[]{ "Computer Engineer", "Lawyer", "Official"});
+			responseBuilder.addSuggestions( new String[]{ "Engineer", "Lawyer", "Official"});
 			responseBuilder.add("That's good. Studying it, what can you be?");
 		}
-		
+
 		return responseBuilder.build();
 
 	}
@@ -134,7 +134,7 @@ public class English_y extends DialogflowApp {
 		String minutes = "00";
 		if (dateTime.getTime().getMinutes() != null)
 			minutes = String.valueOf(dateTime.getTime().getMinutes());			
-		
+
 		if(hours <= 8 && hours >= 4) {
 			response += hours+":"+minutes+". oh, you get up early.";
 			responseBuilder.addSuggestions( new String[]{ "Business", "Exercise", "Breakfast" });
@@ -147,33 +147,30 @@ public class English_y extends DialogflowApp {
 		response += " Why did you get up that?";
 		return responseBuilder.add(response).build();
 	}
-	
+
 	@ForIntent("School_conversation")
 	public ActionResponse School_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		Map<String, Object> data = request.getConversationData();
-		if (request.getRawText().equalsIgnoreCase((String)request.getParameter("School_R"))) {
-			data.put("School", 1);
-		}
+		data.put("School", 1);
 		
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
-		
+
 		return responseBuilder.addSuggestions(sug).build();
 	}
-	
-	@ForIntent("Study_conversation") // 대소문자 구분안하게
+
+	@ForIntent("Study_conversation")
 	public ActionResponse Study_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		Map<String, Object> data = request.getConversationData();
-		if (request.getRawText().equalsIgnoreCase((String)request.getParameter("Study_R"))) {
-			data.put("Study", 1);
-		}
+		data.put("Study", 1);
+
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
-		
+
 		return responseBuilder.addSuggestions(sug).build();
 	}
 
@@ -183,12 +180,13 @@ public class English_y extends DialogflowApp {
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
 		Map<String, Object> data = request.getConversationData();
 		data.put("Lifestyle", 1);
+		
 		String sug[] = new String[] {"Yes", "No"};
 		responseBuilder.add("So was it. Umm.. " + "Why don't you talk about other topic?");
-		
+
 		return responseBuilder.addSuggestions(sug).build();
 	}
-	
+
 	@ForIntent("Home")	// "Yes", No setting "No"
 	public ActionResponse Home(ActionRequest request) throws ExecutionException, InterruptedException {
 		return Start(request);
