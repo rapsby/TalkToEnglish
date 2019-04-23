@@ -26,7 +26,7 @@ public class English_y extends DialogflowApp {
 		List<ListSelectListItem> items = new ArrayList<>();
 		ListSelectListItem item = new ListSelectListItem();
 		List<String> suggestions = new ArrayList<>();
-		Map<String, Object> data = request.getConversationData();
+		Map<String, Object> data = request.getUserStorage();
 
 		if(!data.containsKey("School")) {
 			item.setTitle("School")
@@ -152,7 +152,7 @@ public class English_y extends DialogflowApp {
 	public ActionResponse School_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		Map<String, Object> data = request.getConversationData();
+		Map<String, Object> data = request.getUserStorage();
 		data.put("School", 1);
 		
 		String sug[] = new String[] {"Yes", "No"};
@@ -165,7 +165,7 @@ public class English_y extends DialogflowApp {
 	public ActionResponse Study_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		Map<String, Object> data = request.getConversationData();
+		Map<String, Object> data = request.getUserStorage();
 		data.put("Study", 1);
 
 		String sug[] = new String[] {"Yes", "No"};
@@ -178,7 +178,7 @@ public class English_y extends DialogflowApp {
 	public ActionResponse Life_conv(ActionRequest request) throws ExecutionException, InterruptedException {
 
 		ResponseBuilder responseBuilder = getResponseBuilder(request);
-		Map<String, Object> data = request.getConversationData();
+		Map<String, Object> data = request.getUserStorage();
 		data.put("Lifestyle", 1);
 		
 		String sug[] = new String[] {"Yes", "No"};
